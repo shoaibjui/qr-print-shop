@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR Print Shop - Demo</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f3f5f7;margin:0;padding:18px;color:#17202a}
+main{max-width:560px;margin:auto;background:white;padding:22px;border-radius:14px;box-shadow:0 3px 18px #0001}
+h1{font-size:25px;margin-top:0}label{display:block;margin:14px 0 6px}
+input,select{width:100%;box-sizing:border-box;padding:12px;border:1px solid #bbb;border-radius:8px;font-size:16px}
+button{margin-top:18px;width:100%;padding:13px;border:0;border-radius:8px;background:#1266cc;color:white;font-size:17px}
+.note{background:#fff4d6;padding:12px;border-radius:8px;line-height:1.6}
+#receipt{margin-top:16px;padding:12px;background:#eef8ee;border-radius:8px;display:none;line-height:1.8}
+</style>
+</head>
+<body>
+<main>
+<h1>آن لائن پرنٹنگ — ڈیمو</h1>
+<p>فائل منتخب کریں اور پرنٹنگ کی تفصیلات درج کریں۔</p>
+<div class="note"><b>اہم:</b> یہ صرف نمونہ ہے۔ ابھی فائل دکان پر نہیں پہنچتی، ادائیگی کی تصدیق اور پرنٹر سے خودکار پرنٹنگ فعال نہیں۔</div>
+<label>PDF یا تصویر منتخب کریں</label><input id="file" type="file" accept=".pdf,image/*">
+<label>پرنٹ کا رنگ</label><select id="color"><option value="20">بلیک اینڈ وائٹ — 20 روپے فی صفحہ</option><option value="40">کلر — 40 روپے فی صفحہ</option></select>
+<label>کاغذ کا سائز</label><select id="paper"><option>A4</option><option>Legal</option></select>
+<label>صفحات کی تعداد</label><input id="pages" type="number" min="1" value="1">
+<label>کاپیوں کی تعداد</label><input id="copies" type="number" min="1" value="1">
+<button onclick="makeOrder()">قیمت معلوم کریں (ڈیمو)</button>
+<div id="receipt"></div>
+</main>
+<script>
+function makeOrder(){
+ const f=document.getElementById('file').files[0];
+ const p=Math.max(1,parseInt(document.getElementById('pages').value)||1);
+ const c=Math.max(1,parseInt(document.getElementById('copies').value)||1);
+ const rate=Number(document.getElementById('color').value);
+ const total=p*c*rate;
+ const r=document.getElementById('receipt');
+ r.style.display='block';
+ r.innerHTML='<b>ڈیمو آرڈر</b><br>فائل: '+(f?f.name:'منتخب نہیں کی گئی')+
+ '<br>کاغذ: '+document.getElementById('paper').value+
+ '<br>صفحات: '+p+'، کاپیاں: '+c+
+ '<br>اندازاً قیمت: <b>Rs '+total+'</b><br><br>یہ فرضی رسید ہے؛ آرڈر، ادائیگی یا پرنٹنگ نہیں ہوئی۔';
+}
+</script>
+</body>
+</html>
