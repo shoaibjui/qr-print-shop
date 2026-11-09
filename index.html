@@ -60,7 +60,8 @@ form.addEventListener('submit',async e=>{
  const pages=Number(form.pages.value),copies=Number(form.copies.value);
  if(!Number.isInteger(pages)||pages<1||pages>500||!Number.isInteger(copies)||copies<1||copies>100){msg.className='err';msg.textContent='صفحات یا کاپیوں کی تعداد درست درج کریں۔';return;}
  btn.disabled=true;btn.textContent='براہِ کرم انتظار کریں…';
- try{
+ let stage = 'فائل اپ لوڈ';
+try{
   const cleanUrl = cfg.url.trim()
   .replace(/\/+$/, '')
   .replace(/\/rest\/v1$/i, '');
@@ -78,10 +79,11 @@ const client = window.supabase.createClient(
   const rate = form.print_type.value === 'color' ? 40 : 20;
 const amount = rate * pages * copies;
   const row={customer_name:form.customer_name.value.trim(),phone:form.phone.value.trim(),file_path:filePath,paper_size:form.paper_size.value,print_type:form.print_type.value,pages,copies,payment_method:form.payment_method.value,transaction_id:form.transaction_id.value.trim(),receipt_path:receiptPath,amount,status:'pending'};
-  const ins=await client.from('orders').insert(row);if(ins.error)throw ins.error;
+  stage = 'آرڈر محفوظ کرنا';
+ const ins=await client.from('orders').insert(row);if(ins.error)throw ins.error;
   msg.className='ok';msg.textContent='آپ کا آرڈر جمع ہوگیا!\nآرڈر نمبر: '+id+'\nتخمینی رقم: '+amount+' روپے\nادائیگی کی تصدیق کے بعد دکان کا مالک پرنٹنگ کرے گا۔ اس آرڈر نمبر کو محفوظ رکھیں۔';
   form.reset();price();
- }catch(err){console.error(err);msg.className='err';msg.textContent='آرڈر جمع نہیں ہو سکا: '+(err.message||'نامعلوم خرابی')+'\nبراہِ کرم دکان کے مالک سے رابطہ کریں۔ اگر فائل اپ لوڈ ہوگئی مگر آرڈر نہ بنا تو مالک Storage میں اس فائل کو صاف کرسکتا ہے۔';}
+ }catch(err){console.error(err);msg.className='err';msg.textContent='خرابی کا مرحلہ: '+stage+'\nError: '+(err.message||'نامعلوم خرابی')+'\nبراہِ کرم دکان کے مالک سے رابطہ کریں۔ اگر فائل اپ لوڈ ہوگئی مگر آرڈر نہ بنا تو مالک Storage میں اس فائل کو صاف کرسکتا ہے۔';}
  finally{btn.disabled=false;btn.textContent='آرڈر جمع کریں';}
 });
 </script></body></html>
