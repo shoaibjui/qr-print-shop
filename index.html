@@ -19,6 +19,23 @@ footer{text-align:center;color:var(--muted);padding:22px;font-size:13px}
 @media(max-width:520px){.grid{grid-template-columns:1fr}.card{padding:16px}}
 </style>
 </head>
+<script>
+const paymentMethod = document.getElementById('paymentMethod');
+const accountDetails = document.getElementById('accountDetails');
+
+const accounts = {
+  'JazzCash': '03065612619',
+  'Easypaisa': '03337612619',
+  'Bank Transfer': 'بینک اکاؤنٹ کی تفصیلات یہاں لکھیں'
+};
+
+paymentMethod.addEventListener('change', function() {
+  accountDetails.textContent =
+    this.value + ' ادائیگی نمبر: ' + accounts[this.value];
+});
+
+paymentMethod.dispatchEvent(new Event('change'));
+</script>
 <body>
 <header><h1>QR Print Shop</h1><p>اپنی فائل اپ لوڈ کریں، ادائیگی کریں، پرنٹ حاصل کریں</p></header>
 <main><section class="card">
@@ -35,6 +52,9 @@ footer{text-align:center;color:var(--muted);padding:22px;font-size:13px}
 </div>
 <div class="price"><span>تخمینی قیمت</span><strong id="total">20 روپے</strong></div>
 <label>ادائیگی کا طریقہ</label><select name="payment_method" id="paymentMethod"><option>JazzCash</option><option>Easypaisa</option><option>Bank Transfer</option></select>
+<div id="paymentInfo" style="margin:10px 0;padding:12px;background:#f1f1f1;border-radius:8px;">
+  <p id="accountDetails">ادائیگی کا طریقہ منتخب کریں۔</p>
+</div>
 <div class="notice" id="paymentInfo">ادائیگی کی تفصیلات دکان کے مالک سے حاصل کریں۔ رقم بھیجنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔</div>
 <label>ٹرانزیکشن آئی ڈی</label><input name="transaction_id" required maxlength="100" placeholder="ادائیگی کا حوالہ نمبر">
 <label>ادائیگی کی رسید (اختیاری، تصویر)</label><input id="receiptFile" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
