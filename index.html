@@ -1,109 +1,284 @@
+
 <!doctype html>
 <html lang="ur" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>QR Print Shop | آن لائن پرنٹنگ</title>
+
 <style>
 :root{--blue:#155eef;--ink:#172033;--muted:#667085;--line:#e4e7ec;--bg:#f5f7fb}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,"Noto Nastaliq Urdu",Arial,sans-serif}
-header{background:#102a56;color:white;padding:22px 16px;text-align:center}header h1{margin:0 0 6px;font-size:25px}header p{margin:0;color:#dbeafe}
-main{max-width:720px;margin:22px auto;padding:0 14px}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 5px 18px #1018280c}
-h2{font-size:20px;margin:0 0 16px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-label{display:block;font-weight:650;margin:12px 0 6px}input,select{width:100%;padding:12px;border:1px solid #cfd4dc;border-radius:9px;background:white;font:inherit}
-input[type=file]{padding:9px;font-size:14px}.hint{font-size:13px;color:var(--muted);line-height:1.7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,"Noto Nastaliq Urdu",Arial,sans-serif}
+header{background:#102a56;color:white;padding:22px 16px;text-align:center}
+header h1{margin:0 0 6px;font-size:25px}
+header p{margin:0;color:#dbeafe}
+main{max-width:720px;margin:22px auto;padding:0 14px}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 5px 18px #1018280c}
+h2{font-size:20px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-weight:650;margin:12px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #cfd4dc;border-radius:9px;background:white;font:inherit}
+input[type=file]{padding:9px;font-size:14px}
+.hint{font-size:13px;color:var(--muted);line-height:1.7}
 .price{margin:16px 0;padding:14px;background:#eff6ff;border-radius:10px;display:flex;justify-content:space-between;align-items:center}
-.price strong{font-size:24px;color:#1547a8}.btn{width:100%;border:0;border-radius:10px;background:var(--blue);color:white;padding:14px;font:inherit;font-weight:700;margin-top:16px}
-.btn:disabled{opacity:.6}.notice{margin-top:14px;padding:12px;border-radius:9px;background:#fefce8;color:#854d0e;font-size:13px;line-height:1.7}
-#message{margin-top:14px;white-space:pre-wrap;line-height:1.8}.ok{color:#067647}.err{color:#b42318}
+.price strong{font-size:24px;color:#1547a8}
+.btn{width:100%;border:0;border-radius:10px;background:var(--blue);color:white;padding:14px;font:inherit;font-weight:700;margin-top:16px}
+.btn:disabled{opacity:.6}
+.notice{margin-top:14px;padding:12px;border-radius:9px;background:#fefce8;color:#854d0e;font-size:13px;line-height:1.7}
+.payment-box{margin:12px 0;padding:15px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;line-height:2}
+.payment-box strong{color:#1547a8}
+#message{margin-top:14px;white-space:pre-wrap;line-height:1.8}
+.ok{color:#067647}
+.err{color:#b42318}
 footer{text-align:center;color:var(--muted);padding:22px;font-size:13px}
 @media(max-width:520px){.grid{grid-template-columns:1fr}.card{padding:16px}}
 </style>
 </head>
-<script>
-const paymentMethod = document.getElementById('paymentMethod');
-const accountDetails = document.getElementById('accountDetails');
 
-const accounts = {
-  'JazzCash': '03065612619',
-  'Easypaisa': '03337612619',
-  'Bank Transfer': 'بینک اکاؤنٹ کی تفصیلات یہاں لکھیں'
-};
-
-paymentMethod.addEventListener('change', function() {
-  accountDetails.textContent =
-    this.value + ' ادائیگی نمبر: ' + accounts[this.value];
-});
-
-paymentMethod.dispatchEvent(new Event('change'));
-</script>
 <body>
-<header><h1>QR Print Shop</h1><p>اپنی فائل اپ لوڈ کریں، ادائیگی کریں، پرنٹ حاصل کریں</p></header>
-<main><section class="card">
+
+<header>
+<h1>QR Print Shop</h1>
+<p>اپنی فائل اپ لوڈ کریں، ادائیگی کریں، پرنٹ حاصل کریں</p>
+</header>
+
+<main>
+<section class="card">
 <h2>پرنٹنگ آرڈر فارم</h2>
+
 <form id="orderForm">
-<label>آپ کا نام</label><input name="customer_name" required maxlength="100" placeholder="اپنا نام لکھیں">
-<label>موبائل نمبر</label><input name="phone" required inputmode="tel" maxlength="30" placeholder="03XXXXXXXXX">
-<label>پرنٹ ہونے والی فائل (PDF / JPG / PNG)</label><input id="printFile" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" required>
+
+<label>آپ کا نام</label>
+<input name="customer_name" required maxlength="100" placeholder="اپنا نام لکھیں">
+
+<label>موبائل نمبر</label>
+<input name="phone" required inputmode="tel" maxlength="30" placeholder="03XXXXXXXXX">
+
+<label>پرنٹ ہونے والی فائل (PDF / JPG / PNG)</label>
+<input id="printFile" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" required>
+
 <div class="grid">
-<div><label>کاغذ کا سائز</label><select name="paper_size"><option value="A4">A4</option><option value="Legal">Legal (8.5 × 14)</option></select></div>
-<div><label>پرنٹ کی قسم</label><select name="print_type" id="printType"><option value="bw">بلیک اینڈ وائٹ — 20 روپے</option><option value="color">رنگین — 40 روپے</option></select></div>
-<div><label>کل صفحات</label><input name="pages" id="pages" type="number" min="1" max="500" value="1" required></div>
-<div><label>کاپیوں کی تعداد</label><input name="copies" id="copies" type="number" min="1" max="100" value="1" required></div>
+<div>
+<label>کاغذ کا سائز</label>
+<select name="paper_size">
+<option value="A4">A4</option>
+<option value="Legal">Legal (8.5 × 14)</option>
+</select>
 </div>
-<div class="price"><span>تخمینی قیمت</span><strong id="total">20 روپے</strong></div>
-<label>ادائیگی کا طریقہ</label><select name="payment_method" id="paymentMethod"><option>JazzCash</option><option>Easypaisa</option><option>Bank Transfer</option></select>
-<div id="paymentInfo" style="margin:10px 0;padding:12px;background:#f1f1f1;border-radius:8px;">
-  <p id="accountDetails">ادائیگی کا طریقہ منتخب کریں۔</p>
+
+<div>
+<label>پرنٹ کی قسم</label>
+<select name="print_type" id="printType">
+<option value="bw">بلیک اینڈ وائٹ — 20 روپے</option>
+<option value="color">رنگین — 40 روپے</option>
+</select>
 </div>
-<div class="notice" id="paymentInfo">ادائیگی کی تفصیلات دکان کے مالک سے حاصل کریں۔ رقم بھیجنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔</div>
-<label>ٹرانزیکشن آئی ڈی</label><input name="transaction_id" required maxlength="100" placeholder="ادائیگی کا حوالہ نمبر">
-<label>ادائیگی کی رسید (اختیاری، تصویر)</label><input id="receiptFile" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
-<p class="hint">آپ کا آرڈر پہلے زیرِ تصدیق رہے گا۔ مالک ادائیگی چیک کرکے آرڈر منظور کرے گا۔ فائل صرف دکان کے نجی سسٹم میں محفوظ ہوگی۔</p>
+
+<div>
+<label>کل صفحات</label>
+<input name="pages" id="pages" type="number" min="1" max="500" value="1" required>
+</div>
+
+<div>
+<label>کاپیوں کی تعداد</label>
+<input name="copies" id="copies" type="number" min="1" max="100" value="1" required>
+</div>
+</div>
+
+<div class="price">
+<span>تخمینی قیمت</span>
+<strong id="total">20 روپے</strong>
+</div>
+
+<label>ادائیگی کا طریقہ</label>
+<select name="payment_method" id="paymentMethod">
+<option value="JazzCash">JazzCash</option>
+<option value="Easypaisa">Easypaisa</option>
+</select>
+
+<div class="payment-box">
+<strong id="paymentTitle">JazzCash</strong>
+<p>ادائیگی نمبر: <strong id="accountDetails">اپنا JazzCash نمبر یہاں لکھیں</strong></p>
+<p>رقم بھیجنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔</p>
+</div>
+
+<div class="notice">
+ادائیگی کی تصدیق دکان کا مالک کرے گا۔ تصدیق کے بعد آرڈر منظور ہوگا۔
+</div>
+
+<label>ٹرانزیکشن آئی ڈی</label>
+<input name="transaction_id" required maxlength="100" placeholder="ادائیگی کا حوالہ نمبر">
+
+<label>ادائیگی کی رسید (اختیاری، تصویر)</label>
+<input id="receiptFile" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+
+<p class="hint">
+آپ کا آرڈر پہلے زیرِ تصدیق رہے گا۔ مالک ادائیگی چیک کرکے آرڈر منظور کرے گا۔
+</p>
+
 <button class="btn" id="submitBtn" type="submit">آرڈر جمع کریں</button>
-</form><div id="message" role="status"></div>
-</section></main>
+</form>
+
+<div id="message" role="status"></div>
+</section>
+</main>
+
 <footer>QR Print Shop · Epson ET-4700</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
-<script>
-const form=document.getElementById('orderForm'), msg=document.getElementById('message'), total=document.getElementById('total'), btn=document.getElementById('submitBtn');
-function price(){const rate=document.getElementById('printType').value==='color'?40:20;const p=Math.max(1,Number(document.getElementById('pages').value)||1),c=Math.max(1,Number(document.getElementById('copies').value)||1);total.textContent=(rate*p*c).toLocaleString('en-PK')+' روپے';}
-['printType','pages','copies'].forEach(id=>document.getElementById(id).addEventListener('input',price));price();
-const cfg=window.QR_PRINT_CONFIG||{};
-function validConfig(){return cfg.url&&cfg.anonKey&&!cfg.url.includes('YOUR_')&&!cfg.anonKey.includes('YOUR_');}
-function fileOK(f,receipt=false){if(!f)return true;const max=20*1024*1024;const allowed=receipt?['image/jpeg','image/png']:['application/pdf','image/jpeg','image/png'];return f.size<=max&&allowed.includes(f.type);}
-form.addEventListener('submit',async e=>{
- e.preventDefault();msg.className='';msg.textContent='';
- if(!validConfig()){msg.className='err';msg.textContent='ویب سائٹ ابھی Supabase سے منسلک نہیں۔ config.js میں Project URL اور anon/publishable key درج کریں۔';return;}
- const file=document.getElementById('printFile').files[0],receipt=document.getElementById('receiptFile').files[0];
- if(!fileOK(file)||!fileOK(receipt,true)){msg.className='err';msg.textContent='فائل کی قسم یا سائز درست نہیں۔ اصل فائل 20MB تک PDF/JPG/PNG اور رسید JPG/PNG ہونی چاہیے۔';return;}
- const pages=Number(form.pages.value),copies=Number(form.copies.value);
- if(!Number.isInteger(pages)||pages<1||pages>500||!Number.isInteger(copies)||copies<1||copies>100){msg.className='err';msg.textContent='صفحات یا کاپیوں کی تعداد درست درج کریں۔';return;}
- btn.disabled=true;btn.textContent='براہِ کرم انتظار کریں…';
- let stage = 'فائل اپ لوڈ';
-try{
-  const cleanUrl = cfg.url.trim()
-  .replace(/\/+$/, '')
-  .replace(/\/rest\/v1$/i, '');
 
-const client = window.supabase.createClient(
-  cleanUrl,
-  cfg.anonKey.trim()
-);
-  const id=crypto.randomUUID(),ext=(file.name.split('.').pop()||'bin').toLowerCase();
-  const filePath='orders/'+id+'/print.'+ext;
-  const up=await client.storage.from('print-files').upload(filePath,file,{upsert:false,contentType:file.type});
-  if(up.error)throw up.error;
-  let receiptPath=null;
-  if(receipt){const rext=receipt.name.split('.').pop().toLowerCase();receiptPath='orders/'+id+'/receipt.'+rext;const ru=await client.storage.from('print-files').upload(receiptPath,receipt,{upsert:false,contentType:receipt.type});if(ru.error)throw ru.error;}
-  const rate = form.print_type.value === 'color' ? 40 : 20;
-const amount = rate * pages * copies;
-  const row={customer_name:form.customer_name.value.trim(),phone:form.phone.value.trim(),file_path:filePath,paper_size:form.paper_size.value,print_type:form.print_type.value,pages,copies,payment_method:form.payment_method.value,transaction_id:form.transaction_id.value.trim(),receipt_path:receiptPath,amount,status:'pending'};
-  stage = 'آرڈر محفوظ کرنا';
- const ins=await client.from('orders').insert(row);if(ins.error)throw ins.error;
-  msg.className='ok';msg.textContent='آپ کا آرڈر جمع ہوگیا!\nآرڈر نمبر: '+id+'\nتخمینی رقم: '+amount+' روپے\nادائیگی کی تصدیق کے بعد دکان کا مالک پرنٹنگ کرے گا۔ اس آرڈر نمبر کو محفوظ رکھیں۔';
-  form.reset();price();
- }catch(err){console.error(err);msg.className='err';msg.textContent='خرابی کا مرحلہ: '+stage+'\nError: '+(err.message||'نامعلوم خرابی')+'\nبراہِ کرم دکان کے مالک سے رابطہ کریں۔ اگر فائل اپ لوڈ ہوگئی مگر آرڈر نہ بنا تو مالک Storage میں اس فائل کو صاف کرسکتا ہے۔';}
- finally{btn.disabled=false;btn.textContent='آرڈر جمع کریں';}
+<script>
+// اپنے اصل اکاؤنٹ نمبر یہاں درج کریں
+const accounts = {
+ JazzCash: '03065612619',
+ Easypaisa: '03337612619'
+};
+
+const form = document.getElementById('orderForm');
+const paymentMethod = document.getElementById('paymentMethod');
+
+function updatePaymentInfo(){
+ const method = paymentMethod.value;
+ document.getElementById('paymentTitle').textContent = method;
+ document.getElementById('accountDetails').textContent = accounts[method];
+}
+
+paymentMethod.addEventListener('change',updatePaymentInfo);
+updatePaymentInfo();
+
+const msg = document.getElementById('message');
+const total = document.getElementById('total');
+const btn = document.getElementById('submitBtn');
+
+function price(){
+ const rate = form.elements.print_type.value === 'color' ? 40 : 20;
+ const pages = Math.max(1,Number(form.elements.pages.value)||1);
+ const copies = Math.max(1,Number(form.elements.copies.value)||1);
+ total.textContent = (rate*pages*copies).toLocaleString('en-PK')+' روپے';
+}
+
+['printType','pages','copies'].forEach(id=>{
+ document.getElementById(id).addEventListener('input',price);
 });
-</script></body></html>
+price();
+
+const cfg = window.QR_PRINT_CONFIG || {};
+
+function validConfig(){
+ return cfg.url && cfg.anonKey &&
+ !cfg.url.includes('YOUR_') && !cfg.anonKey.includes('YOUR_');
+}
+
+function fileOK(file,receipt=false){
+ if(!file)return true;
+ const max=20*1024*1024;
+ const allowed=receipt
+ ? ['image/jpeg','image/png']
+ : ['application/pdf','image/jpeg','image/png'];
+ return file.size<=max && allowed.includes(file.type);
+}
+
+form.addEventListener('submit',async e=>{
+ e.preventDefault();
+ msg.className='';
+ msg.textContent='';
+
+ if(!validConfig()){
+  msg.className='err';
+  msg.textContent='Supabase کی config.js معلومات چیک کریں۔';
+  return;
+ }
+
+ const file=document.getElementById('printFile').files[0];
+ const receipt=document.getElementById('receiptFile').files[0];
+
+ if(!fileOK(file)||!fileOK(receipt,true)){
+  msg.className='err';
+  msg.textContent='فائل کی قسم یا سائز درست نہیں۔';
+  return;
+ }
+
+ const pages=Number(form.elements.pages.value);
+ const copies=Number(form.elements.copies.value);
+
+ if(!Number.isInteger(pages)||pages<1||pages>500||
+ !Number.isInteger(copies)||copies<1||copies>100){
+  msg.className='err';
+  msg.textContent='صفحات یا کاپیوں کی تعداد درست درج کریں۔';
+  return;
+ }
+
+ btn.disabled=true;
+ btn.textContent='براہِ کرم انتظار کریں…';
+
+ let stage='فائل اپ لوڈ';
+
+ try{
+  const cleanUrl=cfg.url.trim().replace(/\/+$/,'').replace(/\/rest\/v1$/i,'');
+  const client=window.supabase.createClient(cleanUrl,cfg.anonKey.trim());
+
+  const id=crypto.randomUUID();
+  const ext=(file.name.split('.').pop()||'bin').toLowerCase();
+  const filePath='orders/'+id+'/print.'+ext;
+
+  const up=await client.storage.from('print-files').upload(
+   filePath,file,{upsert:false,contentType:file.type}
+  );
+  if(up.error)throw up.error;
+
+  let receiptPath=null;
+
+  if(receipt){
+   const rext=receipt.name.split('.').pop().toLowerCase();
+   receiptPath='orders/'+id+'/receipt.'+rext;
+   const ru=await client.storage.from('print-files').upload(
+    receiptPath,receipt,{upsert:false,contentType:receipt.type}
+   );
+   if(ru.error)throw ru.error;
+  }
+
+  const rate=form.elements.print_type.value==='color'?40:20;
+  const amount=rate*pages*copies;
+
+  const row={
+   customer_name:form.elements.customer_name.value.trim(),
+   phone:form.elements.phone.value.trim(),
+   file_path:filePath,
+   paper_size:form.elements.paper_size.value,
+   print_type:form.elements.print_type.value,
+   pages,
+   copies,
+   payment_method:form.elements.payment_method.value,
+   transaction_id:form.elements.transaction_id.value.trim(),
+   receipt_path:receiptPath,
+   amount,
+   status:'pending'
+  };
+
+  stage='آرڈر محفوظ کرنا';
+  const ins=await client.from('orders').insert(row);
+  if(ins.error)throw ins.error;
+
+  msg.className='ok';
+  msg.textContent='آپ کا آرڈر جمع ہوگیا!\nآرڈر نمبر: '+id+
+   '\nتخمینی رقم: '+amount+' روپے\nادائیگی کی تصدیق کے بعد دکان کا مالک پرنٹنگ کرے گا۔';
+
+  form.reset();
+  price();
+  updatePaymentInfo();
+
+ }catch(err){
+  console.error(err);
+  msg.className='err';
+  msg.textContent='خرابی کا مرحلہ: '+stage+'\nError: '+(err.message||'نامعلوم خرابی');
+ }finally{
+  btn.disabled=false;
+  btn.textContent='آرڈر جمع کریں';
+ }
+});
+</script>
+
+</body>
+</html>
