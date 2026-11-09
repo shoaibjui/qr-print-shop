@@ -75,8 +75,7 @@ const client = window.supabase.createClient(
   if(up.error)throw up.error;
   let receiptPath=null;
   if(receipt){const rext=receipt.name.split('.').pop().toLowerCase();receiptPath='orders/'+id+'/receipt.'+rext;const ru=await client.storage.from('print-files').upload(receiptPath,receipt,{upsert:false,contentType:receipt.type});if(ru.error)throw ru.error;}
-  const rate=form.print_type.value==='color'?40:20,amount=rate*pages*copies;
-  const row={id,customer_name:form.customer_name.value.trim(),phone:form.phone.value.trim(),file_path:filePath,paper_size:form.paper_size.value,print_type:form.print_type.value,pages,copies,payment_method:form.payment_method.value,transaction_id:form.transaction_id.value.trim(),receipt_path:receiptPath,amount,status:'pending'};
+  const row={customer_name:form.customer_name.value.trim(),phone:form.phone.value.trim(),file_path:filePath,paper_size:form.paper_size.value,print_type:form.print_type.value,pages,copies,payment_method:form.payment_method.value,transaction_id:form.transaction_id.value.trim(),receipt_path:receiptPath,amount,status:'pending'};
   const ins=await client.from('orders').insert(row);if(ins.error)throw ins.error;
   msg.className='ok';msg.textContent='آپ کا آرڈر جمع ہوگیا!\nآرڈر نمبر: '+id+'\nتخمینی رقم: '+amount+' روپے\nادائیگی کی تصدیق کے بعد دکان کا مالک پرنٹنگ کرے گا۔ اس آرڈر نمبر کو محفوظ رکھیں۔';
   form.reset();price();
