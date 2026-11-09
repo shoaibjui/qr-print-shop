@@ -61,7 +61,14 @@ form.addEventListener('submit',async e=>{
  if(!Number.isInteger(pages)||pages<1||pages>500||!Number.isInteger(copies)||copies<1||copies>100){msg.className='err';msg.textContent='صفحات یا کاپیوں کی تعداد درست درج کریں۔';return;}
  btn.disabled=true;btn.textContent='براہِ کرم انتظار کریں…';
  try{
-  const client=window.supabase.createClient(cfg.url,cfg.anonKey);
+  const cleanUrl = cfg.url.trim()
+  .replace(/\/+$/, '')
+  .replace(/\/rest\/v1$/i, '');
+
+const client = window.supabase.createClient(
+  cleanUrl,
+  cfg.anonKey.trim()
+);
   const id=crypto.randomUUID(),ext=(file.name.split('.').pop()||'bin').toLowerCase();
   const filePath='orders/'+id+'/print.'+ext;
   const up=await client.storage.from('print-files').upload(filePath,file,{upsert:false,contentType:file.type});
