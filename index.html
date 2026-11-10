@@ -5,555 +5,347 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>USMANI PRINT - عثمانی پرنٹ</title>
-
 <style>
-:root{
- --blue:#155eef;
- --ink:#172033;
- --muted:#667085;
- --line:#e4e7ec;
- --bg:#f5f7fb
-}
+:root{--green:#126b3a;--ink:#172033;--muted:#667085;--bg:#f4f6fa;--border:#d9e0ea}
 *{box-sizing:border-box}
-body{
- margin:0;
- background:var(--bg);
- color:var(--ink);
- font-family:system-ui,"Noto Nastaliq Urdu",Arial,sans-serif
-}
-header{
- background:#126b3a;
- color:white;
- padding:5px 0;
- text-align:center;
- width:100%;
-}
-.language-bar{
- display:flex;
- justify-content:center;
- gap:10px;
- padding:9px;
-}
-.language-bar button{
- border:1px solid white;
- background:transparent;
- color:white;
- padding:7px 20px;
- border-radius:8px;
- font:inherit;
- font-weight:700;
- cursor:pointer;
-}
-.language-bar button.active{
- background:white;
- color:#126b3a;
-}
-header img{
- width:100%;
- max-width:100%;
- height:auto;
- display:block;
- margin:0 auto;
- border-radius:7px;
-}
-header p{
- margin:8px 5px;
- color:#ffffff;
- font-size:17px;
- font-weight:900;
- line-height:1.7;
- text-align:center;
-}
-main{
- max-width:720px;
- margin:22px auto;
- padding:0 14px
-}
-.card{
- background:white;
- border:1px solid var(--line);
- border-radius:16px;
- padding:20px;
- box-shadow:0 5px 18px #1018280c
-}
-h2{font-size:20px;margin:0 0 16px}
-.grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:12px
-}
-label{
- display:block;
- font-weight:650;
- margin:12px 0 6px
-}
-input,select{
- width:100%;
- padding:12px;
- border:1px solid #cfd4dc;
- border-radius:9px;
- background:white;
- font:inherit
-}
-input[type=file]{padding:9px;font-size:14px}
-.hint{
- font-size:13px;
- color:var(--muted);
- line-height:1.7
-}
-.price{
- margin:16px 0;
- padding:14px;
- background:#eff6ff;
- border-radius:10px;
- display:flex;
- justify-content:space-between;
- align-items:center
-}
-.price strong{
- font-size:24px;
- color:#1547a8
-}
-.btn{
- width:100%;
- border:0;
- border-radius:10px;
- background:var(--blue);
- color:white;
- padding:14px;
- font:inherit;
- font-weight:700;
- margin-top:16px;
- cursor:pointer
-}
-.btn:disabled{opacity:.6}
-.notice{
- margin-top:14px;
- padding:14px;
- border-radius:9px;
- background:#fefce8;
- color:#126b3a;
- font-size:17px;
- font-weight:900;
- line-height:1.9;
- text-align:center;
-}
-.payment-box{
- margin:12px 0;
- padding:15px;
- background:#eff6ff;
- border:1px solid #bfdbfe;
- border-radius:10px;
- line-height:2
-}
-.payment-box strong{color:#1547a8}
-#message{
- margin-top:14px;
- white-space:pre-wrap;
- line-height:1.8
-}
-.ok{color:#067647}
-.err{color:#b42318}
-footer{
- text-align:center;
- color:var(--muted);
- padding:22px;
- font-size:13px
-}
-body.english{
- font-family:Arial,system-ui,sans-serif;
-}
-body.english label{
- font-weight:600;
-}
-body.english .notice{
- font-size:16px;
-}
-@media(max-width:520px){
- .grid{grid-template-columns:1fr}
- .card{padding:16px}
-}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,system-ui,sans-serif}
+header{background:#08752f;padding:0;margin:0;width:100%;text-align:center;line-height:0}
+header img{display:block;width:100%;height:auto;max-width:none;object-fit:contain;margin:0 auto}
+.lang{display:flex;justify-content:center;gap:8px;margin:10px auto}
+.lang button{border:1px solid var(--green);background:white;color:var(--green);padding:7px 18px;border-radius:8px;font-weight:bold}
+.lang button.active{background:var(--green);color:white}
+main{max-width:620px;margin:12px auto;padding:0 12px 25px}
+.card{background:white;border:1px solid var(--border);border-radius:13px;padding:16px;box-shadow:0 3px 12px #1720330c}
+h2{margin:0 0 15px;font-size:21px;text-align:center}
+label{display:block;margin:12px 0 6px;font-weight:700;font-size:14px}
+input,select{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:white;font-size:15px;color:var(--ink)}
+input[type=file]{padding:9px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.info{background:#eef7f1;border:1px solid #cce8d5;border-radius:9px;padding:12px;margin:12px 0;line-height:1.7;font-size:14px}
+.pricebox{background:#f1f5ff;border:1px solid #d7e3ff;padding:13px;border-radius:9px;margin-top:13px;line-height:1.8}
+.price{font-size:23px;font-weight:800;color:var(--green)}
+button.submit{width:100%;border:0;border-radius:9px;background:var(--green);color:white;padding:14px;font-size:17px;font-weight:bold;margin-top:16px}
+button:disabled{opacity:.6}
+.notice{font-size:13px;color:var(--muted);line-height:1.7;margin-top:12px}
+.result{display:none;margin-top:15px;border:1px solid #9bd5ad;background:#effaf2;color:#14532d;border-radius:10px;padding:14px;text-align:center;line-height:1.8;overflow-wrap:anywhere}
+footer{text-align:center;padding:15px;color:var(--muted);font-size:12px}
+[dir="ltr"] .card{text-align:left}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.card{padding:13px}}
 </style>
 </head>
-
 <body>
 
 <header>
+<img src="usmani-print-logo.png" alt="USMANI PRINT - Print, Scan, Copy, Online Services">
+</header>
 
-<div class="language-bar">
+<div class="lang">
 <button type="button" id="urduBtn" class="active" onclick="setLanguage('ur')">اردو</button>
 <button type="button" id="englishBtn" onclick="setLanguage('en')">English</button>
 </div>
 
-<img src="usmani-print-logo.png" alt="USMANI PRINT">
-<p id="tagline">اپنی فائل اپ لوڈ کریں، ادائیگی کرکے پرنٹ حاصل کریں!</p>
-</header>
-
 <main>
 <section class="card">
-<h2 id="formTitle">پرنٹنگ آرڈر فارم</h2>
+<h2 id="formTitle">پرنٹنگ آرڈر جمع کریں</h2>
+
+<div class="info" id="paymentInfo">
+<strong>ادائیگی کی تفصیلات</strong><br>
+JazzCash: <b>03065612619</b><br>
+Easypaisa: <b>03337612619</b><br>
+ادائیگی کرنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔
+</div>
 
 <form id="orderForm">
+<label id="nameLabel" for="customer_name">آپ کا نام</label>
+<input id="customer_name" name="customer_name" type="text" required maxlength="100" placeholder="اپنا نام لکھیں">
 
-<label id="nameLabel">آپ کا نام</label>
-<input name="customer_name" required maxlength="100" placeholder="اپنا نام لکھیں" id="customerName">
-
-<label id="phoneLabel">موبائل نمبر</label>
-<input name="phone" required inputmode="tel" maxlength="30" placeholder="03XXXXXXXXX" id="phone">
-
-<label id="fileLabel">پرنٹ ہونے والی فائل (PDF / JPG / PNG)</label>
-<input id="printFile" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" required>
+<label id="fileLabel" for="printFile">پرنٹ کی فائل منتخب کریں</label>
+<input id="printFile" name="printFile" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
+<div class="notice" id="fileNote">صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔</div>
 
 <div class="grid">
 <div>
-<label id="paperLabel">کاغذ کا سائز</label>
-<select name="paper_size">
+<label id="paperLabel" for="paper_size">پیپر سائز</label>
+<select id="paper_size" name="paper_size" required>
 <option value="A4">A4</option>
 <option value="Legal">Legal (8.5 × 14)</option>
 </select>
 </div>
-
 <div>
-<label id="printTypeLabel">پرنٹ کی قسم</label>
-<select name="print_type" id="printType">
-<option value="bw">بلیک اینڈ وائٹ — 20 روپے</option>
-<option value="color">رنگین — 40 روپے</option>
+<label id="typeLabel" for="print_type">پرنٹ کی قسم</label>
+<select id="print_type" name="print_type" required>
+<option value="bw">بلیک اینڈ وائٹ</option>
+<option value="color">کلر</option>
 </select>
 </div>
+</div>
 
+<div class="grid">
 <div>
-<label id="pagesLabel">کل صفحات</label>
-<input name="pages" id="pages" type="number" min="1" max="500" value="1" required>
+<label id="pagesLabel" for="pages">صفحات کی تعداد</label>
+<input id="pages" name="pages" type="number" min="1" max="500" value="1" required>
 </div>
-
 <div>
-<label id="copiesLabel">کاپیوں کی تعداد</label>
-<input name="copies" id="copies" type="number" min="1" max="100" value="1" required>
+<label id="copiesLabel" for="copies">کاپیوں کی تعداد</label>
+<input id="copies" name="copies" type="number" min="1" max="100" value="1" required>
 </div>
 </div>
 
-<div class="price">
-<span id="priceLabel">تخمینی قیمت</span>
-<strong id="total">20 روپے</strong>
+<div class="pricebox">
+<div id="rateText">بلیک اینڈ وائٹ: 20 روپے فی صفحہ، کلر: 40 روپے فی صفحہ</div>
+<div id="totalLabel">کل رقم:</div>
+<div class="price" id="totalAmount">20 روپے</div>
 </div>
 
-<label id="paymentLabel">ادائیگی کا طریقہ</label>
-<select name="payment_method" id="paymentMethod">
+<label id="paymentLabel" for="payment_method">ادائیگی کا طریقہ</label>
+<select id="payment_method" name="payment_method" required>
 <option value="JazzCash">JazzCash</option>
 <option value="Easypaisa">Easypaisa</option>
 </select>
 
-<div class="payment-box">
-<strong id="paymentTitle">JazzCash</strong>
-<p><span id="accountLabel">ادائیگی نمبر:</span> <strong id="accountDetails"></strong></p>
-<p id="paymentInstructions">رقم بھیجنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔</p>
-</div>
+<label id="transactionLabel" for="transaction_id">ٹرانزیکشن آئی ڈی</label>
+<input id="transaction_id" name="transaction_id" type="text" required maxlength="100" placeholder="ٹرانزیکشن آئی ڈی درج کریں">
 
-<div class="notice" id="notice">
-ادائیگی کی تصدیق کے بعد آپ کا آرڈر منظور کیا جائے گا۔
-</div>
+<label id="receiptLabel" for="receiptFile">ادائیگی کی رسید (اختیاری)</label>
+<input id="receiptFile" name="receiptFile" type="file" accept=".jpg,.jpeg,.png">
+<div class="notice" id="receiptNote">رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔</div>
 
-<label id="transactionLabel">ٹرانزیکشن آئی ڈی</label>
-<input name="transaction_id" required maxlength="100" placeholder="ادائیگی کا حوالہ نمبر" id="transactionId">
-
-<label id="receiptLabel">ادائیگی کی رسید (اختیاری، تصویر)</label>
-<input id="receiptFile" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
-
-<p class="hint" id="hint">
-آپ کا آرڈر پہلے زیرِ تصدیق رہے گا۔ مالک ادائیگی چیک کرکے آرڈر منظور کرے گا۔
-</p>
-
-<button class="btn" id="submitBtn" type="submit">آرڈر جمع کریں</button>
+<button class="submit" id="submitBtn" type="submit">آرڈر جمع کریں</button>
+<div class="notice" id="approvalNote">ادائیگی کی تصدیق کے بعد آپ کا آرڈر منظور کیا جائے گا۔</div>
 </form>
 
-<div id="message" role="status"></div>
+<div class="result" id="resultBox"></div>
 </section>
 </main>
 
-<footer id="footer">USMANI PRINT · Epson ET-4700</footer>
+<footer>USMANI PRINT © 2026</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 
 <script>
-const accounts = {
- JazzCash: '03065612619',
- Easypaisa: '03337612619'
+const translations={
+ur:{
+formTitle:"پرنٹنگ آرڈر جمع کریں",
+paymentInfo:"<strong>ادائیگی کی تفصیلات</strong><br>JazzCash: <b>03065612619</b><br>Easypaisa: <b>03337612619</b><br>ادائیگی کرنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔",
+nameLabel:"آپ کا نام",namePlaceholder:"اپنا نام لکھیں",
+fileLabel:"پرنٹ کی فائل منتخب کریں",
+fileNote:"صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔",
+paperLabel:"پیپر سائز",typeLabel:"پرنٹ کی قسم",
+bw:"بلیک اینڈ وائٹ",color:"کلر",
+pagesLabel:"صفحات کی تعداد",copiesLabel:"کاپیوں کی تعداد",
+rateText:"بلیک اینڈ وائٹ: 20 روپے فی صفحہ، کلر: 40 روپے فی صفحہ",
+totalLabel:"کل رقم:",paymentLabel:"ادائیگی کا طریقہ",
+transactionLabel:"ٹرانزیکشن آئی ڈی",
+transactionPlaceholder:"ٹرانزیکشن آئی ڈی درج کریں",
+receiptLabel:"ادائیگی کی رسید (اختیاری)",
+receiptNote:"رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔",
+submitBtn:"آرڈر جمع کریں",
+approvalNote:"ادائیگی کی تصدیق کے بعد آپ کا آرڈر منظور کیا جائے گا۔",
+uploading:"آرڈر جمع ہو رہا ہے، انتظار کریں...",
+success:"آپ کا آرڈر کامیابی سے جمع ہوگیا!",
+orderNo:"آرڈر نمبر",amount:"تخمینی رقم",
+save:"اس آرڈر نمبر کو محفوظ رکھیں۔",
+error:"خرابی",invalid:"براہ کرم تمام معلومات درست درج کریں۔",
+fileError:"فائل کا سائز 20MB سے زیادہ نہیں ہونا چاہیے۔",
+receiptError:"رسید صرف JPG یا PNG ہونی چاہیے۔",
+rupee:"روپے"
+},
+en:{
+formTitle:"Submit Printing Order",
+paymentInfo:"<strong>Payment Details</strong><br>JazzCash: <b>03065612619</b><br>Easypaisa: <b>03337612619</b><br>Enter your transaction ID after payment.",
+nameLabel:"Your Name",namePlaceholder:"Enter your name",
+fileLabel:"Select Print File",
+fileNote:"PDF, JPG or PNG only. Maximum file size 20MB.",
+paperLabel:"Paper Size",typeLabel:"Print Type",
+bw:"Black & White",color:"Color",
+pagesLabel:"Number of Pages",copiesLabel:"Number of Copies",
+rateText:"Black & White: Rs 20 per page, Color: Rs 40 per page",
+totalLabel:"Total Amount:",paymentLabel:"Payment Method",
+transactionLabel:"Transaction ID",
+transactionPlaceholder:"Enter transaction ID",
+receiptLabel:"Payment Receipt (Optional)",
+receiptNote:"You can upload receipt in JPG or PNG format.",
+submitBtn:"Submit Order",
+approvalNote:"Your order will be approved after payment verification.",
+uploading:"Submitting order, please wait...",
+success:"Your order has been submitted successfully!",
+orderNo:"Order Number",amount:"Estimated Amount",
+save:"Please save this order number.",
+error:"Error",invalid:"Please enter all information correctly.",
+fileError:"File size must not exceed 20MB.",
+receiptError:"Receipt must be JPG or PNG.",
+rupee:"Rs"
+}
 };
 
-let currentLanguage = 'ur';
+let currentLanguage="ur";
+let client=null;
 
-const translations = {
- ur:{
-  tagline:'اپنی فائل اپ لوڈ کریں، ادائیگی کرکے پرنٹ حاصل کریں!',
-  formTitle:'پرنٹنگ آرڈر فارم',
-  nameLabel:'آپ کا نام',
-  namePlaceholder:'اپنا نام لکھیں',
-  phoneLabel:'موبائل نمبر',
-  fileLabel:'پرنٹ ہونے والی فائل (PDF / JPG / PNG)',
-  paperLabel:'کاغذ کا سائز',
-  printTypeLabel:'پرنٹ کی قسم',
-  bw:'بلیک اینڈ وائٹ — 20 روپے',
-  color:'رنگین — 40 روپے',
-  pagesLabel:'کل صفحات',
-  copiesLabel:'کاپیوں کی تعداد',
-  priceLabel:'تخمینی قیمت',
-  paymentLabel:'ادائیگی کا طریقہ',
-  accountLabel:'ادائیگی نمبر:',
-  paymentInstructions:'رقم بھیجنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔',
-  notice:'ادائیگی کی تصدیق کے بعد آپ کا آرڈر منظور کیا جائے گا۔',
-  transactionLabel:'ٹرانزیکشن آئی ڈی',
-  transactionPlaceholder:'ادائیگی کا حوالہ نمبر',
-  receiptLabel:'ادائیگی کی رسید (اختیاری، تصویر)',
-  hint:'آپ کا آرڈر پہلے زیرِ تصدیق رہے گا۔ مالک ادائیگی چیک کرکے آرڈر منظور کرے گا۔',
-  submit:'آرڈر جمع کریں',
-  waiting:'براہِ کرم انتظار کریں…',
-  footer:'USMANI PRINT · Epson ET-4700',
-  rupee:'روپے',
-  fileError:'فائل کی قسم یا سائز درست نہیں۔',
-  countError:'صفحات یا کاپیوں کی تعداد درست درج کریں۔',
-  configError:'Supabase کی config.js معلومات چیک کریں۔',
-  success:'آپ کا آرڈر جمع ہوگیا!',
-  order:'آرڈر نمبر:',
-  estimated:'تخمینی رقم:',
-  ownerMessage:'ادائیگی کی تصدیق کے بعد دکان کا مالک پرنٹنگ کرے گا۔',
-  errorStage:'خرابی کا مرحلہ:',
-  unknown:'نامعلوم خرابی'
- },
- en:{
-  tagline:'Upload your file, make payment and get your prints!',
-  formTitle:'Printing Order Form',
-  nameLabel:'Your Name',
-  namePlaceholder:'Enter your name',
-  phoneLabel:'Mobile Number',
-  fileLabel:'File to Print (PDF / JPG / PNG)',
-  paperLabel:'Paper Size',
-  printTypeLabel:'Print Type',
-  bw:'Black & White — Rs. 20',
-  color:'Color — Rs. 40',
-  pagesLabel:'Total Pages',
-  copiesLabel:'Number of Copies',
-  priceLabel:'Estimated Price',
-  paymentLabel:'Payment Method',
-  accountLabel:'Payment Number:',
-  paymentInstructions:'After sending payment, enter the transaction ID.',
-  notice:'Your order will be approved after payment verification.',
-  transactionLabel:'Transaction ID',
-  transactionPlaceholder:'Enter payment reference number',
-  receiptLabel:'Payment Receipt (Optional Image)',
-  hint:'Your order will remain pending until the shop owner verifies your payment.',
-  submit:'Submit Order',
-  waiting:'Please wait…',
-  footer:'USMANI PRINT · Epson ET-4700',
-  rupee:'Rupees',
-  fileError:'Invalid file type or file size.',
-  countError:'Please enter a valid number of pages or copies.',
-  configError:'Please check the Supabase config.js settings.',
-  success:'Your order has been submitted!',
-  order:'Order Number:',
-  estimated:'Estimated Amount:',
-  ownerMessage:'The shop owner will print your order after payment verification.',
-  errorStage:'Error at stage:',
-  unknown:'Unknown error'
- }
+function setLanguage(language){
+currentLanguage=language;
+const t=translations[language];
+document.documentElement.lang=language;
+document.documentElement.dir=language==="ur"?"rtl":"ltr";
+
+[
+"formTitle","nameLabel","fileLabel","fileNote","paperLabel",
+"typeLabel","pagesLabel","copiesLabel","rateText","totalLabel",
+"paymentLabel","transactionLabel","receiptLabel","receiptNote",
+"submitBtn","approvalNote"
+].forEach(id=>{
+const el=document.getElementById(id);
+if(el)el.textContent=t[id];
+});
+
+document.getElementById("paymentInfo").innerHTML=t.paymentInfo;
+document.getElementById("customer_name").placeholder=t.namePlaceholder;
+document.getElementById("transaction_id").placeholder=t.transactionPlaceholder;
+
+document.querySelector('#print_type option[value="bw"]').textContent=t.bw;
+document.querySelector('#print_type option[value="color"]').textContent=t.color;
+
+document.getElementById("urduBtn").classList.toggle("active",language==="ur");
+document.getElementById("englishBtn").classList.toggle("active",language==="en");
+updatePrice();
+}
+
+function updatePrice(){
+const pages=Math.max(1,parseInt(document.getElementById("pages").value)||1);
+const copies=Math.max(1,parseInt(document.getElementById("copies").value)||1);
+const rate=document.getElementById("print_type").value==="color"?40:20;
+const amount=rate*pages*copies;
+document.getElementById("totalAmount").textContent=
+amount.toLocaleString("en-US")+" "+translations[currentLanguage].rupee;
+return amount;
+}
+
+document.getElementById("pages").addEventListener("input",updatePrice);
+document.getElementById("copies").addEventListener("input",updatePrice);
+document.getElementById("print_type").addEventListener("change",updatePrice);
+
+function getSupabaseClient(){
+if(client)return client;
+if(!window.supabase||!window.QR_PRINT_CONFIG)
+throw new Error("Supabase یا config.js لوڈ نہیں ہوا۔");
+
+const cfg=window.QR_PRINT_CONFIG;
+if(!cfg.url||!cfg.anonKey)
+throw new Error("config.js میں Supabase URL یا anonKey موجود نہیں۔");
+
+client=window.supabase.createClient(cfg.url,cfg.anonKey);
+return client;
+}
+
+function extension(file){
+return file.name.split(".").pop().toLowerCase();
+}
+
+function validPrintFile(file){
+return ["pdf","jpg","jpeg","png"].includes(extension(file))
+&&file.size<=20*1024*1024;
+}
+
+function validReceipt(file){
+return !file||(["jpg","jpeg","png"].includes(extension(file))
+&&file.size<=20*1024*1024);
+}
+
+document.getElementById("orderForm").addEventListener("submit",async function(event){
+event.preventDefault();
+
+const t=translations[currentLanguage];
+const form=this;
+const btn=document.getElementById("submitBtn");
+const resultBox=document.getElementById("resultBox");
+resultBox.style.display="none";
+
+const customerName=form.elements.customer_name.value.trim();
+const file=form.elements.printFile.files[0];
+const receipt=form.elements.receiptFile.files[0]||null;
+const pages=parseInt(form.elements.pages.value);
+const copies=parseInt(form.elements.copies.value);
+const amount=updatePrice();
+
+if(!customerName||!file||!form.elements.transaction_id.value.trim()
+||!Number.isInteger(pages)||pages<1||pages>500
+||!Number.isInteger(copies)||copies<1||copies>100){
+alert(t.invalid);
+return;
+}
+
+if(!validPrintFile(file)){
+alert(t.fileError);
+return;
+}
+
+if(!validReceipt(receipt)){
+alert(t.receiptError);
+return;
+}
+
+btn.disabled=true;
+btn.textContent=t.uploading;
+
+try{
+const db=getSupabaseClient();
+const id=crypto.randomUUID();
+const printPath="orders/"+id+"/print."+extension(file);
+
+const uploadPrint=await db.storage.from("print-files")
+.upload(printPath,file,{upsert:false});
+
+if(uploadPrint.error)throw uploadPrint.error;
+
+let receiptPath=null;
+
+if(receipt){
+receiptPath="orders/"+id+"/receipt."+extension(receipt);
+const uploadReceipt=await db.storage.from("print-files")
+.upload(receiptPath,receipt,{upsert:false});
+
+if(uploadReceipt.error)throw uploadReceipt.error;
+}
+
+const row={
+p_customer_name:customerName,
+p_phone:"",
+p_file_path:printPath,
+p_paper_size:form.elements.paper_size.value,
+p_print_type:form.elements.print_type.value,
+p_pages:pages,
+p_copies:copies,
+p_payment_method:form.elements.payment_method.value,
+p_transaction_id:form.elements.transaction_id.value.trim(),
+p_receipt_path:receiptPath,
+p_amount:amount
 };
 
-const form = document.getElementById('orderForm');
-const paymentMethod = document.getElementById('paymentMethod');
-const msg = document.getElementById('message');
-const total = document.getElementById('total');
-const btn = document.getElementById('submitBtn');
+const result=await db.rpc("create_print_order",row);
+if(result.error)throw result.error;
 
-function setLanguage(lang){
- currentLanguage=lang;
- const t=translations[lang];
+const orderNo=result.data;
 
- document.documentElement.lang=lang;
- document.documentElement.dir=lang==='ur'?'rtl':'ltr';
- document.body.classList.toggle('english',lang==='en');
+resultBox.style.display="block";
+resultBox.innerHTML=
+"<strong>"+t.success+"</strong><br>"+
+t.orderNo+": <b>"+orderNo+"</b><br>"+
+t.amount+": <b>"+amount+" "+t.rupee+"</b><br>"+
+t.save;
 
- document.getElementById('urduBtn').classList.toggle('active',lang==='ur');
- document.getElementById('englishBtn').classList.toggle('active',lang==='en');
+form.reset();
+updatePrice();
 
- const ids=[
-  'tagline','formTitle','nameLabel','phoneLabel','fileLabel',
-  'paperLabel','printTypeLabel','pagesLabel','copiesLabel',
-  'priceLabel','paymentLabel','accountLabel','paymentInstructions',
-  'notice','transactionLabel','receiptLabel','hint','footer'
- ];
-
- ids.forEach(id=>{
-  document.getElementById(id).textContent=t[id];
- });
-
- document.getElementById('customerName').placeholder=t.namePlaceholder;
- document.getElementById('transactionId').placeholder=t.transactionPlaceholder;
-
- const printOptions=form.elements.print_type.options;
- printOptions[0].textContent=t.bw;
- printOptions[1].textContent=t.color;
-
- btn.textContent=t.submit;
- price();
-
- if(msg.dataset.result!=='success' && msg.dataset.result!=='error'){
-  msg.textContent='';
- }
+}catch(error){
+console.error(error);
+alert(t.error+": "+(error.message||String(error)));
+}finally{
+btn.disabled=false;
+btn.textContent=translations[currentLanguage].submitBtn;
 }
-
-function updatePaymentInfo(){
- const method = paymentMethod.value;
- document.getElementById('paymentTitle').textContent = method;
- document.getElementById('accountDetails').textContent = accounts[method];
-}
-
-paymentMethod.addEventListener('change',updatePaymentInfo);
-updatePaymentInfo();
-
-function price(){
- const t=translations[currentLanguage];
- const rate=form.elements.print_type.value==='color'?40:20;
- const pages=Math.max(1,Number(form.elements.pages.value)||1);
- const copies=Math.max(1,Number(form.elements.copies.value)||1);
- total.textContent=(rate*pages*copies).toLocaleString('en-PK')+' '+t.rupee;
-}
-
-['printType','pages','copies'].forEach(id=>{
- document.getElementById(id).addEventListener('input',price);
 });
 
-setLanguage('ur');
-
-const cfg = window.QR_PRINT_CONFIG || {};
-
-function validConfig(){
- return cfg.url && cfg.anonKey &&
- !cfg.url.includes('YOUR_') && !cfg.anonKey.includes('YOUR_');
-}
-
-function fileOK(file,receipt=false){
- if(!file)return true;
- const max=20*1024*1024;
- const allowed=receipt
- ? ['image/jpeg','image/png']
- : ['application/pdf','image/jpeg','image/png'];
- return file.size<=max && allowed.includes(file.type);
-}
-
-form.addEventListener('submit',async e=>{
- e.preventDefault();
-
- msg.className='';
- msg.dataset.result='';
- msg.textContent='';
-
- const t=translations[currentLanguage];
-
- if(!validConfig()){
-  msg.className='err';
-  msg.dataset.result='error';
-  msg.textContent=t.configError;
-  return;
- }
-
- const file=document.getElementById('printFile').files[0];
- const receipt=document.getElementById('receiptFile').files[0];
-
- if(!fileOK(file)||!fileOK(receipt,true)){
-  msg.className='err';
-  msg.dataset.result='error';
-  msg.textContent=t.fileError;
-  return;
- }
-
- const pages=Number(form.elements.pages.value);
- const copies=Number(form.elements.copies.value);
-
- if(!Number.isInteger(pages)||pages<1||pages>500||
- !Number.isInteger(copies)||copies<1||copies>100){
-  msg.className='err';
-  msg.dataset.result='error';
-  msg.textContent=t.countError;
-  return;
- }
-
- btn.disabled=true;
- btn.textContent=t.waiting;
-
- let stage='فائل اپ لوڈ';
-
- try{
-  const cleanUrl=cfg.url.trim().replace(/\/+$/,'').replace(/\/rest\/v1$/i,'');
-  const client=window.supabase.createClient(cleanUrl,cfg.anonKey.trim());
-
-  const id=crypto.randomUUID();
-  const ext=(file.name.split('.').pop()||'bin').toLowerCase();
-  const filePath='orders/'+id+'/print.'+ext;
-
-  const up=await client.storage.from('print-files').upload(
-   filePath,file,{upsert:false,contentType:file.type}
-  );
-  if(up.error)throw up.error;
-
-  let receiptPath=null;
-
-  if(receipt){
-   const rext=receipt.name.split('.').pop().toLowerCase();
-   receiptPath='orders/'+id+'/receipt.'+rext;
-
-   const ru=await client.storage.from('print-files').upload(
-    receiptPath,receipt,{upsert:false,contentType:receipt.type}
-   );
-   if(ru.error)throw ru.error;
-  }
-
-  const rate=form.elements.print_type.value==='color'?40:20;
-  const amount=rate*pages*copies;
-
-  const row={
-   p_customer_name:form.elements.customer_name.value.trim(),
-   p_phone:form.elements.phone.value.trim(),
-   p_file_path:filePath,
-   p_paper_size:form.elements.paper_size.value,
-   p_print_type:form.elements.print_type.value,
-   p_pages:pages,
-   p_copies:copies,
-   p_payment_method:form.elements.payment_method.value,
-   p_transaction_id:form.elements.transaction_id.value.trim(),
-   p_receipt_path:receiptPath,
-   p_amount:amount
-  };
-
-  stage='آرڈر محفوظ کرنا';
-
-  const result=await client.rpc('create_print_order',row);
-  if(result.error)throw result.error;
-
-  const orderNo=result.data;
-
-  msg.className='ok';
-  msg.dataset.result='success';
-  msg.textContent=
-   t.success+'\n'+
-   t.order+' '+orderNo+
-   '\n'+t.estimated+' '+amount+' '+t.rupee+
-   '\n'+t.ownerMessage;
-
-  form.reset();
-  price();
-  updatePaymentInfo();
-
- }catch(err){
-  console.error(err);
-  msg.className='err';
-  msg.dataset.result='error';
-  msg.textContent=t.errorStage+' '+stage+'\nError: '+(err.message||t.unknown);
- }finally{
-  btn.disabled=false;
-  btn.textContent=translations[currentLanguage].submit;
- }
-});
+setLanguage("ur");
 </script>
-
 </body>
 </html>
