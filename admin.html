@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>USMANI PRINT - Admin</title>
+<title>USMANI PRINT</title>
 
 <style>
 *{box-sizing:border-box}
@@ -22,9 +22,8 @@ main{
  padding:14px
 }
 
-/* سفید لوگو بیک گراؤنڈ */
 .brand{
- background:#ffffff;
+ background:#fff;
  border:2px solid #d4ad55;
  border-radius:18px;
  padding:12px;
@@ -40,11 +39,6 @@ main{
  display:block;
  margin:auto;
  border-radius:10px
-}
-
-.brand h2{
- color:#102a56;
- margin:12px 0 0
 }
 
 .card{
@@ -147,14 +141,11 @@ th{
 
 <div class="brand">
  <img src="usmani-print-logo.png" alt="USMANI PRINT">
- <h2 id="adminTitle">ایڈمن پینل</h2>
 </div>
 
 <section class="card" id="loginBox">
 
- <h2 class="login-title" id="loginTitle">
- مالک کا لاگ اِن
- </h2>
+ <h2 class="login-title" id="loginTitle">USMANI PRINT لاگ اِن</h2>
 
  <p class="muted" id="loginInfo">
  یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔
@@ -179,8 +170,7 @@ th{
   <button class="secondary" id="logout">لاگ آؤٹ</button>
 
   <p class="muted" id="orderInfo">
-   فائل دیکھنے کے لیے فائل کا بٹن دبائیں۔
-   آرڈر منظور کرنے سے پہلے ادائیگی اپنے JazzCash یا Easypaisa اکاؤنٹ میں لازماً چیک کریں۔
+   فائل دیکھنے کے لیے فائل کا بٹن دبائیں۔ آرڈر منظور کرنے سے پہلے ادائیگی اپنے JazzCash یا Easypaisa اکاؤنٹ میں لازماً چیک کریں۔
   </p>
 
  </div>
@@ -188,7 +178,6 @@ th{
  <div class="card scroll">
 
   <table>
-
    <thead>
     <tr>
      <th data-i18n="order">آرڈر</th>
@@ -202,7 +191,6 @@ th{
    </thead>
 
    <tbody id="rows"></tbody>
-
   </table>
 
  </div>
@@ -231,12 +219,12 @@ const $=id=>document.getElementById(id);
 
 let currentLang='ur';
 let currentOrders=[];
+let loadingOrders=false;
 
 const translations={
 
  ur:{
-  adminTitle:'ایڈمن پینل',
-  loginTitle:'مالک کا لاگ اِن',
+  loginTitle:'USMANI PRINT لاگ اِن',
   loginInfo:'یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔',
   email:'مالک کا ای میل',
   password:'پاس ورڈ',
@@ -256,6 +244,7 @@ const translations={
   approve:'منظور',
   reject:'مسترد',
   printed:'پرنٹ مکمل',
+  pending:'زیرِ انتظار',
   loading:'آرڈرز لوڈ ہو رہے ہیں...',
   loginLoading:'لاگ اِن ہو رہا ہے...',
   enterLogin:'ای میل اور پاس ورڈ درج کریں۔',
@@ -270,11 +259,11 @@ const translations={
   color:'رنگین',
   pages:'صفحات',
   copies:'کاپیاں',
-  rupee:'روپے'
+  rupee:'روپے',
+  loadingSession:'سیشن چیک ہو رہا ہے...'
  },
 
  en:{
-  adminTitle:'Admin Panel',
   loginTitle:'USMANI PRINT Login',
   loginInfo:'Only the shop owner’s Supabase Auth account should be used here.',
   email:'Owner Email',
@@ -292,9 +281,10 @@ const translations={
   actions:'Actions',
   file:'File',
   receipt:'Receipt',
-  approve:'Approve',
-  reject:'Reject',
+  approve:'Approved',
+  reject:'Rejected',
   printed:'Printed',
+  pending:'Pending',
   loading:'Loading orders...',
   loginLoading:'Logging in...',
   enterLogin:'Please enter email and password.',
@@ -309,9 +299,9 @@ const translations={
   color:'Color',
   pages:'pages',
   copies:'copies',
-  rupee:'PKR'
+  rupee:'PKR',
+  loadingSession:'Checking session...'
  }
-
 };
 
 function t(key){
@@ -328,6 +318,34 @@ function escapeHtml(s){
  }[c]));
 }
 
+/* تمام آرڈر اسٹیٹس کا ترجمہ */
+
+function translateStatus(status){
+
+ const value=String(status||'').toLowerCase().trim();
+
+ const map={
+  pending:'pending',
+  new:'pending',
+  submitted:'pending',
+  approved:'approve',
+  accepted:'approve',
+  rejected:'reject',
+  declined:'reject',
+  printed:'printed',
+  completed:'printed'
+ };
+
+ const key=map[value];
+
+ if(key==='approve')return t('approve');
+ if(key==='reject')return t('reject');
+ if(key==='printed')return t('printed');
+ if(key==='pending')return t('pending');
+
+ return status||'-';
+}
+
 /* زبان تبدیل کرنا */
 
 function setLanguage(lang){
@@ -340,7 +358,6 @@ function setLanguage(lang){
  $('languageBtn').textContent=
   lang==='ur'?'English':'اردو';
 
- $('adminTitle').textContent=t('adminTitle');
  $('loginTitle').textContent=t('loginTitle');
  $('loginInfo').textContent=t('loginInfo');
 
@@ -356,6 +373,10 @@ function setLanguage(lang){
   el.textContent=t(el.dataset.i18n);
  });
 
+ if(loadingOrders){
+  $('loginMsg').textContent=t('loading');
+ }
+
  renderOrders();
 }
 
@@ -363,7 +384,7 @@ $('languageBtn').onclick=()=>{
  setLanguage(currentLang==='ur'?'en':'ur');
 };
 
-/* نئی قیمتوں کا حساب */
+/* قیمتوں کا حساب */
 
 function getRate(type,totalPages){
 
@@ -385,15 +406,11 @@ function getRate(type,totalPages){
  return 0;
 }
 
-/* ہر آرڈر کی کل رقم */
-
 function calculateOrderAmount(order){
 
  const pages=Number(order.pages)||0;
  const copies=Number(order.copies)||0;
-
  const totalPages=pages*copies;
-
  const rate=getRate(order.print_type,totalPages);
 
  return totalPages*rate;
@@ -432,14 +449,7 @@ function renderOrders(){
 
   const newAmount=calculateOrderAmount(o);
 
-  const statusLabels={
-   approved:t('approve'),
-   rejected:t('reject'),
-   printed:t('printed')
-  };
-
-  const displayStatus=
-   statusLabels[o.status]||o.status||'-';
+  const displayStatus=translateStatus(o.status);
 
   tr.innerHTML=`
 
@@ -505,6 +515,7 @@ function renderOrders(){
 
 async function load(){
 
+ loadingOrders=true;
  $('loginMsg').textContent=t('loading');
 
  const {data,error}=await client
@@ -513,11 +524,11 @@ async function load(){
   .order('created_at',{ascending:false})
   .limit(100);
 
+ loadingOrders=false;
+
  if(error){
 
-  $('loginMsg').textContent=
-   t('error')+error.message;
-
+  $('loginMsg').textContent=t('error')+error.message;
   return;
  }
 
@@ -538,7 +549,6 @@ $('login').onclick=async()=>{
  if(!email||!password){
 
   $('loginMsg').textContent=t('enterLogin');
-
   return;
  }
 
@@ -551,9 +561,7 @@ $('login').onclick=async()=>{
 
  if(error){
 
-  $('loginMsg').textContent=
-   t('loginError')+error.message;
-
+  $('loginMsg').textContent=t('loginError')+error.message;
   return;
  }
 
@@ -572,7 +580,6 @@ $('refresh').onclick=load;
 $('logout').onclick=async()=>{
 
  await client.auth.signOut();
-
  location.reload();
 };
 
@@ -628,7 +635,6 @@ $('rows').onclick=async e=>{
   }else{
 
    alert(t('changed'));
-
    load();
   }
  }
@@ -647,11 +653,10 @@ client.auth.getSession().then(({data})=>{
  }
 });
 
-/* ابتدائی زبان اردو */
+/* ابتدائی زبان */
 
 setLanguage('ur');
 
 </script>
-
 </body>
 </html>
