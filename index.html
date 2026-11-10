@@ -24,7 +24,7 @@ header{
   width:100%;
   margin:0;
   padding:0;
-  background:#ffffff;
+  background:#fff;
   line-height:0;
   text-align:center;
 }
@@ -33,7 +33,7 @@ header img{
   width:100%;
   height:auto;
   margin:0 auto;
-  background:#ffffff;
+  background:#fff;
 }
 .lang{
   display:flex;
@@ -100,8 +100,6 @@ input[type=file]{padding:9px}
   line-height:1.8;
   font-size:14px;
 }
-
-/* Compact Professional Price Box */
 .pricebox{
   background:#f7f9fc;
   border:1px solid #e2e8f0;
@@ -123,7 +121,27 @@ input[type=file]{padding:9px}
   font-weight:bold;
   color:#475467;
 }
-
+.payment-box{
+  display:none;
+  background:#eef7f1;
+  border:1px solid #b8dfc4;
+  border-radius:10px;
+  padding:13px;
+  margin-top:12px;
+  text-align:center;
+  line-height:1.9;
+}
+.payment-number{
+  font-size:22px;
+  font-weight:bold;
+  color:#126b3a;
+  direction:ltr;
+}
+.payment-message{
+  font-size:13px;
+  color:#344054;
+  font-weight:bold;
+}
 .submit{
   width:100%;
   border:0;
@@ -185,13 +203,6 @@ footer{
 <section class="card">
 
 <h2 id="formTitle">پرنٹنگ آرڈر جمع کریں</h2>
-
-<div class="info" id="paymentInfo">
-  <strong>ادائیگی کی تفصیلات</strong><br>
-  JazzCash: <b>03065612619</b><br>
-  Easypaisa: <b>03337612619</b><br>
-  ادائیگی کرنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔
-</div>
 
 <form id="orderForm">
 
@@ -259,6 +270,14 @@ footer{
   <option value="Easypaisa">Easypaisa</option>
 </select>
 
+<div class="payment-box" id="paymentBox">
+  <strong id="accountTitle">JazzCash اکاؤنٹ نمبر</strong>
+  <div class="payment-number" id="accountNumber">03065612619</div>
+  <div class="payment-message" id="paymentMessage">
+    ادائیگی کی تصدیق کے بعد آرڈر منظور کیا جائے گا۔
+  </div>
+</div>
+
 <label id="transactionLabel" for="transaction_id">ٹرانزیکشن آئی ڈی</label>
 <input id="transaction_id" name="transaction_id"
        type="text" required maxlength="100"
@@ -278,10 +297,6 @@ footer{
   آرڈر جمع کریں
 </button>
 
-<div class="notice" id="approvalNote">
-  ادائیگی کی تصدیق کے بعد آپ کا آرڈر منظور کیا جائے گا۔
-</div>
-
 </form>
 
 <div class="result" id="resultBox"></div>
@@ -298,7 +313,6 @@ footer{
 const translations = {
   ur:{
     formTitle:"پرنٹنگ آرڈر جمع کریں",
-    paymentInfo:"<strong>ادائیگی کی تفصیلات</strong><br>JazzCash: <b>03065612619</b><br>Easypaisa: <b>03337612619</b><br>ادائیگی کرنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔",
     nameLabel:"آپ کا نام",
     namePlaceholder:"اپنا نام لکھیں",
     phoneLabel:"موبائل نمبر",
@@ -314,12 +328,13 @@ const translations = {
     rateText:"بلیک اینڈ وائٹ: 20 روپے فی صفحہ، کلر: 40 روپے فی صفحہ",
     totalLabel:"کل رقم:",
     paymentLabel:"ادائیگی کا طریقہ",
+    accountTitle:"اکاؤنٹ نمبر",
+    paymentMessage:"ادائیگی کی تصدیق کے بعد آرڈر منظور کیا جائے گا۔",
     transactionLabel:"ٹرانزیکشن آئی ڈی",
     transactionPlaceholder:"ٹرانزیکشن آئی ڈی درج کریں",
     receiptLabel:"ادائیگی کی رسید (اختیاری)",
     receiptNote:"رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔",
     submitBtn:"آرڈر جمع کریں",
-    approvalNote:"ادائیگی کی تصدیق کے بعد آپ کا آرڈر منظور کیا جائے گا۔",
     uploading:"آرڈر جمع ہو رہا ہے، انتظار کریں...",
     success:"آپ کا آرڈر کامیابی سے جمع ہوگیا!",
     orderNo:"آرڈر نمبر",
@@ -331,10 +346,8 @@ const translations = {
     receiptError:"رسید صرف JPG یا PNG ہونی چاہیے۔",
     rupee:"روپے"
   },
-
   en:{
     formTitle:"Submit Printing Order",
-    paymentInfo:"<strong>Payment Details</strong><br>JazzCash: <b>03065612619</b><br>Easypaisa: <b>03337612619</b><br>Enter your transaction ID after payment.",
     nameLabel:"Your Name",
     namePlaceholder:"Enter your name",
     phoneLabel:"Mobile Number",
@@ -350,12 +363,13 @@ const translations = {
     rateText:"Black & White: Rs 20 per page, Color: Rs 40 per page",
     totalLabel:"Total Amount:",
     paymentLabel:"Payment Method",
+    accountTitle:"Account Number",
+    paymentMessage:"The order will be approved after payment verification.",
     transactionLabel:"Transaction ID",
     transactionPlaceholder:"Enter transaction ID",
     receiptLabel:"Payment Receipt (Optional)",
     receiptNote:"You can upload receipt in JPG or PNG format.",
     submitBtn:"Submit Order",
-    approvalNote:"Your order will be approved after payment verification.",
     uploading:"Submitting order, please wait...",
     success:"Your order has been submitted successfully!",
     orderNo:"Order Number",
@@ -383,14 +397,13 @@ function setLanguage(language){
     "formTitle","nameLabel","phoneLabel","fileLabel","fileNote",
     "paperLabel","typeLabel","pagesLabel","copiesLabel",
     "rateText","totalLabel","paymentLabel","transactionLabel",
-    "receiptLabel","receiptNote","submitBtn","approvalNote"
+    "receiptLabel","receiptNote","submitBtn"
   ];
 
   ids.forEach(id=>{
     document.getElementById(id).textContent=t[id];
   });
 
-  document.getElementById("paymentInfo").innerHTML=t.paymentInfo;
   document.getElementById("customer_name").placeholder=t.namePlaceholder;
   document.getElementById("phone").placeholder=t.phonePlaceholder;
   document.getElementById("transaction_id").placeholder=t.transactionPlaceholder;
@@ -398,10 +411,34 @@ function setLanguage(language){
   document.querySelector('#print_type option[value="bw"]').textContent=t.bw;
   document.querySelector('#print_type option[value="color"]').textContent=t.color;
 
+  document.getElementById("accountTitle").textContent=t.accountTitle;
+  document.getElementById("paymentMessage").textContent=t.paymentMessage;
+
   document.getElementById("urduBtn").classList.toggle("active",language==="ur");
   document.getElementById("englishBtn").classList.toggle("active",language==="en");
 
+  updatePaymentInfo();
   updatePrice();
+}
+
+function updatePaymentInfo(){
+  const method=document.getElementById("payment_method").value;
+  const box=document.getElementById("paymentBox");
+  const title=document.getElementById("accountTitle");
+  const number=document.getElementById("accountNumber");
+  const t=translations[currentLanguage];
+
+  box.style.display="block";
+
+  if(method==="JazzCash"){
+    title.textContent=currentLanguage==="ur"?"JazzCash اکاؤنٹ نمبر":"JazzCash Account Number";
+    number.textContent="03065612619";
+  }else{
+    title.textContent=currentLanguage==="ur"?"Easypaisa اکاؤنٹ نمبر":"Easypaisa Account Number";
+    number.textContent="03337612619";
+  }
+
+  document.getElementById("paymentMessage").textContent=t.paymentMessage;
 }
 
 function updatePrice(){
@@ -419,6 +456,7 @@ function updatePrice(){
 document.getElementById("pages").addEventListener("input",updatePrice);
 document.getElementById("copies").addEventListener("input",updatePrice);
 document.getElementById("print_type").addEventListener("change",updatePrice);
+document.getElementById("payment_method").addEventListener("change",updatePaymentInfo);
 
 function getSupabaseClient(){
   if(client)return client;
@@ -545,6 +583,7 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
 
     form.reset();
     updatePrice();
+    updatePaymentInfo();
 
   }catch(error){
     console.error(error);
