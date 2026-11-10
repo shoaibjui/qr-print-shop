@@ -1,17 +1,303 @@
 <!doctype html>
-<html lang="ur" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QR Print Shop Admin</title>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>USMANI PRINT - Admin</title>
+
 <style>
-body{margin:0;background:#f4f6fa;color:#172033;font-family:system-ui,Arial,sans-serif}main{max-width:1000px;margin:24px auto;padding:14px}.card{background:white;border:1px solid #e4e7ec;border-radius:14px;padding:18px;margin-bottom:16px}input,button,select{font:inherit;padding:10px;border:1px solid #ccd2dc;border-radius:8px}input{display:block;width:100%;margin:8px 0}button{background:#155eef;color:white;border:0;margin:4px;cursor:pointer}button.secondary{background:#475467}table{width:100%;border-collapse:collapse;min-width:800px}th,td{padding:10px;border-bottom:1px solid #eaecf0;text-align:right;font-size:14px} .scroll{overflow:auto}.muted{color:#667085;font-size:13px}#orders{display:none}.status{font-weight:700}
-</style></head><body><main><h1>QR Print Shop — ایڈمن پینل</h1>
-<section class="card" id="loginBox"><h2>مالک کا لاگ اِن</h2><p class="muted">یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔</p><input id="email" type="email" placeholder="مالک کا ای میل"><input id="password" type="password" placeholder="پاس ورڈ"><button id="login">لاگ اِن</button><div id="loginMsg"></div></section>
-<section id="orders"><div class="card"><button id="refresh">آرڈرز تازہ کریں</button><button class="secondary" id="logout">لاگ آؤٹ</button><p class="muted">فائل دیکھنے کے لیے Download دبائیں۔ منظور کرنے سے پہلے ادائیگی اپنے JazzCash/Easypaisa/بینک اکاؤنٹ میں لازماً چیک کریں۔</p></div><div class="card scroll"><table><thead><tr><th>آرڈر</th><th>گاہک</th><th>تفصیل</th><th>ادائیگی</th><th>رقم</th><th>حالت</th><th>عمل</th></tr></thead><tbody id="rows"></tbody></table></div></section>
-</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script>
-const cfg=window.QR_PRINT_CONFIG||{},client=window.supabase.createClient(cfg.url||'https://example.supabase.co',cfg.anonKey||'placeholder');
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#f3f5f9;
+ color:#172033;
+ font-family:system-ui,Arial,sans-serif
+}
+main{max-width:1100px;margin:20px auto;padding:14px}
+.brand{
+ background:linear-gradient(135deg,#071c3b,#174b85);
+ border:2px solid #d4ad55;
+ border-radius:18px;
+ padding:18px;
+ text-align:center;
+ margin-bottom:20px;
+ box-shadow:0 5px 18px #0002
+}
+.brand img{
+ width:100%;
+ max-width:600px;
+ height:auto;
+ display:block;
+ margin:auto;
+ border-radius:10px
+}
+.brand h2{color:#fff;margin:12px 0 0}
+.card{
+ background:white;
+ border:1px solid #e4e7ec;
+ border-radius:14px;
+ padding:18px;
+ margin-bottom:16px;
+ box-shadow:0 3px 12px #00000008
+}
+input,button{
+ font:inherit;
+ padding:11px;
+ border:1px solid #ccd2dc;
+ border-radius:8px
+}
+input{display:block;width:100%;margin:9px 0}
+button{
+ background:#155eef;
+ color:white;
+ border:0;
+ margin:4px;
+ cursor:pointer
+}
+button.secondary{background:#475467}
+button.success{background:#16834a}
+button.danger{background:#b42318}
+button:hover{opacity:.9}
+.muted{color:#667085;font-size:13px}
+#orders{display:none}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th,td{
+ padding:11px;
+ border-bottom:1px solid #eaecf0;
+ text-align:right;
+ font-size:14px
+}
+th{background:#edf2f8;color:#102a56}
+.status{font-weight:700}
+#loginMsg{margin-top:12px;overflow-wrap:anywhere}
+.login-title{color:#102a56}
+.footer{text-align:center;color:#667085;font-size:12px;padding:15px}
+</style>
+</head>
+
+<body>
+<main>
+
+<div class="brand">
+ <img src="usmani-print-logo.png" alt="USMANI PRINT">
+ <h2>ایڈمن پینل</h2>
+</div>
+
+<section class="card" id="loginBox">
+ <h2 class="login-title">مالک کا لاگ اِن</h2>
+ <p class="muted">یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔</p>
+ <input id="email" type="email" placeholder="مالک کا ای میل">
+ <input id="password" type="password" placeholder="پاس ورڈ">
+ <button id="login">لاگ اِن کریں</button>
+ <div id="loginMsg"></div>
+</section>
+
+<section id="orders">
+
+ <div class="card">
+  <button id="refresh">آرڈرز تازہ کریں</button>
+  <button class="secondary" id="logout">لاگ آؤٹ</button>
+  <p class="muted">
+   فائل دیکھنے کے لیے فائل کا بٹن دبائیں۔
+   آرڈر منظور کرنے سے پہلے ادائیگی اپنے JazzCash یا Easypaisa اکاؤنٹ میں لازماً چیک کریں۔
+  </p>
+ </div>
+
+ <div class="card scroll">
+  <table>
+   <thead>
+    <tr>
+     <th>آرڈر</th>
+     <th>گاہک</th>
+     <th>تفصیل</th>
+     <th>ادائیگی</th>
+     <th>رقم</th>
+     <th>حالت</th>
+     <th>عمل</th>
+    </tr>
+   </thead>
+   <tbody id="rows"></tbody>
+  </table>
+ </div>
+
+</section>
+
+<div class="footer">
+ USMANI PRINT © 2026 — Print Smart... Print Easy...
+</div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+
+<script>
+const cfg=window.QR_PRINT_CONFIG||{};
+const client=window.supabase.createClient(
+ cfg.url||'https://example.supabase.co',
+ cfg.anonKey||'placeholder'
+);
+
 const $=id=>document.getElementById(id);
-async function load(){const {data,error}=await client.from('orders').select('*').order('created_at',{ascending:false}).limit(100);if(error){$('loginMsg').textContent=error.message;return;}$('rows').innerHTML='';for(const o of data){const tr=document.createElement('tr');const details=`${o.paper_size} · ${o.print_type==='color'?'رنگین':'B&W'} · ${o.pages} صفحات × ${o.copies}`;tr.innerHTML=`<td>${o.id}</td><td>${escapeHtml(o.customer_name)}<br>${escapeHtml(o.phone)}</td><td>${details}</td><td>${escapeHtml(o.payment_method)}<br>${escapeHtml(o.transaction_id)}</td><td>${o.amount} روپے</td><td class="status">${escapeHtml(o.status)}</td><td><button data-file="${o.file_path}">فائل</button>${o.receipt_path?`<button class="secondary" data-file="${o.receipt_path}">رسید</button>`:''}<button data-status="approved" data-id="${o.id}">منظور</button><button class="secondary" data-status="rejected" data-id="${o.id}">مسترد</button><button class="secondary" data-status="printed" data-id="${o.id}">پرنٹ مکمل</button></td>`;$('rows').appendChild(tr);}}
-function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-$('login').onclick=async()=>{const {error}=await client.auth.signInWithPassword({email:$('email').value,password:$('password').value});$('loginMsg').textContent=error?error.message:'لاگ اِن ہوگیا';if(!error){$('loginBox').style.display='none';$('orders').style.display='block';load();}};
-$('refresh').onclick=load;$('logout').onclick=async()=>{await client.auth.signOut();location.reload();};
-$('rows').onclick=async e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.file){const {data,error}=await client.storage.from('print-files').createSignedUrl(b.dataset.file,300);if(error)alert(error.message);else window.open(data.signedUrl,'_blank');}if(b.dataset.status){const {error}=await client.from('orders').update({status:b.dataset.status}).eq('id',b.dataset.id);if(error)alert(error.message);else load();}};
-client.auth.getSession().then(({data})=>{if(data.session){$('loginBox').style.display='none';$('orders').style.display='block';load();}});
-</script></body></html>
+
+function escapeHtml(s){
+ return String(s??'').replace(/[&<>"']/g,c=>({
+ '&':'&amp;',
+ '<':'&lt;',
+ '>':'&gt;',
+ '"':'&quot;',
+ "'":'&#39;'
+ }[c]));
+}
+
+async function load(){
+
+ $('loginMsg').textContent='آرڈرز لوڈ ہو رہے ہیں...';
+
+ const {data,error}=await client
+ .from('orders')
+ .select('*')
+ .order('created_at',{ascending:false})
+ .limit(100);
+
+ if(error){
+  $('loginMsg').textContent='خرابی: '+error.message;
+  return;
+ }
+
+ $('loginMsg').textContent='';
+ $('rows').innerHTML='';
+
+ if(!data.length){
+  $('rows').innerHTML=
+   '<tr><td colspan="7">ابھی کوئی آرڈر موجود نہیں۔</td></tr>';
+  return;
+ }
+
+ for(const o of data){
+
+  const tr=document.createElement('tr');
+
+  const details=
+   `${escapeHtml(o.paper_size)} ·
+   ${o.print_type==='color'?'رنگین':'B&W'} ·
+   ${escapeHtml(o.pages)} صفحات × ${escapeHtml(o.copies)}`;
+
+  tr.innerHTML=`
+   <td>${escapeHtml(o.id)}</td>
+   <td>
+    ${escapeHtml(o.customer_name)}<br>
+    ${escapeHtml(o.phone)}
+   </td>
+   <td>${details}</td>
+   <td>
+    ${escapeHtml(o.payment_method)}<br>
+    ${escapeHtml(o.transaction_id)}
+   </td>
+   <td>${escapeHtml(o.amount)} روپے</td>
+   <td class="status">${escapeHtml(o.status)}</td>
+   <td>
+    <button data-file="${escapeHtml(o.file_path)}">فائل</button>
+    ${o.receipt_path?
+    `<button class="secondary" data-file="${escapeHtml(o.receipt_path)}">رسید</button>`:''}
+    <button class="success" data-status="approved" data-id="${escapeHtml(o.id)}">منظور</button>
+    <button class="danger" data-status="rejected" data-id="${escapeHtml(o.id)}">مسترد</button>
+    <button class="secondary" data-status="printed" data-id="${escapeHtml(o.id)}">پرنٹ مکمل</button>
+   </td>
+  `;
+
+  $('rows').appendChild(tr);
+ }
+}
+
+$('login').onclick=async()=>{
+
+ const email=$('email').value.trim();
+ const password=$('password').value;
+
+ if(!email||!password){
+  $('loginMsg').textContent='ای میل اور پاس ورڈ درج کریں۔';
+  return;
+ }
+
+ $('loginMsg').textContent='لاگ اِن ہو رہا ہے...';
+
+ const {error}=await client.auth.signInWithPassword({
+  email,
+  password
+ });
+
+ if(error){
+  $('loginMsg').textContent='لاگ اِن کی خرابی: '+error.message;
+  return;
+ }
+
+ $('loginBox').style.display='none';
+ $('orders').style.display='block';
+ load();
+};
+
+$('refresh').onclick=load;
+
+$('logout').onclick=async()=>{
+ await client.auth.signOut();
+ location.reload();
+};
+
+$('rows').onclick=async e=>{
+
+ const b=e.target.closest('button');
+ if(!b)return;
+
+ if(b.dataset.file){
+
+  const {data,error}=await client.storage
+   .from('print-files')
+   .createSignedUrl(b.dataset.file,300);
+
+  if(error){
+   alert('فائل کھولنے میں خرابی: '+error.message);
+  }else{
+   window.open(data.signedUrl,'_blank');
+  }
+ }
+
+ if(b.dataset.status){
+
+  const labels={
+   approved:'منظور',
+   rejected:'مسترد',
+   printed:'پرنٹ مکمل'
+  };
+
+  if(!confirm('کیا آپ واقعی یہ آرڈر '+labels[b.dataset.status]+' کرنا چاہتے ہیں؟')){
+   return;
+  }
+
+  const {error}=await client
+   .from('orders')
+   .update({status:b.dataset.status})
+   .eq('id',b.dataset.id);
+
+  if(error){
+   alert('خرابی: '+error.message);
+  }else{
+   alert('آرڈر کی حالت تبدیل ہوگئی۔');
+   load();
+  }
+ }
+};
+
+client.auth.getSession().then(({data})=>{
+ if(data.session){
+  $('loginBox').style.display='none';
+  $('orders').style.display='block';
+  load();
+ }
+});
+</script>
+
+</body>
+</html>
+
