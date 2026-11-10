@@ -8,22 +8,31 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
  margin:0;
  background:#f3f5f9;
  color:#172033;
  font-family:system-ui,Arial,sans-serif
 }
-main{max-width:1100px;margin:20px auto;padding:14px}
+
+main{
+ max-width:1100px;
+ margin:20px auto;
+ padding:14px
+}
+
+/* سفید لوگو بیک گراؤنڈ */
 .brand{
- background:linear-gradient(135deg,#071c3b,#174b85);
+ background:#ffffff;
  border:2px solid #d4ad55;
  border-radius:18px;
- padding:18px;
+ padding:12px;
  text-align:center;
  margin-bottom:20px;
  box-shadow:0 5px 18px #0002
 }
+
 .brand img{
  width:100%;
  max-width:600px;
@@ -32,7 +41,12 @@ main{max-width:1100px;margin:20px auto;padding:14px}
  margin:auto;
  border-radius:10px
 }
-.brand h2{color:#fff;margin:12px 0 0}
+
+.brand h2{
+ color:#102a56;
+ margin:12px 0 0
+}
+
 .card{
  background:white;
  border:1px solid #e4e7ec;
@@ -41,13 +55,20 @@ main{max-width:1100px;margin:20px auto;padding:14px}
  margin-bottom:16px;
  box-shadow:0 3px 12px #00000008
 }
+
 input,button{
  font:inherit;
  padding:11px;
  border:1px solid #ccd2dc;
  border-radius:8px
 }
-input{display:block;width:100%;margin:9px 0}
+
+input{
+ display:block;
+ width:100%;
+ margin:9px 0
+}
+
 button{
  background:#155eef;
  color:white;
@@ -55,27 +76,65 @@ button{
  margin:4px;
  cursor:pointer
 }
+
 button.secondary{background:#475467}
 button.success{background:#16834a}
 button.danger{background:#b42318}
 button:hover{opacity:.9}
-.muted{color:#667085;font-size:13px}
+
+.muted{
+ color:#667085;
+ font-size:13px
+}
+
 #orders{display:none}
+
 .scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:850px}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:850px
+}
+
 th,td{
  padding:11px;
  border-bottom:1px solid #eaecf0;
  text-align:start;
  font-size:14px
 }
-th{background:#edf2f8;color:#102a56}
+
+th{
+ background:#edf2f8;
+ color:#102a56
+}
+
 .status{font-weight:700}
-#loginMsg{margin-top:12px;overflow-wrap:anywhere}
+
+#loginMsg{
+ margin-top:12px;
+ overflow-wrap:anywhere
+}
+
 .login-title{color:#102a56}
-.footer{text-align:center;color:#667085;font-size:12px;padding:15px}
-.langbar{text-align:end;margin-bottom:12px}
-.langbar button{background:#d4ad55;color:#102a56;font-weight:700}
+
+.footer{
+ text-align:center;
+ color:#667085;
+ font-size:12px;
+ padding:15px
+}
+
+.langbar{
+ text-align:end;
+ margin-bottom:12px
+}
+
+.langbar button{
+ background:#d4ad55;
+ color:#102a56;
+ font-weight:700
+}
 </style>
 </head>
 
@@ -92,27 +151,44 @@ th{background:#edf2f8;color:#102a56}
 </div>
 
 <section class="card" id="loginBox">
- <h2 class="login-title" id="loginTitle">مالک کا لاگ اِن</h2>
- <p class="muted" id="loginInfo">یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔</p>
+
+ <h2 class="login-title" id="loginTitle">
+ مالک کا لاگ اِن
+ </h2>
+
+ <p class="muted" id="loginInfo">
+ یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔
+ </p>
+
  <input id="email" type="email" placeholder="مالک کا ای میل">
+
  <input id="password" type="password" placeholder="پاس ورڈ">
+
  <button id="login">لاگ اِن کریں</button>
+
  <div id="loginMsg"></div>
+
 </section>
 
 <section id="orders">
 
  <div class="card">
+
   <button id="refresh">آرڈرز تازہ کریں</button>
+
   <button class="secondary" id="logout">لاگ آؤٹ</button>
+
   <p class="muted" id="orderInfo">
    فائل دیکھنے کے لیے فائل کا بٹن دبائیں۔
    آرڈر منظور کرنے سے پہلے ادائیگی اپنے JazzCash یا Easypaisa اکاؤنٹ میں لازماً چیک کریں۔
   </p>
+
  </div>
 
  <div class="card scroll">
+
   <table>
+
    <thead>
     <tr>
      <th data-i18n="order">آرڈر</th>
@@ -124,8 +200,11 @@ th{background:#edf2f8;color:#102a56}
      <th data-i18n="actions">عمل</th>
     </tr>
    </thead>
+
    <tbody id="rows"></tbody>
+
   </table>
+
  </div>
 
 </section>
@@ -140,6 +219,7 @@ th{background:#edf2f8;color:#102a56}
 <script src="config.js"></script>
 
 <script>
+
 const cfg=window.QR_PRINT_CONFIG||{};
 
 const client=window.supabase.createClient(
@@ -153,6 +233,7 @@ let currentLang='ur';
 let currentOrders=[];
 
 const translations={
+
  ur:{
   adminTitle:'ایڈمن پینل',
   loginTitle:'مالک کا لاگ اِن',
@@ -185,15 +266,13 @@ const translations={
   confirm:'کیا آپ واقعی یہ آرڈر ',
   confirmEnd:' کرنا چاہتے ہیں؟',
   changed:'آرڈر کی حالت تبدیل ہوگئی۔',
-  fileType:'فائل',
   bw:'بلیک اینڈ وائٹ',
   color:'رنگین',
   pages:'صفحات',
   copies:'کاپیاں',
-  rupee:'روپے',
-  fileOpen:'فائل کھولیں',
-  receiptOpen:'رسید کھولیں'
+  rupee:'روپے'
  },
+
  en:{
   adminTitle:'Admin Panel',
   loginTitle:'USMANI PRINT Login',
@@ -226,15 +305,13 @@ const translations={
   confirm:'Are you sure you want to mark this order as ',
   confirmEnd:'?',
   changed:'Order status updated.',
-  fileType:'File',
   bw:'Black & White',
   color:'Color',
   pages:'pages',
   copies:'copies',
-  rupee:'PKR',
-  fileOpen:'Open File',
-  receiptOpen:'Open Receipt'
+  rupee:'PKR'
  }
+
 };
 
 function t(key){
@@ -251,19 +328,25 @@ function escapeHtml(s){
  }[c]));
 }
 
+/* زبان تبدیل کرنا */
+
 function setLanguage(lang){
+
  currentLang=lang;
 
  document.documentElement.lang=lang;
  document.documentElement.dir=lang==='ur'?'rtl':'ltr';
 
- $('languageBtn').textContent=lang==='ur'?'English':'اردو';
+ $('languageBtn').textContent=
+  lang==='ur'?'English':'اردو';
 
  $('adminTitle').textContent=t('adminTitle');
  $('loginTitle').textContent=t('loginTitle');
  $('loginInfo').textContent=t('loginInfo');
+
  $('email').placeholder=t('email');
  $('password').placeholder=t('password');
+
  $('login').textContent=t('login');
  $('refresh').textContent=t('refresh');
  $('logout').textContent=t('logout');
@@ -281,6 +364,7 @@ $('languageBtn').onclick=()=>{
 };
 
 /* نئی قیمتوں کا حساب */
+
 function getRate(type,totalPages){
 
  if(type==='bw'){
@@ -302,10 +386,12 @@ function getRate(type,totalPages){
 }
 
 /* ہر آرڈر کی کل رقم */
+
 function calculateOrderAmount(order){
 
  const pages=Number(order.pages)||0;
  const copies=Number(order.copies)||0;
+
  const totalPages=pages*copies;
 
  const rate=getRate(order.print_type,totalPages);
@@ -314,13 +400,16 @@ function calculateOrderAmount(order){
 }
 
 /* آرڈرز دکھانا */
+
 function renderOrders(){
 
  $('rows').innerHTML='';
 
  if(!currentOrders.length){
+
   $('rows').innerHTML=
    `<tr><td colspan="7">${t('noOrders')}</td></tr>`;
+
   return;
  }
 
@@ -331,7 +420,8 @@ function renderOrders(){
   const pages=Number(o.pages)||0;
   const copies=Number(o.copies)||0;
 
-  const printType=o.print_type==='color'?t('color'):t('bw');
+  const printType=
+   o.print_type==='color'?t('color'):t('bw');
 
   const details=`
    ${escapeHtml(o.paper_size)} ·
@@ -348,9 +438,11 @@ function renderOrders(){
    printed:t('printed')
   };
 
-  const displayStatus=statusLabels[o.status]||o.status||'-';
+  const displayStatus=
+   statusLabels[o.status]||o.status||'-';
 
   tr.innerHTML=`
+
    <td>${escapeHtml(o.id)}</td>
 
    <td>
@@ -365,21 +457,43 @@ function renderOrders(){
     ${escapeHtml(o.transaction_id)}
    </td>
 
-   <td><strong>${newAmount.toLocaleString('en-US')} ${t('rupee')}</strong></td>
+   <td>
+    <strong>
+     ${newAmount.toLocaleString('en-US')} ${t('rupee')}
+    </strong>
+   </td>
 
-   <td class="status">${escapeHtml(displayStatus)}</td>
+   <td class="status">
+    ${escapeHtml(displayStatus)}
+   </td>
 
    <td>
-    <button data-file="${escapeHtml(o.file_path)}">${t('file')}</button>
+
+    <button data-file="${escapeHtml(o.file_path)}">
+     ${t('file')}
+    </button>
 
     ${o.receipt_path?
     `<button class="secondary" data-file="${escapeHtml(o.receipt_path)}">${t('receipt')}</button>`:''}
 
-    <button class="success" data-status="approved" data-id="${escapeHtml(o.id)}">${t('approve')}</button>
+    <button class="success"
+     data-status="approved"
+     data-id="${escapeHtml(o.id)}">
+     ${t('approve')}
+    </button>
 
-    <button class="danger" data-status="rejected" data-id="${escapeHtml(o.id)}">${t('reject')}</button>
+    <button class="danger"
+     data-status="rejected"
+     data-id="${escapeHtml(o.id)}">
+     ${t('reject')}
+    </button>
 
-    <button class="secondary" data-status="printed" data-id="${escapeHtml(o.id)}">${t('printed')}</button>
+    <button class="secondary"
+     data-status="printed"
+     data-id="${escapeHtml(o.id)}">
+     ${t('printed')}
+    </button>
+
    </td>
   `;
 
@@ -387,7 +501,8 @@ function renderOrders(){
  }
 }
 
-/* آرڈرز لوڈ */
+/* آرڈرز لوڈ کرنا */
+
 async function load(){
 
  $('loginMsg').textContent=t('loading');
@@ -399,23 +514,31 @@ async function load(){
   .limit(100);
 
  if(error){
-  $('loginMsg').textContent=t('error')+error.message;
+
+  $('loginMsg').textContent=
+   t('error')+error.message;
+
   return;
  }
 
  currentOrders=data||[];
+
  $('loginMsg').textContent='';
+
  renderOrders();
 }
 
 /* لاگ اِن */
+
 $('login').onclick=async()=>{
 
  const email=$('email').value.trim();
  const password=$('password').value;
 
  if(!email||!password){
+
   $('loginMsg').textContent=t('enterLogin');
+
   return;
  }
 
@@ -427,7 +550,10 @@ $('login').onclick=async()=>{
  });
 
  if(error){
-  $('loginMsg').textContent=t('loginError')+error.message;
+
+  $('loginMsg').textContent=
+   t('loginError')+error.message;
+
   return;
  }
 
@@ -437,18 +563,25 @@ $('login').onclick=async()=>{
  load();
 };
 
+/* تازہ آرڈرز */
+
 $('refresh').onclick=load;
 
 /* لاگ آؤٹ */
+
 $('logout').onclick=async()=>{
+
  await client.auth.signOut();
+
  location.reload();
 };
 
 /* فائل، رسید اور آرڈر کی حالت */
+
 $('rows').onclick=async e=>{
 
  const b=e.target.closest('button');
+
  if(!b)return;
 
  if(b.dataset.file){
@@ -458,8 +591,11 @@ $('rows').onclick=async e=>{
    .createSignedUrl(b.dataset.file,300);
 
   if(error){
+
    alert(t('fileError')+error.message);
+
   }else{
+
    window.open(data.signedUrl,'_blank');
   }
  }
@@ -472,7 +608,11 @@ $('rows').onclick=async e=>{
    printed:t('printed')
   };
 
-  if(!confirm(t('confirm')+labels[b.dataset.status]+t('confirmEnd'))){
+  if(!confirm(
+   t('confirm')+
+   labels[b.dataset.status]+
+   t('confirmEnd')
+  )){
    return;
   }
 
@@ -482,24 +622,33 @@ $('rows').onclick=async e=>{
    .eq('id',b.dataset.id);
 
   if(error){
+
    alert(t('error')+error.message);
+
   }else{
+
    alert(t('changed'));
+
    load();
   }
  }
 };
 
 /* پہلے سے لاگ اِن سیشن */
+
 client.auth.getSession().then(({data})=>{
+
  if(data.session){
+
   $('loginBox').style.display='none';
   $('orders').style.display='block';
+
   load();
  }
 });
 
 /* ابتدائی زبان اردو */
+
 setLanguage('ur');
 
 </script>
