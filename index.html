@@ -1,120 +1,279 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ur" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>USMANI PRINT - عثمانی پرنٹ</title>
+
 <style>
-:root{--green:#126b3a;--ink:#172033;--muted:#667085;--bg:#f4f6fa;--border:#d9e0ea}
+:root{
+  --green:#126b3a;
+  --ink:#172033;
+  --bg:#f4f6fa;
+  --border:#d9e0ea;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,system-ui,sans-serif}
-header{background:#08752f;padding:0;margin:0;width:100%;text-align:center;line-height:0}
-header img{display:block;width:100%;height:auto;max-width:none;object-fit:contain;margin:0 auto}
-.lang{display:flex;justify-content:center;gap:8px;margin:10px auto}
-.lang button{border:1px solid var(--green);background:white;color:var(--green);padding:7px 18px;border-radius:8px;font-weight:bold}
-.lang button.active{background:var(--green);color:white}
-main{max-width:620px;margin:12px auto;padding:0 12px 25px}
-.card{background:white;border:1px solid var(--border);border-radius:13px;padding:16px;box-shadow:0 3px 12px #1720330c}
-h2{margin:0 0 15px;font-size:21px;text-align:center}
-label{display:block;margin:12px 0 6px;font-weight:700;font-size:14px}
-input,select{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:white;font-size:15px;color:var(--ink)}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Arial,system-ui,sans-serif;
+}
+header{
+  width:100%;
+  margin:0;
+  padding:0;
+  background:#08752f;
+  line-height:0;
+  text-align:center;
+}
+header img{
+  display:block;
+  width:100%;
+  height:auto;
+  margin:0 auto;
+}
+.lang{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin:10px auto;
+}
+.lang button{
+  border:1px solid var(--green);
+  background:white;
+  color:var(--green);
+  padding:8px 20px;
+  border-radius:8px;
+  font-weight:bold;
+}
+.lang button.active{
+  background:var(--green);
+  color:white;
+}
+main{
+  max-width:620px;
+  margin:12px auto;
+  padding:0 12px 25px;
+}
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:16px;
+  box-shadow:0 3px 12px #1720330c;
+}
+h2{
+  margin:0 0 15px;
+  font-size:21px;
+  text-align:center;
+}
+label{
+  display:block;
+  margin:12px 0 6px;
+  font-weight:bold;
+  font-size:14px;
+}
+input,select{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:white;
+  font-size:15px;
+  color:var(--ink);
+}
 input[type=file]{padding:9px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.info{background:#eef7f1;border:1px solid #cce8d5;border-radius:9px;padding:12px;margin:12px 0;line-height:1.7;font-size:14px}
-.pricebox{background:#f1f5ff;border:1px solid #d7e3ff;padding:13px;border-radius:9px;margin-top:13px;line-height:1.8}
-.price{font-size:23px;font-weight:800;color:var(--green)}
-button.submit{width:100%;border:0;border-radius:9px;background:var(--green);color:white;padding:14px;font-size:17px;font-weight:bold;margin-top:16px}
-button:disabled{opacity:.6}
-.notice{font-size:13px;color:var(--muted);line-height:1.7;margin-top:12px}
-.result{display:none;margin-top:15px;border:1px solid #9bd5ad;background:#effaf2;color:#14532d;border-radius:10px;padding:14px;text-align:center;line-height:1.8;overflow-wrap:anywhere}
-footer{text-align:center;padding:15px;color:var(--muted);font-size:12px}
-[dir="ltr"] .card{text-align:left}
-@media(max-width:480px){.grid{grid-template-columns:1fr}.card{padding:13px}}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.info{
+  background:#eef7f1;
+  border:1px solid #cce8d5;
+  border-radius:9px;
+  padding:12px;
+  margin:12px 0;
+  line-height:1.8;
+  font-size:14px;
+}
+.pricebox{
+  background:#f1f5ff;
+  border:1px solid #d7e3ff;
+  padding:13px;
+  border-radius:9px;
+  margin-top:13px;
+  line-height:1.8;
+}
+.price{
+  font-size:23px;
+  font-weight:800;
+  color:var(--green);
+}
+.submit{
+  width:100%;
+  border:0;
+  border-radius:9px;
+  background:var(--green);
+  color:white;
+  padding:14px;
+  font-size:17px;
+  font-weight:bold;
+  margin-top:16px;
+}
+.submit:disabled{opacity:.6}
+.notice{
+  font-size:13px;
+  color:#667085;
+  line-height:1.7;
+  margin-top:12px;
+}
+.result{
+  display:none;
+  margin-top:15px;
+  border:1px solid #9bd5ad;
+  background:#effaf2;
+  color:#14532d;
+  border-radius:10px;
+  padding:14px;
+  text-align:center;
+  line-height:1.9;
+  overflow-wrap:anywhere;
+}
+footer{
+  text-align:center;
+  padding:15px;
+  color:#667085;
+  font-size:12px;
+}
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr}
+  .card{padding:13px}
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<img src="usmani-print-logo.png" alt="USMANI PRINT - Print, Scan, Copy, Online Services">
+  <img src="usmani-print-logo.png"
+       alt="USMANI PRINT WhatsApp Print Scan Copy Online Services">
 </header>
 
 <div class="lang">
-<button type="button" id="urduBtn" class="active" onclick="setLanguage('ur')">اردو</button>
-<button type="button" id="englishBtn" onclick="setLanguage('en')">English</button>
+  <button type="button" id="urduBtn"
+          class="active" onclick="setLanguage('ur')">اردو</button>
+  <button type="button" id="englishBtn"
+          onclick="setLanguage('en')">English</button>
 </div>
 
 <main>
 <section class="card">
+
 <h2 id="formTitle">پرنٹنگ آرڈر جمع کریں</h2>
 
 <div class="info" id="paymentInfo">
-<strong>ادائیگی کی تفصیلات</strong><br>
-JazzCash: <b>03065612619</b><br>
-Easypaisa: <b>03337612619</b><br>
-ادائیگی کرنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔
+  <strong>ادائیگی کی تفصیلات</strong><br>
+  JazzCash: <b>03065612619</b><br>
+  Easypaisa: <b>03337612619</b><br>
+  ادائیگی کرنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔
 </div>
 
 <form id="orderForm">
+
 <label id="nameLabel" for="customer_name">آپ کا نام</label>
-<input id="customer_name" name="customer_name" type="text" required maxlength="100" placeholder="اپنا نام لکھیں">
+<input id="customer_name" name="customer_name"
+       type="text" required maxlength="100"
+       placeholder="اپنا نام لکھیں">
+
+<label id="phoneLabel" for="phone">موبائل نمبر</label>
+<input id="phone" name="phone"
+       type="tel" required maxlength="20"
+       placeholder="03XXXXXXXXX">
 
 <label id="fileLabel" for="printFile">پرنٹ کی فائل منتخب کریں</label>
-<input id="printFile" name="printFile" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
-<div class="notice" id="fileNote">صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔</div>
+<input id="printFile" name="printFile"
+       type="file" accept=".pdf,.jpg,.jpeg,.png" required>
 
-<div class="grid">
-<div>
-<label id="paperLabel" for="paper_size">پیپر سائز</label>
-<select id="paper_size" name="paper_size" required>
-<option value="A4">A4</option>
-<option value="Legal">Legal (8.5 × 14)</option>
-</select>
-</div>
-<div>
-<label id="typeLabel" for="print_type">پرنٹ کی قسم</label>
-<select id="print_type" name="print_type" required>
-<option value="bw">بلیک اینڈ وائٹ</option>
-<option value="color">کلر</option>
-</select>
-</div>
+<div class="notice" id="fileNote">
+  صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔
 </div>
 
 <div class="grid">
-<div>
-<label id="pagesLabel" for="pages">صفحات کی تعداد</label>
-<input id="pages" name="pages" type="number" min="1" max="500" value="1" required>
+  <div>
+    <label id="paperLabel" for="paper_size">پیپر سائز</label>
+    <select id="paper_size" name="paper_size" required>
+      <option value="A4">A4</option>
+      <option value="Legal">Legal (8.5 × 14)</option>
+    </select>
+  </div>
+
+  <div>
+    <label id="typeLabel" for="print_type">پرنٹ کی قسم</label>
+    <select id="print_type" name="print_type" required>
+      <option value="bw">بلیک اینڈ وائٹ</option>
+      <option value="color">کلر</option>
+    </select>
+  </div>
 </div>
-<div>
-<label id="copiesLabel" for="copies">کاپیوں کی تعداد</label>
-<input id="copies" name="copies" type="number" min="1" max="100" value="1" required>
-</div>
+
+<div class="grid">
+  <div>
+    <label id="pagesLabel" for="pages">صفحات کی تعداد</label>
+    <input id="pages" name="pages" type="number"
+           min="1" max="500" value="1" required>
+  </div>
+
+  <div>
+    <label id="copiesLabel" for="copies">کاپیوں کی تعداد</label>
+    <input id="copies" name="copies" type="number"
+           min="1" max="100" value="1" required>
+  </div>
 </div>
 
 <div class="pricebox">
-<div id="rateText">بلیک اینڈ وائٹ: 20 روپے فی صفحہ، کلر: 40 روپے فی صفحہ</div>
-<div id="totalLabel">کل رقم:</div>
-<div class="price" id="totalAmount">20 روپے</div>
+  <div id="rateText">
+    بلیک اینڈ وائٹ: 20 روپے فی صفحہ، کلر: 40 روپے فی صفحہ
+  </div>
+  <div id="totalLabel">کل رقم:</div>
+  <div class="price" id="totalAmount">20 روپے</div>
 </div>
 
 <label id="paymentLabel" for="payment_method">ادائیگی کا طریقہ</label>
 <select id="payment_method" name="payment_method" required>
-<option value="JazzCash">JazzCash</option>
-<option value="Easypaisa">Easypaisa</option>
+  <option value="JazzCash">JazzCash</option>
+  <option value="Easypaisa">Easypaisa</option>
 </select>
 
 <label id="transactionLabel" for="transaction_id">ٹرانزیکشن آئی ڈی</label>
-<input id="transaction_id" name="transaction_id" type="text" required maxlength="100" placeholder="ٹرانزیکشن آئی ڈی درج کریں">
+<input id="transaction_id" name="transaction_id"
+       type="text" required maxlength="100"
+       placeholder="ٹرانزیکشن آئی ڈی درج کریں">
 
-<label id="receiptLabel" for="receiptFile">ادائیگی کی رسید (اختیاری)</label>
-<input id="receiptFile" name="receiptFile" type="file" accept=".jpg,.jpeg,.png">
-<div class="notice" id="receiptNote">رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔</div>
+<label id="receiptLabel" for="receiptFile">
+  ادائیگی کی رسید (اختیاری)
+</label>
+<input id="receiptFile" name="receiptFile"
+       type="file" accept=".jpg,.jpeg,.png">
 
-<button class="submit" id="submitBtn" type="submit">آرڈر جمع کریں</button>
-<div class="notice" id="approvalNote">ادائیگی کی تصدیق کے بعد آپ کا آرڈر منظور کیا جائے گا۔</div>
+<div class="notice" id="receiptNote">
+  رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔
+</div>
+
+<button class="submit" id="submitBtn" type="submit">
+  آرڈر جمع کریں
+</button>
+
+<div class="notice" id="approvalNote">
+  ادائیگی کی تصدیق کے بعد آپ کا آرڈر منظور کیا جائے گا۔
+</div>
+
 </form>
 
 <div class="result" id="resultBox"></div>
+
 </section>
 </main>
 
@@ -124,100 +283,125 @@ Easypaisa: <b>03337612619</b><br>
 <script src="config.js"></script>
 
 <script>
-const translations={
-ur:{
-formTitle:"پرنٹنگ آرڈر جمع کریں",
-paymentInfo:"<strong>ادائیگی کی تفصیلات</strong><br>JazzCash: <b>03065612619</b><br>Easypaisa: <b>03337612619</b><br>ادائیگی کرنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔",
-nameLabel:"آپ کا نام",namePlaceholder:"اپنا نام لکھیں",
-fileLabel:"پرنٹ کی فائل منتخب کریں",
-fileNote:"صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔",
-paperLabel:"پیپر سائز",typeLabel:"پرنٹ کی قسم",
-bw:"بلیک اینڈ وائٹ",color:"کلر",
-pagesLabel:"صفحات کی تعداد",copiesLabel:"کاپیوں کی تعداد",
-rateText:"بلیک اینڈ وائٹ: 20 روپے فی صفحہ، کلر: 40 روپے فی صفحہ",
-totalLabel:"کل رقم:",paymentLabel:"ادائیگی کا طریقہ",
-transactionLabel:"ٹرانزیکشن آئی ڈی",
-transactionPlaceholder:"ٹرانزیکشن آئی ڈی درج کریں",
-receiptLabel:"ادائیگی کی رسید (اختیاری)",
-receiptNote:"رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔",
-submitBtn:"آرڈر جمع کریں",
-approvalNote:"ادائیگی کی تصدیق کے بعد آپ کا آرڈر منظور کیا جائے گا۔",
-uploading:"آرڈر جمع ہو رہا ہے، انتظار کریں...",
-success:"آپ کا آرڈر کامیابی سے جمع ہوگیا!",
-orderNo:"آرڈر نمبر",amount:"تخمینی رقم",
-save:"اس آرڈر نمبر کو محفوظ رکھیں۔",
-error:"خرابی",invalid:"براہ کرم تمام معلومات درست درج کریں۔",
-fileError:"فائل کا سائز 20MB سے زیادہ نہیں ہونا چاہیے۔",
-receiptError:"رسید صرف JPG یا PNG ہونی چاہیے۔",
-rupee:"روپے"
-},
-en:{
-formTitle:"Submit Printing Order",
-paymentInfo:"<strong>Payment Details</strong><br>JazzCash: <b>03065612619</b><br>Easypaisa: <b>03337612619</b><br>Enter your transaction ID after payment.",
-nameLabel:"Your Name",namePlaceholder:"Enter your name",
-fileLabel:"Select Print File",
-fileNote:"PDF, JPG or PNG only. Maximum file size 20MB.",
-paperLabel:"Paper Size",typeLabel:"Print Type",
-bw:"Black & White",color:"Color",
-pagesLabel:"Number of Pages",copiesLabel:"Number of Copies",
-rateText:"Black & White: Rs 20 per page, Color: Rs 40 per page",
-totalLabel:"Total Amount:",paymentLabel:"Payment Method",
-transactionLabel:"Transaction ID",
-transactionPlaceholder:"Enter transaction ID",
-receiptLabel:"Payment Receipt (Optional)",
-receiptNote:"You can upload receipt in JPG or PNG format.",
-submitBtn:"Submit Order",
-approvalNote:"Your order will be approved after payment verification.",
-uploading:"Submitting order, please wait...",
-success:"Your order has been submitted successfully!",
-orderNo:"Order Number",amount:"Estimated Amount",
-save:"Please save this order number.",
-error:"Error",invalid:"Please enter all information correctly.",
-fileError:"File size must not exceed 20MB.",
-receiptError:"Receipt must be JPG or PNG.",
-rupee:"Rs"
-}
+const translations = {
+  ur:{
+    formTitle:"پرنٹنگ آرڈر جمع کریں",
+    paymentInfo:"<strong>ادائیگی کی تفصیلات</strong><br>JazzCash: <b>03065612619</b><br>Easypaisa: <b>03337612619</b><br>ادائیگی کرنے کے بعد ٹرانزیکشن آئی ڈی درج کریں۔",
+    nameLabel:"آپ کا نام",
+    namePlaceholder:"اپنا نام لکھیں",
+    phoneLabel:"موبائل نمبر",
+    phonePlaceholder:"03XXXXXXXXX",
+    fileLabel:"پرنٹ کی فائل منتخب کریں",
+    fileNote:"صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔",
+    paperLabel:"پیپر سائز",
+    typeLabel:"پرنٹ کی قسم",
+    bw:"بلیک اینڈ وائٹ",
+    color:"کلر",
+    pagesLabel:"صفحات کی تعداد",
+    copiesLabel:"کاپیوں کی تعداد",
+    rateText:"بلیک اینڈ وائٹ: 20 روپے فی صفحہ، کلر: 40 روپے فی صفحہ",
+    totalLabel:"کل رقم:",
+    paymentLabel:"ادائیگی کا طریقہ",
+    transactionLabel:"ٹرانزیکشن آئی ڈی",
+    transactionPlaceholder:"ٹرانزیکشن آئی ڈی درج کریں",
+    receiptLabel:"ادائیگی کی رسید (اختیاری)",
+    receiptNote:"رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔",
+    submitBtn:"آرڈر جمع کریں",
+    approvalNote:"ادائیگی کی تصدیق کے بعد آپ کا آرڈر منظور کیا جائے گا۔",
+    uploading:"آرڈر جمع ہو رہا ہے، انتظار کریں...",
+    success:"آپ کا آرڈر کامیابی سے جمع ہوگیا!",
+    orderNo:"آرڈر نمبر",
+    amount:"تخمینی رقم",
+    save:"اس آرڈر نمبر کو محفوظ رکھیں۔",
+    error:"خرابی",
+    invalid:"براہ کرم تمام معلومات درست درج کریں۔",
+    fileError:"فائل کا سائز 20MB سے زیادہ نہیں ہونا چاہیے۔",
+    receiptError:"رسید صرف JPG یا PNG ہونی چاہیے۔",
+    rupee:"روپے"
+  },
+
+  en:{
+    formTitle:"Submit Printing Order",
+    paymentInfo:"<strong>Payment Details</strong><br>JazzCash: <b>03065612619</b><br>Easypaisa: <b>03337612619</b><br>Enter your transaction ID after payment.",
+    nameLabel:"Your Name",
+    namePlaceholder:"Enter your name",
+    phoneLabel:"Mobile Number",
+    phonePlaceholder:"03XXXXXXXXX",
+    fileLabel:"Select Print File",
+    fileNote:"PDF, JPG or PNG only. Maximum file size 20MB.",
+    paperLabel:"Paper Size",
+    typeLabel:"Print Type",
+    bw:"Black & White",
+    color:"Color",
+    pagesLabel:"Number of Pages",
+    copiesLabel:"Number of Copies",
+    rateText:"Black & White: Rs 20 per page, Color: Rs 40 per page",
+    totalLabel:"Total Amount:",
+    paymentLabel:"Payment Method",
+    transactionLabel:"Transaction ID",
+    transactionPlaceholder:"Enter transaction ID",
+    receiptLabel:"Payment Receipt (Optional)",
+    receiptNote:"You can upload receipt in JPG or PNG format.",
+    submitBtn:"Submit Order",
+    approvalNote:"Your order will be approved after payment verification.",
+    uploading:"Submitting order, please wait...",
+    success:"Your order has been submitted successfully!",
+    orderNo:"Order Number",
+    amount:"Estimated Amount",
+    save:"Please save this order number.",
+    error:"Error",
+    invalid:"Please enter all information correctly.",
+    fileError:"File size must not exceed 20MB.",
+    receiptError:"Receipt must be JPG or PNG.",
+    rupee:"Rs"
+  }
 };
 
 let currentLanguage="ur";
 let client=null;
 
 function setLanguage(language){
-currentLanguage=language;
-const t=translations[language];
-document.documentElement.lang=language;
-document.documentElement.dir=language==="ur"?"rtl":"ltr";
+  currentLanguage=language;
+  const t=translations[language];
 
-[
-"formTitle","nameLabel","fileLabel","fileNote","paperLabel",
-"typeLabel","pagesLabel","copiesLabel","rateText","totalLabel",
-"paymentLabel","transactionLabel","receiptLabel","receiptNote",
-"submitBtn","approvalNote"
-].forEach(id=>{
-const el=document.getElementById(id);
-if(el)el.textContent=t[id];
-});
+  document.documentElement.lang=language;
+  document.documentElement.dir=language==="ur"?"rtl":"ltr";
 
-document.getElementById("paymentInfo").innerHTML=t.paymentInfo;
-document.getElementById("customer_name").placeholder=t.namePlaceholder;
-document.getElementById("transaction_id").placeholder=t.transactionPlaceholder;
+  const ids=[
+    "formTitle","nameLabel","phoneLabel","fileLabel","fileNote",
+    "paperLabel","typeLabel","pagesLabel","copiesLabel",
+    "rateText","totalLabel","paymentLabel","transactionLabel",
+    "receiptLabel","receiptNote","submitBtn","approvalNote"
+  ];
 
-document.querySelector('#print_type option[value="bw"]').textContent=t.bw;
-document.querySelector('#print_type option[value="color"]').textContent=t.color;
+  ids.forEach(id=>{
+    document.getElementById(id).textContent=t[id];
+  });
 
-document.getElementById("urduBtn").classList.toggle("active",language==="ur");
-document.getElementById("englishBtn").classList.toggle("active",language==="en");
-updatePrice();
+  document.getElementById("paymentInfo").innerHTML=t.paymentInfo;
+  document.getElementById("customer_name").placeholder=t.namePlaceholder;
+  document.getElementById("phone").placeholder=t.phonePlaceholder;
+  document.getElementById("transaction_id").placeholder=t.transactionPlaceholder;
+
+  document.querySelector('#print_type option[value="bw"]').textContent=t.bw;
+  document.querySelector('#print_type option[value="color"]').textContent=t.color;
+
+  document.getElementById("urduBtn").classList.toggle("active",language==="ur");
+  document.getElementById("englishBtn").classList.toggle("active",language==="en");
+
+  updatePrice();
 }
 
 function updatePrice(){
-const pages=Math.max(1,parseInt(document.getElementById("pages").value)||1);
-const copies=Math.max(1,parseInt(document.getElementById("copies").value)||1);
-const rate=document.getElementById("print_type").value==="color"?40:20;
-const amount=rate*pages*copies;
-document.getElementById("totalAmount").textContent=
-amount.toLocaleString("en-US")+" "+translations[currentLanguage].rupee;
-return amount;
+  const pages=parseInt(document.getElementById("pages").value)||1;
+  const copies=parseInt(document.getElementById("copies").value)||1;
+  const rate=document.getElementById("print_type").value==="color"?40:20;
+  const amount=rate*pages*copies;
+
+  document.getElementById("totalAmount").textContent=
+    amount.toLocaleString("en-US")+" "+translations[currentLanguage].rupee;
+
+  return amount;
 }
 
 document.getElementById("pages").addEventListener("input",updatePrice);
@@ -225,127 +409,143 @@ document.getElementById("copies").addEventListener("input",updatePrice);
 document.getElementById("print_type").addEventListener("change",updatePrice);
 
 function getSupabaseClient(){
-if(client)return client;
-if(!window.supabase||!window.QR_PRINT_CONFIG)
-throw new Error("Supabase یا config.js لوڈ نہیں ہوا۔");
+  if(client)return client;
 
-const cfg=window.QR_PRINT_CONFIG;
-if(!cfg.url||!cfg.anonKey)
-throw new Error("config.js میں Supabase URL یا anonKey موجود نہیں۔");
+  if(!window.supabase || !window.QR_PRINT_CONFIG){
+    throw new Error("Supabase یا config.js لوڈ نہیں ہوا۔");
+  }
 
-client=window.supabase.createClient(cfg.url,cfg.anonKey);
-return client;
+  const cfg=window.QR_PRINT_CONFIG;
+
+  if(!cfg.url || !cfg.anonKey){
+    throw new Error("config.js میں Supabase URL یا anonKey موجود نہیں۔");
+  }
+
+  client=window.supabase.createClient(cfg.url,cfg.anonKey);
+  return client;
 }
 
 function extension(file){
-return file.name.split(".").pop().toLowerCase();
+  return file.name.split(".").pop().toLowerCase();
 }
 
 function validPrintFile(file){
-return ["pdf","jpg","jpeg","png"].includes(extension(file))
-&&file.size<=20*1024*1024;
+  return ["pdf","jpg","jpeg","png"].includes(extension(file))
+    && file.size<=20*1024*1024;
 }
 
 function validReceipt(file){
-return !file||(["jpg","jpeg","png"].includes(extension(file))
-&&file.size<=20*1024*1024);
+  return !file || (
+    ["jpg","jpeg","png"].includes(extension(file))
+    && file.size<=20*1024*1024
+  );
 }
 
 document.getElementById("orderForm").addEventListener("submit",async function(event){
-event.preventDefault();
+  event.preventDefault();
 
-const t=translations[currentLanguage];
-const form=this;
-const btn=document.getElementById("submitBtn");
-const resultBox=document.getElementById("resultBox");
-resultBox.style.display="none";
+  const t=translations[currentLanguage];
+  const form=this;
+  const btn=document.getElementById("submitBtn");
+  const resultBox=document.getElementById("resultBox");
 
-const customerName=form.elements.customer_name.value.trim();
-const file=form.elements.printFile.files[0];
-const receipt=form.elements.receiptFile.files[0]||null;
-const pages=parseInt(form.elements.pages.value);
-const copies=parseInt(form.elements.copies.value);
-const amount=updatePrice();
+  resultBox.style.display="none";
 
-if(!customerName||!file||!form.elements.transaction_id.value.trim()
-||!Number.isInteger(pages)||pages<1||pages>500
-||!Number.isInteger(copies)||copies<1||copies>100){
-alert(t.invalid);
-return;
-}
+  const customerName=form.elements.customer_name.value.trim();
+  const phone=form.elements.phone.value.trim();
+  const file=form.elements.printFile.files[0];
+  const receipt=form.elements.receiptFile.files[0]||null;
+  const pages=parseInt(form.elements.pages.value);
+  const copies=parseInt(form.elements.copies.value);
+  const amount=updatePrice();
 
-if(!validPrintFile(file)){
-alert(t.fileError);
-return;
-}
+  if(!customerName || !phone || !file ||
+     !form.elements.transaction_id.value.trim() ||
+     !Number.isInteger(pages) || pages<1 || pages>500 ||
+     !Number.isInteger(copies) || copies<1 || copies>100){
+    alert(t.invalid);
+    return;
+  }
 
-if(!validReceipt(receipt)){
-alert(t.receiptError);
-return;
-}
+  if(!validPrintFile(file)){
+    alert(t.fileError);
+    return;
+  }
 
-btn.disabled=true;
-btn.textContent=t.uploading;
+  if(!validReceipt(receipt)){
+    alert(t.receiptError);
+    return;
+  }
 
-try{
-const db=getSupabaseClient();
-const id=crypto.randomUUID();
-const printPath="orders/"+id+"/print."+extension(file);
+  btn.disabled=true;
+  btn.textContent=t.uploading;
 
-const uploadPrint=await db.storage.from("print-files")
-.upload(printPath,file,{upsert:false});
+  try{
+    const db=getSupabaseClient();
+    const id=crypto.randomUUID();
 
-if(uploadPrint.error)throw uploadPrint.error;
+    const printPath="orders/"+id+"/print."+extension(file);
 
-let receiptPath=null;
+    const uploadPrint=await db.storage
+      .from("print-files")
+      .upload(printPath,file,{upsert:false});
 
-if(receipt){
-receiptPath="orders/"+id+"/receipt."+extension(receipt);
-const uploadReceipt=await db.storage.from("print-files")
-.upload(receiptPath,receipt,{upsert:false});
+    if(uploadPrint.error)throw uploadPrint.error;
 
-if(uploadReceipt.error)throw uploadReceipt.error;
-}
+    let receiptPath=null;
 
-const row={
-p_customer_name:customerName,
-p_phone:"",
-p_file_path:printPath,
-p_paper_size:form.elements.paper_size.value,
-p_print_type:form.elements.print_type.value,
-p_pages:pages,
-p_copies:copies,
-p_payment_method:form.elements.payment_method.value,
-p_transaction_id:form.elements.transaction_id.value.trim(),
-p_receipt_path:receiptPath,
-p_amount:amount
-};
+    if(receipt){
+      receiptPath="orders/"+id+"/receipt."+extension(receipt);
 
-const result=await db.rpc("create_print_order",row);
-if(result.error)throw result.error;
+      const uploadReceipt=await db.storage
+        .from("print-files")
+        .upload(receiptPath,receipt,{upsert:false});
 
-const orderNo=result.data;
+      if(uploadReceipt.error)throw uploadReceipt.error;
+    }
 
-resultBox.style.display="block";
-resultBox.innerHTML=
-"<strong>"+t.success+"</strong><br>"+
-t.orderNo+": <b>"+orderNo+"</b><br>"+
-t.amount+": <b>"+amount+" "+t.rupee+"</b><br>"+
-t.save;
+    const row={
+      p_customer_name:customerName,
+      p_phone:phone,
+      p_file_path:printPath,
+      p_paper_size:form.elements.paper_size.value,
+      p_print_type:form.elements.print_type.value,
+      p_pages:pages,
+      p_copies:copies,
+      p_payment_method:form.elements.payment_method.value,
+      p_transaction_id:form.elements.transaction_id.value.trim(),
+      p_receipt_path:receiptPath,
+      p_amount:amount
+    };
 
-form.reset();
-updatePrice();
+    const result=await db.rpc("create_print_order",row);
 
-}catch(error){
-console.error(error);
-alert(t.error+": "+(error.message||String(error)));
-}finally{
-btn.disabled=false;
-btn.textContent=translations[currentLanguage].submitBtn;
-}
+    if(result.error)throw result.error;
+
+    /* اصل سیریل آرڈر نمبر */
+    const orderNo=result.data;
+
+    resultBox.style.display="block";
+    resultBox.innerHTML=
+      "<strong>"+t.success+"</strong><br>"+
+      t.orderNo+": <b>"+orderNo+"</b><br>"+
+      t.amount+": <b>"+amount+" "+t.rupee+"</b><br>"+
+      t.save;
+
+    form.reset();
+    updatePrice();
+
+  }catch(error){
+    console.error(error);
+    alert(t.error+": "+(error.message||String(error)));
+  }finally{
+    btn.disabled=false;
+    btn.textContent=translations[currentLanguage].submitBtn;
+  }
 });
 
 setLanguage("ur");
 </script>
+
 </body>
 </html>
