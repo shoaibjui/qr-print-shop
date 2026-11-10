@@ -104,27 +104,33 @@ input[type=file]{padding:9px}
   color:var(--green);
   margin-top:3px;
 }
+
+/* Compact professional payment box */
 .payment-box{
   display:none;
   background:#eef7f1;
   border:1px solid #b8dfc4;
-  border-radius:10px;
-  padding:13px;
-  margin-top:12px;
+  border-radius:8px;
+  padding:7px 10px;
+  margin-top:8px;
   text-align:center;
-  line-height:1.9;
+  line-height:1.5;
+  font-size:12px;
 }
 .payment-number{
-  font-size:22px;
+  font-size:18px;
   font-weight:bold;
   color:#126b3a;
   direction:ltr;
+  margin:2px 0;
 }
 .payment-message{
-  font-size:13px;
+  font-size:11px;
   color:#344054;
-  font-weight:bold;
+  font-weight:normal;
+  line-height:1.4;
 }
+
 .preview{
   display:none;
   background:#f7f9fc;
@@ -283,7 +289,6 @@ footer{
   </div>
 </div>
 
-<!-- صرف کل رقم دکھائی جائے گی -->
 <div class="pricebox">
   <div id="totalLabel">کل رقم:</div>
   <div class="price" id="totalAmount">20 روپے</div>
@@ -439,9 +444,6 @@ function setLanguage(language){
  document.querySelector('#print_type option[value="bw"]').textContent=t.bw;
  document.querySelector('#print_type option[value="color"]').textContent=t.color;
 
- document.getElementById("accountTitle").textContent=t.accountTitle;
- document.getElementById("paymentMessage").textContent=t.paymentMessage;
-
  document.getElementById("urduBtn").classList.toggle("active",language==="ur");
  document.getElementById("englishBtn").classList.toggle("active",language==="en");
 
@@ -469,7 +471,6 @@ function updatePaymentInfo(){
    translations[currentLanguage].paymentMessage;
 }
 
-/* قیمتوں کا اندرونی حساب */
 function getRate(type,totalPages){
  if(type==="bw"){
    if(totalPages<=10)return 20;
@@ -485,7 +486,6 @@ function getRate(type,totalPages){
  return 30;
 }
 
-/* کسٹمر کو صرف کل رقم دکھائیں */
 function updatePrice(){
  const pages=parseInt(document.getElementById("pages").value)||1;
  const copies=parseInt(document.getElementById("copies").value)||1;
