@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ur" dir="rtl">
 <head>
@@ -134,6 +135,7 @@ th{background:#edf2f8;color:#102a56}
 
 <script>
 const cfg=window.QR_PRINT_CONFIG||{};
+
 const client=window.supabase.createClient(
  cfg.url||'https://example.supabase.co',
  cfg.anonKey||'placeholder'
@@ -149,6 +151,40 @@ function escapeHtml(s){
  '"':'&quot;',
  "'":'&#39;'
  }[c]));
+}
+
+/* نئی قیمتوں کا حساب */
+function getRate(type,totalPages){
+
+ if(type==='bw'){
+  if(totalPages<=10)return 20;
+  if(totalPages<=30)return 15;
+  if(totalPages<=60)return 13;
+  if(totalPages<=100)return 12;
+  return 10;
+ }
+
+ if(type==='color'){
+  if(totalPages<=20)return 40;
+  if(totalPages<=50)return 36;
+  if(totalPages<=100)return 32;
+  return 30;
+ }
+
+ return 0;
+}
+
+/* ہر آرڈر کی کل رقم */
+function calculateOrderAmount(order){
+
+ const pages=Number(order.pages)||0;
+ const copies=Number(order.copies)||0;
+
+ const totalPages=pages*copies;
+
+ const rate=getRate(order.print_type,totalPages);
+
+ return totalPages*rate;
 }
 
 async function load(){
@@ -184,25 +220,38 @@ async function load(){
    ${o.print_type==='color'?'رنگین':'B&W'} ·
    ${escapeHtml(o.pages)} صفحات × ${escapeHtml(o.copies)}`;
 
+  /* نئے ریٹس کے مطابق رقم */
+  const newAmount=calculateOrderAmount(o);
+
   tr.innerHTML=`
    <td>${escapeHtml(o.id)}</td>
+
    <td>
     ${escapeHtml(o.customer_name)}<br>
     ${escapeHtml(o.phone)}
    </td>
+
    <td>${details}</td>
+
    <td>
     ${escapeHtml(o.payment_method)}<br>
     ${escapeHtml(o.transaction_id)}
    </td>
-   <td>${escapeHtml(o.amount)} روپے</td>
+
+   <td><strong>${newAmount.toLocaleString('en-US')} روپے</strong></td>
+
    <td class="status">${escapeHtml(o.status)}</td>
+
    <td>
     <button data-file="${escapeHtml(o.file_path)}">فائل</button>
+
     ${o.receipt_path?
     `<button class="secondary" data-file="${escapeHtml(o.receipt_path)}">رسید</button>`:''}
+
     <button class="success" data-status="approved" data-id="${escapeHtml(o.id)}">منظور</button>
+
     <button class="danger" data-status="rejected" data-id="${escapeHtml(o.id)}">مسترد</button>
+
     <button class="secondary" data-status="printed" data-id="${escapeHtml(o.id)}">پرنٹ مکمل</button>
    </td>
   `;
@@ -300,4 +349,3 @@ client.auth.getSession().then(({data})=>{
 
 </body>
 </html>
-
