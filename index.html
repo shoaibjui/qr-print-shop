@@ -104,11 +104,6 @@ input[type=file]{padding:9px}
   color:var(--green);
   margin-top:3px;
 }
-.discount-note{
-  color:#126b3a;
-  font-weight:bold;
-  margin-top:5px;
-}
 .payment-box{
   display:none;
   background:#eef7f1;
@@ -214,8 +209,7 @@ footer{
 <body>
 
 <header>
-  <img src="usmani-print-logo-2.png"
-       alt="USMANI PRINT">
+  <img src="usmani-print-logo-2.png" alt="USMANI PRINT">
 </header>
 
 <div class="lang">
@@ -289,16 +283,10 @@ footer{
   </div>
 </div>
 
+<!-- صرف کل رقم دکھائی جائے گی -->
 <div class="pricebox">
-  <div id="rateText">
-    بلیک اینڈ وائٹ: 1–10 صفحات 20، 11–30 صفحات 15،
-    31–60 صفحات 13، 61–100 صفحات 12، 101 سے زیادہ 10 روپے۔
-    کلر: 1–20 صفحات 40، 21–50 صفحات 36،
-    51–100 صفحات 32، 101 سے زیادہ 30 روپے۔
-  </div>
   <div id="totalLabel">کل رقم:</div>
   <div class="price" id="totalAmount">20 روپے</div>
-  <div class="discount-note" id="discountNote"></div>
 </div>
 
 <label id="paymentLabel" for="payment_method">ادائیگی کا طریقہ</label>
@@ -365,7 +353,6 @@ ur:{
  color:"کلر",
  pagesLabel:"صفحات کی تعداد",
  copiesLabel:"کاپیوں کی تعداد",
- rateText:"بلیک اینڈ وائٹ: 1–10 صفحات 20، 11–30 صفحات 15، 31–60 صفحات 13، 61–100 صفحات 12، 101 سے زیادہ 10 روپے۔ کلر: 1–20 صفحات 40، 21–50 صفحات 36، 51–100 صفحات 32، 101 سے زیادہ 30 روپے۔",
  totalLabel:"کل رقم:",
  paymentLabel:"ادائیگی کا طریقہ",
  accountTitle:"اکاؤنٹ نمبر",
@@ -384,10 +371,7 @@ ur:{
  invalid:"براہ کرم تمام معلومات درست درج کریں۔",
  fileError:"فائل PDF، JPG یا PNG ہو اور 20MB سے زیادہ نہ ہو۔",
  receiptError:"رسید JPG یا PNG ہونی چاہیے اور 20MB سے زیادہ نہ ہو۔",
- rupee:"روپے",
- units:"کل پرنٹ صفحات",
- rate:"فی صفحہ قیمت",
- discount:"آپ کو ڈسکاؤنٹ مل رہا ہے۔"
+ rupee:"روپے"
 },
 en:{
  formTitle:"Submit Printing Order",
@@ -404,7 +388,6 @@ en:{
  color:"Color",
  pagesLabel:"Number of Pages",
  copiesLabel:"Number of Copies",
- rateText:"B&W: 1–10 pages Rs 20, 11–30 Rs 15, 31–60 Rs 13, 61–100 Rs 12, above 100 Rs 10. Color: 1–20 pages Rs 40, 21–50 Rs 36, 51–100 Rs 32, above 100 Rs 30.",
  totalLabel:"Total Amount:",
  paymentLabel:"Payment Method",
  accountTitle:"Account Number",
@@ -423,10 +406,7 @@ en:{
  invalid:"Please enter all information correctly.",
  fileError:"File must be PDF, JPG or PNG and no larger than 20MB.",
  receiptError:"Receipt must be JPG or PNG and no larger than 20MB.",
- rupee:"Rs",
- units:"Total printed pages",
- rate:"Price per page",
- discount:"Discount applied."
+ rupee:"Rs"
 }
 };
 
@@ -444,7 +424,7 @@ function setLanguage(language){
  const ids=[
  "formTitle","nameLabel","phoneLabel","fileLabel","fileNote",
  "previewTitle","paperLabel","typeLabel","pagesLabel",
- "copiesLabel","rateText","totalLabel","paymentLabel",
+ "copiesLabel","totalLabel","paymentLabel",
  "transactionLabel","receiptLabel","receiptNote","submitBtn"
  ];
 
@@ -489,6 +469,7 @@ function updatePaymentInfo(){
    translations[currentLanguage].paymentMessage;
 }
 
+/* قیمتوں کا اندرونی حساب */
 function getRate(type,totalPages){
  if(type==="bw"){
    if(totalPages<=10)return 20;
@@ -504,6 +485,7 @@ function getRate(type,totalPages){
  return 30;
 }
 
+/* کسٹمر کو صرف کل رقم دکھائیں */
 function updatePrice(){
  const pages=parseInt(document.getElementById("pages").value)||1;
  const copies=parseInt(document.getElementById("copies").value)||1;
@@ -516,10 +498,6 @@ function updatePrice(){
 
  document.getElementById("totalAmount").textContent=
    amount.toLocaleString("en-US")+" "+t.rupee;
-
- document.getElementById("discountNote").textContent=
-   t.units+": "+totalPages+" | "+t.rate+": "+rate+" "+t.rupee+
-   (totalPages>(type==="bw"?10:20)?" | "+t.discount:"");
 
  return amount;
 }
