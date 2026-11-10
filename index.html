@@ -62,11 +62,24 @@ main{
   padding:16px;
   box-shadow:0 3px 12px #1720330c;
 }
+
+/* Welcome heading */
 h2{
   margin:0 0 15px;
-  font-size:21px;
+  font-size:22px;
   text-align:center;
+  font-weight:bold;
+  background:linear-gradient(90deg,#126b3a,#d49b18,#126b3a);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:welcomeBlink 1.5s ease-in-out infinite;
 }
+@keyframes welcomeBlink{
+  0%,100%{opacity:1}
+  50%{opacity:.45}
+}
+
 label{
   display:block;
   margin:12px 0 6px;
@@ -105,7 +118,7 @@ input[type=file]{padding:9px}
   margin-top:3px;
 }
 
-/* Compact professional payment box */
+/* Compact Payment Box */
 .payment-box{
   display:none;
   background:#eef7f1;
@@ -208,6 +221,7 @@ footer{
 @media(max-width:480px){
   .grid{grid-template-columns:1fr}
   .card{padding:13px}
+  h2{font-size:19px}
 }
 </style>
 </head>
@@ -228,7 +242,7 @@ footer{
 <main>
 <section class="card">
 
-<h2 id="formTitle">پرنٹنگ آرڈر جمع کریں</h2>
+<h2 id="formTitle">السلام علیکم! ہماری ویب سائٹ پر آنے پر خوش آمدید 🌹</h2>
 
 <form id="orderForm">
 
@@ -344,7 +358,7 @@ const MAX_FILE_SIZE=20*1024*1024;
 
 const translations={
 ur:{
- formTitle:"پرنٹنگ آرڈر جمع کریں",
+ formTitle:"السلام علیکم! ہماری ویب سائٹ پر آنے پر خوش آمدید 🌹",
  nameLabel:"آپ کا نام",
  namePlaceholder:"اپنا نام لکھیں",
  phoneLabel:"موبائل نمبر",
@@ -379,7 +393,7 @@ ur:{
  rupee:"روپے"
 },
 en:{
- formTitle:"Submit Printing Order",
+ formTitle:"Welcome to Our Website! 🌹",
  nameLabel:"Your Name",
  namePlaceholder:"Enter your name",
  phoneLabel:"Mobile Number",
