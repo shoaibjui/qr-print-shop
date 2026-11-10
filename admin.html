@@ -66,7 +66,7 @@ table{width:100%;border-collapse:collapse;min-width:850px}
 th,td{
  padding:11px;
  border-bottom:1px solid #eaecf0;
- text-align:right;
+ text-align:start;
  font-size:14px
 }
 th{background:#edf2f8;color:#102a56}
@@ -74,20 +74,26 @@ th{background:#edf2f8;color:#102a56}
 #loginMsg{margin-top:12px;overflow-wrap:anywhere}
 .login-title{color:#102a56}
 .footer{text-align:center;color:#667085;font-size:12px;padding:15px}
+.langbar{text-align:end;margin-bottom:12px}
+.langbar button{background:#d4ad55;color:#102a56;font-weight:700}
 </style>
 </head>
 
 <body>
 <main>
 
+<div class="langbar">
+ <button id="languageBtn" type="button">English</button>
+</div>
+
 <div class="brand">
  <img src="usmani-print-logo.png" alt="USMANI PRINT">
- <h2>ایڈمن پینل</h2>
+ <h2 id="adminTitle">ایڈمن پینل</h2>
 </div>
 
 <section class="card" id="loginBox">
- <h2 class="login-title">مالک کا لاگ اِن</h2>
- <p class="muted">یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔</p>
+ <h2 class="login-title" id="loginTitle">مالک کا لاگ اِن</h2>
+ <p class="muted" id="loginInfo">یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔</p>
  <input id="email" type="email" placeholder="مالک کا ای میل">
  <input id="password" type="password" placeholder="پاس ورڈ">
  <button id="login">لاگ اِن کریں</button>
@@ -99,7 +105,7 @@ th{background:#edf2f8;color:#102a56}
  <div class="card">
   <button id="refresh">آرڈرز تازہ کریں</button>
   <button class="secondary" id="logout">لاگ آؤٹ</button>
-  <p class="muted">
+  <p class="muted" id="orderInfo">
    فائل دیکھنے کے لیے فائل کا بٹن دبائیں۔
    آرڈر منظور کرنے سے پہلے ادائیگی اپنے JazzCash یا Easypaisa اکاؤنٹ میں لازماً چیک کریں۔
   </p>
@@ -109,13 +115,13 @@ th{background:#edf2f8;color:#102a56}
   <table>
    <thead>
     <tr>
-     <th>آرڈر</th>
-     <th>گاہک</th>
-     <th>تفصیل</th>
-     <th>ادائیگی</th>
-     <th>رقم</th>
-     <th>حالت</th>
-     <th>عمل</th>
+     <th data-i18n="order">آرڈر</th>
+     <th data-i18n="customer">گاہک</th>
+     <th data-i18n="details">تفصیل</th>
+     <th data-i18n="payment">ادائیگی</th>
+     <th data-i18n="amount">رقم</th>
+     <th data-i18n="status">حالت</th>
+     <th data-i18n="actions">عمل</th>
     </tr>
    </thead>
    <tbody id="rows"></tbody>
@@ -143,15 +149,136 @@ const client=window.supabase.createClient(
 
 const $=id=>document.getElementById(id);
 
+let currentLang='ur';
+let currentOrders=[];
+
+const translations={
+ ur:{
+  adminTitle:'ایڈمن پینل',
+  loginTitle:'مالک کا لاگ اِن',
+  loginInfo:'یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔',
+  email:'مالک کا ای میل',
+  password:'پاس ورڈ',
+  login:'لاگ اِن کریں',
+  refresh:'آرڈرز تازہ کریں',
+  logout:'لاگ آؤٹ',
+  orderInfo:'فائل دیکھنے کے لیے فائل کا بٹن دبائیں۔ آرڈر منظور کرنے سے پہلے ادائیگی اپنے JazzCash یا Easypaisa اکاؤنٹ میں لازماً چیک کریں۔',
+  order:'آرڈر',
+  customer:'گاہک',
+  details:'تفصیل',
+  payment:'ادائیگی',
+  amount:'رقم',
+  status:'حالت',
+  actions:'عمل',
+  file:'فائل',
+  receipt:'رسید',
+  approve:'منظور',
+  reject:'مسترد',
+  printed:'پرنٹ مکمل',
+  loading:'آرڈرز لوڈ ہو رہے ہیں...',
+  loginLoading:'لاگ اِن ہو رہا ہے...',
+  enterLogin:'ای میل اور پاس ورڈ درج کریں۔',
+  noOrders:'ابھی کوئی آرڈر موجود نہیں۔',
+  error:'خرابی: ',
+  loginError:'لاگ اِن کی خرابی: ',
+  fileError:'فائل کھولنے میں خرابی: ',
+  confirm:'کیا آپ واقعی یہ آرڈر ',
+  confirmEnd:' کرنا چاہتے ہیں؟',
+  changed:'آرڈر کی حالت تبدیل ہوگئی۔',
+  fileType:'فائل',
+  bw:'بلیک اینڈ وائٹ',
+  color:'رنگین',
+  pages:'صفحات',
+  copies:'کاپیاں',
+  rupee:'روپے',
+  fileOpen:'فائل کھولیں',
+  receiptOpen:'رسید کھولیں'
+ },
+ en:{
+  adminTitle:'Admin Panel',
+  loginTitle:'Owner Login',
+  loginInfo:'Only the shop owner’s Supabase Auth account should be used here.',
+  email:'Owner Email',
+  password:'Password',
+  login:'Login',
+  refresh:'Refresh Orders',
+  logout:'Logout',
+  orderInfo:'Press the File button to view a document. Always verify payment in your JazzCash or Easypaisa account before approving an order.',
+  order:'Order',
+  customer:'Customer',
+  details:'Details',
+  payment:'Payment',
+  amount:'Amount',
+  status:'Status',
+  actions:'Actions',
+  file:'File',
+  receipt:'Receipt',
+  approve:'Approve',
+  reject:'Reject',
+  printed:'Printed',
+  loading:'Loading orders...',
+  loginLoading:'Logging in...',
+  enterLogin:'Please enter email and password.',
+  noOrders:'No orders available yet.',
+  error:'Error: ',
+  loginError:'Login error: ',
+  fileError:'Error opening file: ',
+  confirm:'Are you sure you want to mark this order as ',
+  confirmEnd:'?',
+  changed:'Order status updated.',
+  fileType:'File',
+  bw:'Black & White',
+  color:'Color',
+  pages:'pages',
+  copies:'copies',
+  rupee:'PKR',
+  fileOpen:'Open File',
+  receiptOpen:'Open Receipt'
+ }
+};
+
+function t(key){
+ return translations[currentLang][key]||key;
+}
+
 function escapeHtml(s){
  return String(s??'').replace(/[&<>"']/g,c=>({
- '&':'&amp;',
- '<':'&lt;',
- '>':'&gt;',
- '"':'&quot;',
- "'":'&#39;'
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
  }[c]));
 }
+
+function setLanguage(lang){
+ currentLang=lang;
+
+ document.documentElement.lang=lang;
+ document.documentElement.dir=lang==='ur'?'rtl':'ltr';
+
+ $('languageBtn').textContent=lang==='ur'?'English':'اردو';
+
+ $('adminTitle').textContent=t('adminTitle');
+ $('loginTitle').textContent=t('loginTitle');
+ $('loginInfo').textContent=t('loginInfo');
+ $('email').placeholder=t('email');
+ $('password').placeholder=t('password');
+ $('login').textContent=t('login');
+ $('refresh').textContent=t('refresh');
+ $('logout').textContent=t('logout');
+ $('orderInfo').textContent=t('orderInfo');
+
+ document.querySelectorAll('[data-i18n]').forEach(el=>{
+  el.textContent=t(el.dataset.i18n);
+ });
+
+ renderOrders();
+}
+
+$('languageBtn').onclick=()=>{
+ setLanguage(currentLang==='ur'?'en':'ur');
+};
 
 /* نئی قیمتوں کا حساب */
 function getRate(type,totalPages){
@@ -179,7 +306,6 @@ function calculateOrderAmount(order){
 
  const pages=Number(order.pages)||0;
  const copies=Number(order.copies)||0;
-
  const totalPages=pages*copies;
 
  const rate=getRate(order.print_type,totalPages);
@@ -187,41 +313,42 @@ function calculateOrderAmount(order){
  return totalPages*rate;
 }
 
-async function load(){
+/* آرڈرز دکھانا */
+function renderOrders(){
 
- $('loginMsg').textContent='آرڈرز لوڈ ہو رہے ہیں...';
-
- const {data,error}=await client
- .from('orders')
- .select('*')
- .order('created_at',{ascending:false})
- .limit(100);
-
- if(error){
-  $('loginMsg').textContent='خرابی: '+error.message;
-  return;
- }
-
- $('loginMsg').textContent='';
  $('rows').innerHTML='';
 
- if(!data.length){
+ if(!currentOrders.length){
   $('rows').innerHTML=
-   '<tr><td colspan="7">ابھی کوئی آرڈر موجود نہیں۔</td></tr>';
+   `<tr><td colspan="7">${t('noOrders')}</td></tr>`;
   return;
  }
 
- for(const o of data){
+ for(const o of currentOrders){
 
   const tr=document.createElement('tr');
 
-  const details=
-   `${escapeHtml(o.paper_size)} ·
-   ${o.print_type==='color'?'رنگین':'B&W'} ·
-   ${escapeHtml(o.pages)} صفحات × ${escapeHtml(o.copies)}`;
+  const pages=Number(o.pages)||0;
+  const copies=Number(o.copies)||0;
 
-  /* نئے ریٹس کے مطابق رقم */
+  const printType=o.print_type==='color'?t('color'):t('bw');
+
+  const details=`
+   ${escapeHtml(o.paper_size)} ·
+   ${printType} ·
+   ${escapeHtml(pages)} ${t('pages')} ×
+   ${escapeHtml(copies)} ${t('copies')}
+  `;
+
   const newAmount=calculateOrderAmount(o);
+
+  const statusLabels={
+   approved:t('approve'),
+   rejected:t('reject'),
+   printed:t('printed')
+  };
+
+  const displayStatus=statusLabels[o.status]||o.status||'-';
 
   tr.innerHTML=`
    <td>${escapeHtml(o.id)}</td>
@@ -238,21 +365,21 @@ async function load(){
     ${escapeHtml(o.transaction_id)}
    </td>
 
-   <td><strong>${newAmount.toLocaleString('en-US')} روپے</strong></td>
+   <td><strong>${newAmount.toLocaleString('en-US')} ${t('rupee')}</strong></td>
 
-   <td class="status">${escapeHtml(o.status)}</td>
+   <td class="status">${escapeHtml(displayStatus)}</td>
 
    <td>
-    <button data-file="${escapeHtml(o.file_path)}">فائل</button>
+    <button data-file="${escapeHtml(o.file_path)}">${t('file')}</button>
 
     ${o.receipt_path?
-    `<button class="secondary" data-file="${escapeHtml(o.receipt_path)}">رسید</button>`:''}
+    `<button class="secondary" data-file="${escapeHtml(o.receipt_path)}">${t('receipt')}</button>`:''}
 
-    <button class="success" data-status="approved" data-id="${escapeHtml(o.id)}">منظور</button>
+    <button class="success" data-status="approved" data-id="${escapeHtml(o.id)}">${t('approve')}</button>
 
-    <button class="danger" data-status="rejected" data-id="${escapeHtml(o.id)}">مسترد</button>
+    <button class="danger" data-status="rejected" data-id="${escapeHtml(o.id)}">${t('reject')}</button>
 
-    <button class="secondary" data-status="printed" data-id="${escapeHtml(o.id)}">پرنٹ مکمل</button>
+    <button class="secondary" data-status="printed" data-id="${escapeHtml(o.id)}">${t('printed')}</button>
    </td>
   `;
 
@@ -260,17 +387,39 @@ async function load(){
  }
 }
 
+/* آرڈرز لوڈ */
+async function load(){
+
+ $('loginMsg').textContent=t('loading');
+
+ const {data,error}=await client
+  .from('orders')
+  .select('*')
+  .order('created_at',{ascending:false})
+  .limit(100);
+
+ if(error){
+  $('loginMsg').textContent=t('error')+error.message;
+  return;
+ }
+
+ currentOrders=data||[];
+ $('loginMsg').textContent='';
+ renderOrders();
+}
+
+/* لاگ اِن */
 $('login').onclick=async()=>{
 
  const email=$('email').value.trim();
  const password=$('password').value;
 
  if(!email||!password){
-  $('loginMsg').textContent='ای میل اور پاس ورڈ درج کریں۔';
+  $('loginMsg').textContent=t('enterLogin');
   return;
  }
 
- $('loginMsg').textContent='لاگ اِن ہو رہا ہے...';
+ $('loginMsg').textContent=t('loginLoading');
 
  const {error}=await client.auth.signInWithPassword({
   email,
@@ -278,22 +427,25 @@ $('login').onclick=async()=>{
  });
 
  if(error){
-  $('loginMsg').textContent='لاگ اِن کی خرابی: '+error.message;
+  $('loginMsg').textContent=t('loginError')+error.message;
   return;
  }
 
  $('loginBox').style.display='none';
  $('orders').style.display='block';
+
  load();
 };
 
 $('refresh').onclick=load;
 
+/* لاگ آؤٹ */
 $('logout').onclick=async()=>{
  await client.auth.signOut();
  location.reload();
 };
 
+/* فائل، رسید اور آرڈر کی حالت */
 $('rows').onclick=async e=>{
 
  const b=e.target.closest('button');
@@ -306,7 +458,7 @@ $('rows').onclick=async e=>{
    .createSignedUrl(b.dataset.file,300);
 
   if(error){
-   alert('فائل کھولنے میں خرابی: '+error.message);
+   alert(t('fileError')+error.message);
   }else{
    window.open(data.signedUrl,'_blank');
   }
@@ -315,12 +467,12 @@ $('rows').onclick=async e=>{
  if(b.dataset.status){
 
   const labels={
-   approved:'منظور',
-   rejected:'مسترد',
-   printed:'پرنٹ مکمل'
+   approved:t('approve'),
+   rejected:t('reject'),
+   printed:t('printed')
   };
 
-  if(!confirm('کیا آپ واقعی یہ آرڈر '+labels[b.dataset.status]+' کرنا چاہتے ہیں؟')){
+  if(!confirm(t('confirm')+labels[b.dataset.status]+t('confirmEnd'))){
    return;
   }
 
@@ -330,14 +482,15 @@ $('rows').onclick=async e=>{
    .eq('id',b.dataset.id);
 
   if(error){
-   alert('خرابی: '+error.message);
+   alert(t('error')+error.message);
   }else{
-   alert('آرڈر کی حالت تبدیل ہوگئی۔');
+   alert(t('changed'));
    load();
   }
  }
 };
 
+/* پہلے سے لاگ اِن سیشن */
 client.auth.getSession().then(({data})=>{
  if(data.session){
   $('loginBox').style.display='none';
@@ -345,6 +498,10 @@ client.auth.getSession().then(({data})=>{
   load();
  }
 });
+
+/* ابتدائی زبان اردو */
+setLanguage('ur');
+
 </script>
 
 </body>
