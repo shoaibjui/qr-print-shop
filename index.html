@@ -101,21 +101,22 @@ input[type=file]{padding:9px}
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
+
+/* Professional total amount */
 .pricebox{
-  background:#f7f9fc;
-  border:1px solid #e2e8f0;
+  background:#f0f8f2;
+  border:1px solid #c7e3cf;
   padding:10px 12px;
   border-radius:8px;
   margin-top:10px;
-  line-height:1.7;
-  font-size:13px;
-  color:#344054;
+  text-align:center;
 }
 .price{
   font-size:21px;
   font-weight:700;
   color:var(--green);
-  margin-top:3px;
+  direction:inherit;
+  line-height:1.5;
 }
 
 /* Compact Payment Box */
@@ -222,6 +223,7 @@ footer{
   .grid{grid-template-columns:1fr}
   .card{padding:13px}
   h2{font-size:19px}
+  .price{font-size:19px}
 }
 </style>
 </head>
@@ -304,8 +306,7 @@ footer{
 </div>
 
 <div class="pricebox">
-  <div id="totalLabel">کل رقم:</div>
-  <div class="price" id="totalAmount">20 روپے</div>
+  <div class="price" id="totalAmount">کل رقم: 20 روپے</div>
 </div>
 
 <label id="paymentLabel" for="payment_method">ادائیگی کا طریقہ</label>
@@ -443,8 +444,8 @@ function setLanguage(language){
  const ids=[
  "formTitle","nameLabel","phoneLabel","fileLabel","fileNote",
  "previewTitle","paperLabel","typeLabel","pagesLabel",
- "copiesLabel","totalLabel","paymentLabel",
- "transactionLabel","receiptLabel","receiptNote","submitBtn"
+ "copiesLabel","paymentLabel","transactionLabel",
+ "receiptLabel","receiptNote","submitBtn"
  ];
 
  ids.forEach(id=>{
@@ -508,10 +509,12 @@ function updatePrice(){
  const totalPages=pages*copies;
  const rate=getRate(type,totalPages);
  const amount=rate*totalPages;
- const t=translations[currentLanguage];
+
+ const label=currentLanguage==="ur"?"کل رقم: ":"Total Amount: Rs ";
 
  document.getElementById("totalAmount").textContent=
-   amount.toLocaleString("en-US")+" "+t.rupee;
+   label+amount.toLocaleString("en-US")+
+   (currentLanguage==="ur"?" روپے":"");
 
  return amount;
 }
