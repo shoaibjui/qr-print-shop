@@ -21,15 +21,12 @@ body{
  color:var(--ink);
  font-family:system-ui,"Noto Nastaliq Urdu",Arial,sans-serif
 }
-
-/* Professional Header */
 header{
  background:#126b3a;
  color:white;
  padding:5px 0;
  text-align:center;
  width:100%;
- box-sizing:border-box;
 }
 header img{
  width:100%;
@@ -47,7 +44,6 @@ header p{
  line-height:1.7;
  text-align:center;
 }
-
 main{
  max-width:720px;
  margin:22px auto;
@@ -110,8 +106,6 @@ input[type=file]{padding:9px;font-size:14px}
  margin-top:16px
 }
 .btn:disabled{opacity:.6}
-
-/* Payment confirmation notice */
 .notice{
  margin-top:14px;
  padding:14px;
@@ -123,7 +117,6 @@ input[type=file]{padding:9px;font-size:14px}
  line-height:1.9;
  text-align:center;
 }
-
 .payment-box{
  margin:12px 0;
  padding:15px;
@@ -247,7 +240,6 @@ footer{
 <script src="config.js"></script>
 
 <script>
-// ادائیگی کے اکاؤنٹس
 const accounts = {
  JazzCash: '03065612619',
  Easypaisa: '03337612619'
@@ -350,6 +342,7 @@ form.addEventListener('submit',async e=>{
   if(receipt){
    const rext=receipt.name.split('.').pop().toLowerCase();
    receiptPath='orders/'+id+'/receipt.'+rext;
+
    const ru=await client.storage.from('print-files').upload(
     receiptPath,receipt,{upsert:false,contentType:receipt.type}
    );
@@ -360,27 +353,32 @@ form.addEventListener('submit',async e=>{
   const amount=rate*pages*copies;
 
   const row={
-   customer_name:form.elements.customer_name.value.trim(),
-   phone:form.elements.phone.value.trim(),
-   file_path:filePath,
-   paper_size:form.elements.paper_size.value,
-   print_type:form.elements.print_type.value,
-   pages,
-   copies,
-   payment_method:form.elements.payment_method.value,
-   transaction_id:form.elements.transaction_id.value.trim(),
-   receipt_path:receiptPath,
-   amount,
-   status:'pending'
+   p_customer_name:form.elements.customer_name.value.trim(),
+   p_phone:form.elements.phone.value.trim(),
+   p_file_path:filePath,
+   p_paper_size:form.elements.paper_size.value,
+   p_print_type:form.elements.print_type.value,
+   p_pages:pages,
+   p_copies:copies,
+   p_payment_method:form.elements.payment_method.value,
+   p_transaction_id:form.elements.transaction_id.value.trim(),
+   p_receipt_path:receiptPath,
+   p_amount:amount
   };
 
   stage='آرڈر محفوظ کرنا';
-  const ins=await client.from('orders').insert(row);
-  if(ins.error)throw ins.error;
+
+  const result=await client.rpc('create_print_order',row);
+  if(result.error)throw result.error;
+
+  const orderNo=result.data;
 
   msg.className='ok';
-  msg.textContent='آپ کا آرڈر جمع ہوگیا!\nآرڈر نمبر: '+id+
-   '\nتخمینی رقم: '+amount+' روپے\nادائیگی کی تصدیق کے بعد دکان کا مالک پرنٹنگ کرے گا۔';
+  msg.textContent=
+   'آپ کا آرڈر جمع ہوگیا!\n'+
+   'آرڈر نمبر: '+orderNo+
+   '\nتخمینی رقم: '+amount+' روپے'+
+   '\nادائیگی کی تصدیق کے بعد دکان کا مالک پرنٹنگ کرے گا۔';
 
   form.reset();
   price();
