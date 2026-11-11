@@ -21,7 +21,6 @@ body{
   color:var(--ink);
   font-family:Arial,system-ui,sans-serif;
 }
-
 header{
   width:100%;
   background:#fff;
@@ -35,7 +34,7 @@ header img{
   background:#fff;
 }
 
-/* Language buttons fixed position */
+/* Language buttons fixed */
 .lang{
   display:flex;
   flex-direction:row;
@@ -62,7 +61,6 @@ main{
   margin:12px auto;
   padding:0 12px 25px;
 }
-
 .card{
   background:white;
   border:1px solid var(--border);
@@ -71,7 +69,6 @@ main{
   box-shadow:0 3px 12px #1720330c;
 }
 
-/* Welcome heading */
 h2{
   margin:0 0 15px;
   font-size:22px;
@@ -94,7 +91,6 @@ label{
   font-weight:bold;
   font-size:14px;
 }
-
 input,select{
   width:100%;
   padding:12px;
@@ -112,7 +108,7 @@ input[type=file]{padding:9px}
   gap:10px;
 }
 
-/* Total Amount Blue */
+/* Blue Total Amount */
 .pricebox{
   background:#f0f6ff;
   border:1px solid #c6daf5;
@@ -129,7 +125,7 @@ input[type=file]{padding:9px}
   line-height:1.5;
 }
 
-/* Professional Payment Box */
+/* Payment Box */
 .payment-box{
   display:none;
   background:#eef7f1;
@@ -139,42 +135,27 @@ input[type=file]{padding:9px}
   margin-top:8px;
   text-align:center;
   line-height:1.5;
-  font-size:12px;
 }
 
 .payment-heading{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:9px;
+  gap:10px;
   flex-wrap:wrap;
   font-weight:bold;
   font-size:15px;
-  margin-bottom:7px;
+  margin-bottom:8px;
 }
 
 .payment-logo{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width:85px;
-  height:30px;
-  padding:3px 9px;
-  border-radius:6px;
+  display:block;
+  width:110px;
+  height:42px;
+  object-fit:contain;
   background:white;
-  font-weight:bold;
-  font-size:14px;
-  direction:ltr;
-}
-
-.jazz-logo{
-  color:#e32626;
-  border:1px solid #e32626;
-}
-
-.easy-logo{
-  color:#008b43;
-  border:1px solid #008b43;
+  border-radius:7px;
+  padding:4px 7px;
 }
 
 .payment-number{
@@ -182,17 +163,17 @@ input[type=file]{padding:9px}
   font-weight:bold;
   color:#126b3a;
   direction:ltr;
-  margin:5px 0;
+  margin:6px 0;
 }
 
 .payment-message{
   font-size:12px;
   color:#d00000;
   font-weight:bold;
-  line-height:1.6;
+  line-height:1.7;
 }
 
-/* File Preview */
+/* Preview */
 .preview{
   display:none;
   background:#f7f9fc;
@@ -231,7 +212,6 @@ input[type=file]{padding:9px}
   direction:ltr;
   overflow-wrap:anywhere;
 }
-
 .notice{
   font-size:13px;
   color:#667085;
@@ -239,7 +219,7 @@ input[type=file]{padding:9px}
   margin-top:10px;
 }
 
-/* Submit Button */
+/* Submit */
 .submit{
   width:100%;
   border:0;
@@ -253,7 +233,6 @@ input[type=file]{padding:9px}
 }
 .submit:disabled{opacity:.6}
 
-/* Order Result */
 .result{
   display:none;
   margin-top:15px;
@@ -279,6 +258,7 @@ footer{
   .card{padding:13px}
   h2{font-size:19px}
   .price{font-size:19px}
+  .payment-logo{width:100px;height:38px}
 }
 </style>
 </head>
@@ -293,7 +273,6 @@ footer{
 <div class="lang" dir="ltr">
   <button type="button" id="englishBtn"
           onclick="setLanguage('en')">English</button>
-
   <button type="button" id="urduBtn"
           class="active" onclick="setLanguage('ur')">اردو</button>
 </div>
@@ -324,10 +303,9 @@ footer{
        type="file" accept=".pdf,.jpg,.jpeg,.png" required>
 
 <div class="notice" id="fileNote">
-صرف PDF، JPG یا PNG فائل منتخب کریں۔ زیادہ سے زیادہ 20MB۔
+صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔
 </div>
 
-<!-- File Preview -->
 <div class="preview" id="filePreview">
   <div class="preview-title" id="previewTitle">فائل کا پریویو</div>
   <img id="imagePreview" alt="File Preview" style="display:none">
@@ -335,7 +313,6 @@ footer{
   <div class="file-details" id="fileDetails"></div>
 </div>
 
-<!-- Paper and Print Type -->
 <div class="grid">
   <div>
     <label id="paperLabel" for="paper_size">پیپر سائز</label>
@@ -354,7 +331,6 @@ footer{
   </div>
 </div>
 
-<!-- Pages and Copies -->
 <div class="grid">
   <div>
     <label id="pagesLabel" for="pages">صفحات کی تعداد</label>
@@ -371,12 +347,9 @@ footer{
 
 <!-- Total Amount -->
 <div class="pricebox">
-  <div class="price" id="totalAmount">
-    کل رقم: 20 روپے
-  </div>
+  <div class="price" id="totalAmount">کل رقم: 20 روپے</div>
 </div>
 
-<!-- Payment Method -->
 <label id="paymentLabel" for="payment_method">
 ادائیگی کا طریقہ
 </label>
@@ -386,18 +359,18 @@ footer{
   <option value="Easypaisa">Easypaisa</option>
 </select>
 
-<!-- Payment Account -->
+<!-- Real Payment Logos -->
 <div class="payment-box" id="paymentBox">
 
   <div class="payment-heading">
 
-    <span class="payment-logo jazz-logo" id="paymentLogo">
-      JazzCash
-    </span>
+    <img
+      id="paymentLogo"
+      class="payment-logo"
+      src="https://www.veon.com/fileadmin/static_assets/brands/JazzCash.svg"
+      alt="JazzCash Logo">
 
-    <strong id="accountTitle">
-      JazzCash اکاؤنٹ نمبر
-    </strong>
+    <strong id="accountTitle">اکاؤنٹ نمبر</strong>
 
   </div>
 
@@ -411,7 +384,6 @@ footer{
 
 </div>
 
-<!-- Transaction ID -->
 <label id="transactionLabel" for="transaction_id">
 ٹرانزیکشن آئی ڈی
 </label>
@@ -420,7 +392,6 @@ footer{
        type="text" required maxlength="100"
        placeholder="ٹرانزیکشن آئی ڈی درج کریں">
 
-<!-- Receipt -->
 <label id="receiptLabel" for="receiptFile">
 ادائیگی کی رسید (اختیاری)
 </label>
@@ -451,6 +422,15 @@ footer{
 <script>
 
 const MAX_FILE_SIZE=20*1024*1024;
+
+/* Official logo image addresses */
+const PAYMENT_LOGOS={
+ JazzCash:
+ "https://www.veon.com/fileadmin/static_assets/brands/JazzCash.svg",
+
+ Easypaisa:
+ "https://upload.wikimedia.org/wikipedia/commons/9/9c/Easypaisa_Digital_Bank_logo.png"
+};
 
 const translations={
 
@@ -504,7 +484,7 @@ en:{
  pagesLabel:"Number of Pages",
  copiesLabel:"Number of Copies",
  paymentLabel:"Payment Method",
- paymentMessage:"Order will be approved after payment verification.",
+ paymentMessage:"Payment verification is required before order approval.",
  transactionLabel:"Transaction ID",
  transactionPlaceholder:"Enter transaction ID",
  receiptLabel:"Payment Receipt (Optional)",
@@ -534,28 +514,16 @@ let previewUrl=null;
 function setLanguage(language){
 
  currentLanguage=language;
-
  const t=translations[language];
 
  document.documentElement.lang=language;
  document.documentElement.dir=language==="ur"?"rtl":"ltr";
 
  const ids=[
- "formTitle",
- "nameLabel",
- "phoneLabel",
- "fileLabel",
- "fileNote",
- "previewTitle",
- "paperLabel",
- "typeLabel",
- "pagesLabel",
- "copiesLabel",
- "paymentLabel",
- "transactionLabel",
- "receiptLabel",
- "receiptNote",
- "submitBtn"
+ "formTitle","nameLabel","phoneLabel","fileLabel","fileNote",
+ "previewTitle","paperLabel","typeLabel","pagesLabel",
+ "copiesLabel","paymentLabel","transactionLabel",
+ "receiptLabel","receiptNote","submitBtn"
  ];
 
  ids.forEach(id=>{
@@ -580,7 +548,7 @@ function setLanguage(language){
 }
 
 
-/* Payment Information */
+/* Payment Method and Real Logo */
 
 function updatePaymentInfo(){
 
@@ -595,23 +563,23 @@ function updatePaymentInfo(){
 
  if(method==="JazzCash"){
 
-   logo.textContent="JazzCash";
-   logo.className="payment-logo jazz-logo";
+   logo.src=PAYMENT_LOGOS.JazzCash;
+   logo.alt="JazzCash Official Logo";
 
    title.textContent=currentLanguage==="ur"
-     ?"اکاؤنٹ نمبر"
-     :"Account Number";
+     ?"JazzCash اکاؤنٹ نمبر"
+     :"JazzCash Account Number";
 
    number.textContent="03065612619";
 
  }else{
 
-   logo.textContent="easypaisa";
-   logo.className="payment-logo easy-logo";
+   logo.src=PAYMENT_LOGOS.Easypaisa;
+   logo.alt="Easypaisa Digital Bank Official Logo";
 
    title.textContent=currentLanguage==="ur"
-     ?"اکاؤنٹ نمبر"
-     :"Account Number";
+     ?"Easypaisa اکاؤنٹ نمبر"
+     :"Easypaisa Account Number";
 
    number.textContent="03337612619";
 
@@ -619,7 +587,6 @@ function updatePaymentInfo(){
 
  document.getElementById("paymentMessage").textContent=
    translations[currentLanguage].paymentMessage;
-
 }
 
 
@@ -628,24 +595,21 @@ function updatePaymentInfo(){
 function getRate(type,totalPages){
 
  if(type==="bw"){
-
    if(totalPages<=10)return 20;
    if(totalPages<=30)return 15;
    if(totalPages<=60)return 13;
    if(totalPages<=100)return 12;
-
    return 10;
  }
 
  if(totalPages<=20)return 40;
  if(totalPages<=50)return 36;
  if(totalPages<=100)return 32;
-
  return 30;
 }
 
 
-/* Calculate Total Price */
+/* Calculate Price */
 
 function updatePrice(){
 
@@ -669,11 +633,8 @@ function updatePrice(){
 }
 
 document.getElementById("pages").addEventListener("input",updatePrice);
-
 document.getElementById("copies").addEventListener("input",updatePrice);
-
 document.getElementById("print_type").addEventListener("change",updatePrice);
-
 document.getElementById("payment_method").addEventListener("change",updatePaymentInfo);
 
 
@@ -720,7 +681,6 @@ function showPreview(file){
  if(!file)return;
 
  previewUrl=URL.createObjectURL(file);
-
  preview.style.display="block";
 
  details.textContent=file.name+" | "+
@@ -729,18 +689,14 @@ function showPreview(file){
  const ext=extension(file);
 
  if(ext==="pdf"){
-
    pdf.src=previewUrl;
    pdf.style.display="block";
-
  }else{
-
    image.src=previewUrl;
    image.style.display="block";
    image.style.objectFit="contain";
    image.style.maxWidth="100%";
    image.style.maxHeight="450px";
-
  }
 }
 
@@ -754,17 +710,13 @@ document.getElementById("printFile").addEventListener("change",function(){
  }
 
  if(!validPrintFile(file)){
-
    alert(translations[currentLanguage].fileError);
-
    this.value="";
    showPreview(null);
-
    return;
  }
 
  showPreview(file);
-
 });
 
 
@@ -797,7 +749,6 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
  event.preventDefault();
 
  const t=translations[currentLanguage];
-
  const form=this;
  const btn=document.getElementById("submitBtn");
  const resultBox=document.getElementById("resultBox");
@@ -811,7 +762,6 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
 
  const pages=parseInt(form.elements.pages.value);
  const copies=parseInt(form.elements.copies.value);
-
  const amount=updatePrice();
 
  if(!customerName || !phone || !file ||
@@ -839,7 +789,6 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
  try{
 
    const db=getSupabaseClient();
-
    const id=crypto.randomUUID();
 
    const printPath="orders/"+id+"/print."+extension(file);
@@ -861,11 +810,9 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
        .upload(receiptPath,receipt,{upsert:false});
 
      if(uploadReceipt.error)throw uploadReceipt.error;
-
    }
 
    const row={
-
      p_customer_name:customerName,
      p_phone:phone,
      p_file_path:printPath,
@@ -877,7 +824,6 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
      p_transaction_id:form.elements.transaction_id.value.trim(),
      p_receipt_path:receiptPath,
      p_amount:amount
-
    };
 
    const result=await db.rpc("create_print_order",row);
@@ -895,7 +841,6 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
      t.save;
 
    form.reset();
-
    showPreview(null);
    updatePrice();
    updatePaymentInfo();
@@ -903,13 +848,11 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
  }catch(error){
 
    console.error(error);
-
    alert(t.error+": "+(error.message||String(error)));
 
  }finally{
 
    btn.disabled=false;
-
    btn.textContent=translations[currentLanguage].submitBtn;
 
  }
