@@ -4,131 +4,76 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>USMANI PRINT</title>
+<title>USMANI PRINT - Admin</title>
 
 <style>
 *{box-sizing:border-box}
-
-body{
- margin:0;
- background:#f3f5f9;
- color:#172033;
- font-family:system-ui,Arial,sans-serif
-}
-
-main{
- max-width:1100px;
- margin:20px auto;
- padding:14px
-}
-
-.brand{
- background:#fff;
- border:2px solid #d4ad55;
- border-radius:18px;
- padding:12px;
- text-align:center;
- margin-bottom:20px;
- box-shadow:0 5px 18px #0002
-}
-
-.brand img{
- width:100%;
- max-width:600px;
- height:auto;
- display:block;
- margin:auto;
- border-radius:10px
-}
-
-.card{
- background:white;
- border:1px solid #e4e7ec;
- border-radius:14px;
- padding:18px;
- margin-bottom:16px;
- box-shadow:0 3px 12px #00000008
-}
-
-input,button{
- font:inherit;
- padding:11px;
- border:1px solid #ccd2dc;
- border-radius:8px
-}
-
-input{
- display:block;
- width:100%;
- margin:9px 0
-}
-
-button{
- background:#155eef;
- color:white;
- border:0;
- margin:4px;
- cursor:pointer
-}
-
+body{margin:0;background:#f3f5f9;color:#172033;font-family:system-ui,Arial,sans-serif}
+main{max-width:1100px;margin:20px auto;padding:14px}
+.brand{background:#fff;border:2px solid #d4ad55;border-radius:18px;padding:12px;text-align:center;margin-bottom:20px;box-shadow:0 5px 18px #0002}
+.brand img{width:100%;max-width:600px;height:auto;display:block;margin:auto;border-radius:10px}
+.card{background:white;border:1px solid #e4e7ec;border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px #00000008}
+input,button,textarea{font:inherit;padding:11px;border:1px solid #ccd2dc;border-radius:8px}
+input{display:block;width:100%;margin:9px 0}
+textarea{width:100%;resize:vertical;min-height:75px}
+button{background:#155eef;color:white;border:0;margin:4px;cursor:pointer}
 button.secondary{background:#475467}
 button.success{background:#16834a}
 button.danger{background:#b42318}
 button.whatsapp{background:#168b48}
+button.chatbtn{background:#6941c6}
+button:disabled{opacity:.5;cursor:not-allowed}
 button:hover{opacity:.9}
-
-.muted{
- color:#667085;
- font-size:13px
-}
-
+.muted{color:#667085;font-size:13px}
 #orders{display:none}
-
 .scroll{overflow-x:auto}
-
-table{
- width:100%;
- border-collapse:collapse;
- min-width:850px
-}
-
-th,td{
- padding:11px;
- border-bottom:1px solid #eaecf0;
- text-align:start;
- font-size:14px
-}
-
-th{
- background:#edf2f8;
- color:#102a56
-}
-
+table{width:100%;border-collapse:collapse;min-width:900px}
+th,td{padding:11px;border-bottom:1px solid #eaecf0;text-align:start;font-size:14px;vertical-align:top}
+th{background:#edf2f8;color:#102a56}
 .status{font-weight:700}
-
-#loginMsg{
- margin-top:12px;
- overflow-wrap:anywhere
-}
-
+#loginMsg{margin-top:12px;overflow-wrap:anywhere}
 .login-title{color:#102a56}
+.footer{text-align:center;color:#667085;font-size:12px;padding:15px}
+.langbar{text-align:end;margin-bottom:12px}
+.langbar button{background:#d4ad55;color:#102a56;font-weight:700}
 
-.footer{
- text-align:center;
- color:#667085;
- font-size:12px;
- padding:15px
+/* Chat window */
+#chatPanel{
+ display:none;position:fixed;inset:0;background:#0008;
+ z-index:9999;padding:12px;align-items:center;justify-content:center
 }
-
-.langbar{
- text-align:end;
- margin-bottom:12px
+.chatBox{
+ background:#fff;width:100%;max-width:600px;height:90vh;
+ max-height:750px;border-radius:16px;display:flex;
+ flex-direction:column;overflow:hidden
 }
-
-.langbar button{
- background:#d4ad55;
- color:#102a56;
- font-weight:700
+.chatHead{
+ background:#102a56;color:white;padding:13px;
+ display:flex;justify-content:space-between;align-items:center
+}
+.chatHead button{background:#b42318;margin:0}
+#chatMessages{
+ flex:1;overflow-y:auto;padding:14px;background:#f3f5f9;
+ display:flex;flex-direction:column;gap:10px
+}
+.msg{
+ max-width:85%;padding:10px 12px;border-radius:12px;
+ overflow-wrap:anywhere;box-shadow:0 2px 5px #0001
+}
+.msg.customer{background:#fff;align-self:flex-start;border:1px solid #e4e7ec}
+.msg.admin{background:#dceaff;align-self:flex-end}
+.msg small{display:block;color:#667085;margin-top:6px;font-size:11px}
+.msg audio{max-width:100%;width:240px}
+.chatComposer{padding:12px;border-top:1px solid #e4e7ec;background:#fff}
+.chatComposer textarea{min-height:55px;max-height:120px}
+.chatActions{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+#chatStatus{font-size:12px;color:#667085;min-height:20px}
+.recording{background:#b42318!important}
+@media(max-width:600px){
+ main{padding:8px}
+ .card{padding:12px}
+ .chatBox{height:94vh}
+ .msg{max-width:94%}
 }
 </style>
 </head>
@@ -145,37 +90,24 @@ th{
 </div>
 
 <section class="card" id="loginBox">
-
- <h2 class="login-title" id="loginTitle">USMANI PRINT لاگ اِن</h2>
-
- <p class="muted" id="loginInfo">
- یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔
- </p>
-
+ <h2 class="login-title" id="loginTitle">عثمانی پرنٹ لاگ اِن</h2>
+ <p class="muted" id="loginInfo">یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔</p>
  <input id="email" type="email" placeholder="مالک کا ای میل">
  <input id="password" type="password" placeholder="پاس ورڈ">
-
  <button id="login">لاگ اِن کریں</button>
-
  <div id="loginMsg"></div>
-
 </section>
 
 <section id="orders">
-
  <div class="card">
-
   <button id="refresh">آرڈرز تازہ کریں</button>
   <button class="secondary" id="logout">لاگ آؤٹ</button>
-
   <p class="muted" id="orderInfo">
    فائل دیکھنے کے لیے فائل کا بٹن دبائیں۔ آرڈر منظور کرنے سے پہلے ادائیگی اپنے JazzCash یا Easypaisa اکاؤنٹ میں لازماً چیک کریں۔
   </p>
-
  </div>
 
  <div class="card scroll">
-
   <table>
    <thead>
     <tr>
@@ -188,25 +120,45 @@ th{
      <th data-i18n="actions">عمل</th>
     </tr>
    </thead>
-
    <tbody id="rows"></tbody>
   </table>
-
  </div>
-
 </section>
 
-<div class="footer">
- USMANI PRINT © 2026 — Print Smart... Print Easy...
-</div>
-
+<div class="footer">USMANI PRINT © 2026 — Print Smart... Print Easy...</div>
 </main>
+
+<!-- Chat popup -->
+<div id="chatPanel">
+ <div class="chatBox">
+  <div class="chatHead">
+   <div>
+    <strong id="chatTitle">آرڈر چیٹ</strong>
+    <div id="chatSub" style="font-size:12px;opacity:.8"></div>
+   </div>
+   <button id="closeChat">بند کریں ✕</button>
+  </div>
+
+  <div id="chatMessages">
+   <p class="muted">پیغامات لوڈ ہو رہے ہیں...</p>
+  </div>
+
+  <div class="chatComposer">
+   <textarea id="chatText" placeholder="اپنا پیغام لکھیں..."></textarea>
+   <div class="chatActions">
+    <button class="success" id="sendChat">پیغام بھیجیں</button>
+    <button class="secondary" id="recordVoice">🎙 وائس ریکارڈ</button>
+    <button class="danger" id="stopVoice" disabled>ریکارڈنگ روکیں</button>
+   </div>
+   <div id="chatStatus"></div>
+  </div>
+ </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 
 <script>
-
 const cfg=window.QR_PRINT_CONFIG||{};
 
 const client=window.supabase.createClient(
@@ -220,155 +172,112 @@ let currentLang='ur';
 let currentOrders=[];
 let loadingOrders=false;
 
-const translations={
+let activeOrderNo=null;
+let activeCustomer='';
+let chatTimer=null;
+let mediaRecorder=null;
+let audioChunks=[];
+let recordingStream=null;
 
+const EDGE_URL=(cfg.url||'').replace(/\/$/,'')+'/functions/v1/chat-voice';
+
+const translations={
  ur:{
   loginTitle:'عثمانی پرنٹ لاگ اِن',
   loginInfo:'یہاں صرف دکان کے مالک کا Supabase Auth اکاؤنٹ استعمال کریں۔',
-  email:'مالک کا ای میل',
-  password:'پاس ورڈ',
-  login:'لاگ اِن کریں',
-  refresh:'آرڈرز تازہ کریں',
-  logout:'لاگ آؤٹ',
+  email:'مالک کا ای میل',password:'پاس ورڈ',login:'لاگ اِن کریں',
+  refresh:'آرڈرز تازہ کریں',logout:'لاگ آؤٹ',
   orderInfo:'فائل دیکھنے کے لیے فائل کا بٹن دبائیں۔ آرڈر منظور کرنے سے پہلے ادائیگی اپنے JazzCash یا Easypaisa اکاؤنٹ میں لازماً چیک کریں۔',
-  order:'آرڈر',
-  customer:'گاہک',
-  details:'تفصیل',
-  payment:'ادائیگی',
-  amount:'رقم',
-  status:'حالت',
-  actions:'عمل',
-  file:'فائل',
-  receipt:'رسید',
-  approve:'منظور',
-  reject:'مسترد',
-  printed:'پرنٹ مکمل',
-  whatsapp:'WhatsApp اطلاع بھیجیں',
+  order:'آرڈر',customer:'گاہک',details:'تفصیل',payment:'ادائیگی',
+  amount:'رقم',status:'حالت',actions:'عمل',
+  file:'فائل',receipt:'رسید',approve:'منظور',reject:'مسترد',
+  printed:'پرنٹ مکمل',whatsapp:'WhatsApp اطلاع بھیجیں',
   whatsappError:'کسٹمر کا درست موبائل نمبر موجود نہیں۔',
   whatsappMessage:'السلام علیکم! آپ کا USMANI PRINT پرنٹ آرڈر مکمل ہوگیا ہے۔ براہِ کرم اپنا آرڈر وصول کرلیں۔ شکریہ!',
-  pending:'زیرِ انتظار',
-  loading:'آرڈرز لوڈ ہو رہے ہیں...',
-  loginLoading:'لاگ اِن ہو رہا ہے...',
-  enterLogin:'ای میل اور پاس ورڈ درج کریں۔',
-  noOrders:'ابھی کوئی آرڈر موجود نہیں۔',
-  error:'خرابی: ',
-  loginError:'لاگ اِن کی خرابی: ',
-  fileError:'فائل کھولنے میں خرابی: ',
-  confirm:'کیا آپ واقعی یہ آرڈر ',
-  confirmEnd:' کرنا چاہتے ہیں؟',
+  pending:'زیرِ انتظار',loading:'آرڈرز لوڈ ہو رہے ہیں...',
+  loginLoading:'لاگ اِن ہو رہا ہے...',enterLogin:'ای میل اور پاس ورڈ درج کریں۔',
+  noOrders:'ابھی کوئی آرڈر موجود نہیں۔',error:'خرابی: ',
+  loginError:'لاگ اِن کی خرابی: ',fileError:'فائل کھولنے میں خرابی: ',
+  confirm:'کیا آپ واقعی یہ آرڈر ',confirmEnd:' کرنا چاہتے ہیں؟',
   changed:'آرڈر کی حالت تبدیل ہوگئی۔',
-  bw:'بلیک اینڈ وائٹ',
-  color:'رنگین',
-  pages:'صفحات',
-  copies:'کاپیاں',
-  rupee:'روپے',
+  bw:'بلیک اینڈ وائٹ',color:'رنگین',pages:'صفحات',
+  copies:'کاپیاں',rupee:'روپے',chat:'چیٹ',
+  chatTitle:'آرڈر چیٹ',chatPlaceholder:'اپنا پیغام لکھیں...',
+  send:'پیغام بھیجیں',record:'🎙 وائس ریکارڈ',
+  stop:'ریکارڈنگ روکیں',close:'بند کریں ✕',
+  chatLoading:'پیغامات لوڈ ہو رہے ہیں...',
+  chatEmpty:'ابھی کوئی پیغام نہیں۔',chatError:'چیٹ کی خرابی: ',
+  sent:'پیغام بھیج دیا گیا۔',recording:'ریکارڈنگ جاری ہے...',
+  uploading:'وائس اپ لوڈ ہو رہی ہے...',voiceSent:'وائس میسج بھیج دیا گیا۔',
+  micError:'مائیکروفون کی اجازت یا ریکارڈنگ میں مسئلہ ہے: ',
   loadingSession:'سیشن چیک ہو رہا ہے...'
  },
-
  en:{
   loginTitle:'USMANI PRINT Login',
   loginInfo:'Only the shop owner’s Supabase Auth account should be used here.',
-  email:'Owner Email',
-  password:'Password',
-  login:'Login',
-  refresh:'Refresh Orders',
-  logout:'Logout',
+  email:'Owner Email',password:'Password',login:'Login',
+  refresh:'Refresh Orders',logout:'Logout',
   orderInfo:'Press the File button to view a document. Always verify payment in your JazzCash or Easypaisa account before approving an order.',
-  order:'Order',
-  customer:'Customer',
-  details:'Details',
-  payment:'Payment',
-  amount:'Amount',
-  status:'Status',
-  actions:'Actions',
-  file:'File',
-  receipt:'Receipt',
-  approve:'Approved',
-  reject:'Rejected',
-  printed:'Printed',
-  whatsapp:'Send WhatsApp Notice',
+  order:'Order',customer:'Customer',details:'Details',payment:'Payment',
+  amount:'Amount',status:'Status',actions:'Actions',
+  file:'File',receipt:'Receipt',approve:'Approved',reject:'Rejected',
+  printed:'Printed',whatsapp:'Send WhatsApp Notice',
   whatsappError:'A valid customer mobile number is not available.',
   whatsappMessage:'Assalam-o-Alaikum! Your USMANI PRINT order has been completed. Please collect your printed order. Thank you!',
-  pending:'Pending',
-  loading:'Loading orders...',
-  loginLoading:'Logging in...',
-  enterLogin:'Please enter email and password.',
-  noOrders:'No orders available yet.',
-  error:'Error: ',
-  loginError:'Login error: ',
-  fileError:'Error opening file: ',
-  confirm:'Are you sure you want to mark this order as ',
-  confirmEnd:'?',
+  pending:'Pending',loading:'Loading orders...',
+  loginLoading:'Logging in...',enterLogin:'Please enter email and password.',
+  noOrders:'No orders available yet.',error:'Error: ',
+  loginError:'Login error: ',fileError:'Error opening file: ',
+  confirm:'Are you sure you want to mark this order as ',confirmEnd:'?',
   changed:'Order status updated.',
-  bw:'Black & White',
-  color:'Color',
-  pages:'pages',
-  copies:'copies',
-  rupee:'PKR',
+  bw:'Black & White',color:'Color',pages:'pages',
+  copies:'copies',rupee:'PKR',chat:'Chat',
+  chatTitle:'Order Chat',chatPlaceholder:'Write your message...',
+  send:'Send Message',record:'🎙 Record Voice',
+  stop:'Stop Recording',close:'Close ✕',
+  chatLoading:'Loading messages...',chatEmpty:'No messages yet.',
+  chatError:'Chat error: ',sent:'Message sent.',
+  recording:'Recording...',uploading:'Uploading voice...',
+  voiceSent:'Voice message sent.',
+  micError:'Microphone or recording error: ',
   loadingSession:'Checking session...'
  }
 };
 
-function t(key){
- return translations[currentLang][key]||key;
-}
+function t(key){return translations[currentLang][key]||key;}
 
 function escapeHtml(s){
  return String(s??'').replace(/[&<>"']/g,c=>({
-  '&':'&amp;',
-  '<':'&lt;',
-  '>':'&gt;',
-  '"':'&quot;',
-  "'":'&#39;'
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
  }[c]));
 }
 
-/* آرڈر اسٹیٹس کا ترجمہ */
-
 function translateStatus(status){
-
  const value=String(status||'').toLowerCase().trim();
-
  const map={
-  pending:'pending',
-  new:'pending',
-  submitted:'pending',
-  approved:'approve',
-  accepted:'approve',
-  rejected:'reject',
-  declined:'reject',
-  printed:'printed',
-  completed:'printed'
+  pending:'pending',new:'pending',submitted:'pending',
+  approved:'approve',accepted:'approve',
+  rejected:'reject',declined:'reject',
+  printed:'printed',completed:'printed'
  };
-
  const key=map[value];
-
  if(key==='approve')return t('approve');
  if(key==='reject')return t('reject');
  if(key==='printed')return t('printed');
  if(key==='pending')return t('pending');
-
  return status||'-';
 }
 
-/* زبان تبدیل کرنا */
-
 function setLanguage(lang){
-
  currentLang=lang;
-
  document.documentElement.lang=lang;
  document.documentElement.dir=lang==='ur'?'rtl':'ltr';
-
- $('languageBtn').textContent=
-  lang==='ur'?'English':'اردو';
+ $('languageBtn').textContent=lang==='ur'?'English':'اردو';
 
  $('loginTitle').textContent=t('loginTitle');
  $('loginInfo').textContent=t('loginInfo');
-
  $('email').placeholder=t('email');
  $('password').placeholder=t('password');
-
  $('login').textContent=t('login');
  $('refresh').textContent=t('refresh');
  $('logout').textContent=t('logout');
@@ -378,10 +287,14 @@ function setLanguage(lang){
   el.textContent=t(el.dataset.i18n);
  });
 
- if(loadingOrders){
-  $('loginMsg').textContent=t('loading');
- }
+ $('chatTitle').textContent=t('chatTitle');
+ $('chatText').placeholder=t('chatPlaceholder');
+ $('sendChat').textContent=t('send');
+ $('recordVoice').textContent=t('record');
+ $('stopVoice').textContent=t('stop');
+ $('closeChat').textContent=t('close');
 
+ if(loadingOrders)$('loginMsg').textContent=t('loading');
  renderOrders();
 }
 
@@ -389,10 +302,7 @@ $('languageBtn').onclick=()=>{
  setLanguage(currentLang==='ur'?'en':'ur');
 };
 
-/* قیمتوں کا حساب */
-
 function getRate(type,totalPages){
-
  if(type==='bw'){
   if(totalPages<=10)return 20;
   if(totalPages<=30)return 15;
@@ -400,185 +310,91 @@ function getRate(type,totalPages){
   if(totalPages<=100)return 12;
   return 10;
  }
-
  if(type==='color'){
   if(totalPages<=20)return 40;
   if(totalPages<=50)return 36;
   if(totalPages<=100)return 32;
   return 30;
  }
-
  return 0;
 }
 
 function calculateOrderAmount(order){
-
  const pages=Number(order.pages)||0;
  const copies=Number(order.copies)||0;
  const totalPages=pages*copies;
- const rate=getRate(order.print_type,totalPages);
-
- return totalPages*rate;
+ return totalPages*getRate(order.print_type,totalPages);
 }
 
-/* پاکستانی موبائل نمبر کو WhatsApp فارمیٹ میں تبدیل کرنا */
-
 function formatWhatsAppNumber(phone){
-
  let number=String(phone||'').replace(/\D/g,'');
-
- if(number.startsWith('00')){
-  number=number.substring(2);
- }
-
- if(number.startsWith('0')){
-  number='92'+number.substring(1);
- }else if(number.startsWith('3')){
-  number='92'+number;
- }
-
- if(!/^92[0-9]{10}$/.test(number)){
-  return '';
- }
-
+ if(number.startsWith('00'))number=number.substring(2);
+ if(number.startsWith('0'))number='92'+number.substring(1);
+ else if(number.startsWith('3'))number='92'+number;
+ if(!/^92[0-9]{10}$/.test(number))return '';
  return number;
 }
 
-/* WhatsApp پیغام کھولنا */
-
 function sendWhatsApp(phone){
-
  const number=formatWhatsAppNumber(phone);
-
- if(!number){
-  alert(t('whatsappError'));
-  return;
- }
-
- const message=t('whatsappMessage');
-
- const url=
-  'https://wa.me/'+number+
-  '?text='+encodeURIComponent(message);
-
+ if(!number){alert(t('whatsappError'));return;}
+ const url='https://wa.me/'+number+'?text='+encodeURIComponent(t('whatsappMessage'));
  window.open(url,'_blank');
 }
 
-/* آرڈرز دکھانا */
-
 function renderOrders(){
-
  $('rows').innerHTML='';
 
  if(!currentOrders.length){
-
-  $('rows').innerHTML=
-   `<tr><td colspan="7">${t('noOrders')}</td></tr>`;
-
+  $('rows').innerHTML=`<tr><td colspan="7">${t('noOrders')}</td></tr>`;
   return;
  }
 
  for(const o of currentOrders){
-
   const tr=document.createElement('tr');
-
   const pages=Number(o.pages)||0;
   const copies=Number(o.copies)||0;
-
-  const printType=
-   o.print_type==='color'?t('color'):t('bw');
+  const printType=o.print_type==='color'?t('color'):t('bw');
 
   const details=`
-   ${escapeHtml(o.paper_size)} ·
-   ${printType} ·
+   ${escapeHtml(o.paper_size)} · ${printType} ·
    ${escapeHtml(pages)} ${t('pages')} ×
    ${escapeHtml(copies)} ${t('copies')}
   `;
 
   const newAmount=calculateOrderAmount(o);
-
   const displayStatus=translateStatus(o.status);
 
-  const isPrinted=
-   ['printed','completed'].includes(
-    String(o.status||'').toLowerCase().trim()
-   );
+  const isPrinted=['printed','completed'].includes(
+   String(o.status||'').toLowerCase().trim()
+  );
 
   tr.innerHTML=`
-
-   <td>${escapeHtml(o.id)}</td>
-
-   <td>
-    ${escapeHtml(o.customer_name)}<br>
-    ${escapeHtml(o.phone)}
-   </td>
-
+   <td>${escapeHtml(o.order_no||o.id)}</td>
+   <td>${escapeHtml(o.customer_name)}<br>${escapeHtml(o.phone)}</td>
    <td>${details}</td>
-
+   <td>${escapeHtml(o.payment_method)}<br>${escapeHtml(o.transaction_id)}</td>
+   <td><strong>${newAmount.toLocaleString('en-US')} ${t('rupee')}</strong></td>
+   <td class="status">${escapeHtml(displayStatus)}</td>
    <td>
-    ${escapeHtml(o.payment_method)}<br>
-    ${escapeHtml(o.transaction_id)}
-   </td>
-
-   <td>
-    <strong>
-     ${newAmount.toLocaleString('en-US')} ${t('rupee')}
-    </strong>
-   </td>
-
-   <td class="status">
-    ${escapeHtml(displayStatus)}
-   </td>
-
-   <td>
-
-    <button data-file="${escapeHtml(o.file_path)}">
-     ${t('file')}
-    </button>
-
-    ${o.receipt_path?
-    `<button class="secondary" data-file="${escapeHtml(o.receipt_path)}">${t('receipt')}</button>`:''}
-
-    <button class="success"
-     data-status="approved"
-     data-id="${escapeHtml(o.id)}">
-     ${t('approve')}
-    </button>
-
-    <button class="danger"
-     data-status="rejected"
-     data-id="${escapeHtml(o.id)}">
-     ${t('reject')}
-    </button>
-
-    <button class="secondary"
-     data-status="printed"
-     data-id="${escapeHtml(o.id)}">
-     ${t('printed')}
-    </button>
-
-    ${isPrinted?
-    `<button class="whatsapp"
-      data-whatsapp="${escapeHtml(o.phone)}">
-      ${t('whatsapp')}
-     </button>`:''}
-
+    <button data-file="${escapeHtml(o.file_path)}">${t('file')}</button>
+    ${o.receipt_path?`<button class="secondary" data-file="${escapeHtml(o.receipt_path)}">${t('receipt')}</button>`:''}
+    <button class="chatbtn" data-chat="${escapeHtml(o.order_no||o.id)}" data-customer="${escapeHtml(o.customer_name||'')}">${t('chat')}</button>
+    <button class="success" data-status="approved" data-id="${escapeHtml(o.id)}">${t('approve')}</button>
+    <button class="danger" data-status="rejected" data-id="${escapeHtml(o.id)}">${t('reject')}</button>
+    <button class="secondary" data-status="printed" data-id="${escapeHtml(o.id)}">${t('printed')}</button>
+    ${isPrinted?`<button class="whatsapp" data-whatsapp="${escapeHtml(o.phone)}">${t('whatsapp')}</button>`:''}
    </td>
   `;
-
   $('rows').appendChild(tr);
  }
 }
 
-/* آرڈرز لوڈ کرنا */
-
 async function load(){
-
  loadingOrders=true;
  $('loginMsg').textContent=t('loading');
 
- const {data,error}=await client
-  .from('orders')
+ const {data,error}=await client.from('orders')
   .select('*')
   .order('created_at',{ascending:false})
   .limit(100);
@@ -586,150 +402,394 @@ async function load(){
  loadingOrders=false;
 
  if(error){
-
   $('loginMsg').textContent=t('error')+error.message;
   return;
  }
 
  currentOrders=data||[];
-
  $('loginMsg').textContent='';
-
  renderOrders();
 }
 
-/* لاگ اِن */
-
 $('login').onclick=async()=>{
-
  const email=$('email').value.trim();
  const password=$('password').value;
 
  if(!email||!password){
-
   $('loginMsg').textContent=t('enterLogin');
   return;
  }
 
  $('loginMsg').textContent=t('loginLoading');
 
- const {error}=await client.auth.signInWithPassword({
-  email,
-  password
- });
+ const {error}=await client.auth.signInWithPassword({email,password});
 
  if(error){
-
   $('loginMsg').textContent=t('loginError')+error.message;
   return;
  }
 
  $('loginBox').style.display='none';
  $('orders').style.display='block';
-
  load();
 };
 
-/* تازہ آرڈرز */
-
 $('refresh').onclick=load;
 
-/* لاگ آؤٹ */
-
 $('logout').onclick=async()=>{
-
+ closeChat();
  await client.auth.signOut();
  location.reload();
 };
 
-/* فائل، رسید، WhatsApp اور آرڈر کی حالت */
+/* Get current owner access token */
+async function getAccessToken(){
+ const {data,error}=await client.auth.getSession();
+ if(error)throw error;
+ if(!data.session?.access_token){
+  throw new Error('Login session expired. Please login again.');
+ }
+ return data.session.access_token;
+}
 
+/* Call chat Edge Function using owner JWT */
+async function callChatFunction(action,extra={}){
+ const accessToken=await getAccessToken();
+
+ const response=await fetch(EDGE_URL,{
+  method:'POST',
+  headers:{
+   'Content-Type':'application/json',
+   'apikey':cfg.anonKey,
+   'Authorization':'Bearer '+accessToken
+  },
+  body:JSON.stringify({action,...extra})
+ });
+
+ const result=await response.json().catch(()=>({}));
+
+ if(!response.ok||result.error){
+  throw new Error(result.error||result.message||('HTTP '+response.status));
+ }
+ return result;
+}
+
+/* Open chat for an order */
+async function openChat(orderNo,customer){
+ activeOrderNo=orderNo;
+ activeCustomer=customer||'';
+
+ $('chatPanel').style.display='flex';
+ $('chatSub').textContent='Order #'+orderNo+' — '+activeCustomer;
+ $('chatMessages').innerHTML=`<p class="muted">${t('chatLoading')}</p>`;
+ $('chatStatus').textContent='';
+
+ if(chatTimer)clearInterval(chatTimer);
+
+ await loadChatMessages();
+
+ chatTimer=setInterval(()=>{
+  if(activeOrderNo)loadChatMessages();
+ },8000);
+}
+
+function closeChat(){
+ $('chatPanel').style.display='none';
+ activeOrderNo=null;
+ if(chatTimer){
+  clearInterval(chatTimer);
+  chatTimer=null;
+ }
+ stopRecordingSilently();
+}
+
+$('closeChat').onclick=closeChat;
+
+$('chatPanel').addEventListener('click',e=>{
+ if(e.target===$('chatPanel'))closeChat();
+});
+
+/* Display chat messages */
+async function loadChatMessages(){
+ if(!activeOrderNo)return;
+
+ try{
+  const result=await callChatFunction('admin_messages',{
+   order_no:Number(activeOrderNo)
+  });
+
+  const messages=result.messages||result.data||[];
+
+  if(!messages.length){
+   $('chatMessages').innerHTML=`<p class="muted">${t('chatEmpty')}</p>`;
+   return;
+  }
+
+  $('chatMessages').innerHTML=messages.map(m=>{
+   const isAdmin=m.sender_role==='admin';
+   const body=m.message_text||m.text||'';
+   const time=m.created_at?new Date(m.created_at).toLocaleString():'';
+
+   let content='';
+
+   if(m.message_type==='voice'){
+    const audioUrl=m.signed_url||m.signedUrl||m.url||'';
+    content=audioUrl
+     ?`<audio controls preload="none" src="${escapeHtml(audioUrl)}"></audio>`
+     :'<span>Voice message</span>';
+   }else{
+    content=`<div>${escapeHtml(body)}</div>`;
+   }
+
+   return `
+    <div class="msg ${isAdmin?'admin':'customer'}">
+     <strong>${isAdmin?'Admin':'Customer'}</strong>
+     ${content}
+     <small>${escapeHtml(time)}</small>
+    </div>
+   `;
+  }).join('');
+
+  $('chatMessages').scrollTop=$('chatMessages').scrollHeight;
+
+ }catch(error){
+  $('chatStatus').textContent=t('chatError')+error.message;
+ }
+}
+
+/* Send admin text message */
+$('sendChat').onclick=async()=>{
+ const message=$('chatText').value.trim();
+ if(!activeOrderNo||!message)return;
+
+ $('sendChat').disabled=true;
+ $('chatStatus').textContent='Sending...';
+
+ try{
+  const {error}=await client.rpc('admin_send_chat_text',{
+   p_order_no:Number(activeOrderNo),
+   p_message_text:message
+  });
+
+  if(error)throw error;
+
+  $('chatText').value='';
+  $('chatStatus').textContent=t('sent');
+  await loadChatMessages();
+
+ }catch(error){
+  $('chatStatus').textContent=t('chatError')+error.message;
+ }finally{
+  $('sendChat').disabled=false;
+ }
+};
+
+/* Send with Enter; Shift+Enter makes a new line */
+$('chatText').addEventListener('keydown',e=>{
+ if(e.key==='Enter'&&!e.shiftKey){
+  e.preventDefault();
+  $('sendChat').click();
+ }
+});
+
+/* Stop recording and release microphone */
+function stopRecordingSilently(){
+ try{
+  if(mediaRecorder&&mediaRecorder.state!=='inactive'){
+   mediaRecorder.stop();
+  }
+ }catch(e){}
+
+ if(recordingStream){
+  recordingStream.getTracks().forEach(track=>track.stop());
+  recordingStream=null;
+ }
+ mediaRecorder=null;
+ $('recordVoice').disabled=false;
+ $('stopVoice').disabled=true;
+ $('recordVoice').classList.remove('recording');
+}
+
+/* Start voice recording */
+$('recordVoice').onclick=async()=>{
+ if(!activeOrderNo)return;
+
+ if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder){
+  alert('Voice recording is not supported by this browser.');
+  return;
+ }
+
+ try{
+  recordingStream=await navigator.mediaDevices.getUserMedia({audio:true});
+  audioChunks=[];
+
+  const options={};
+  if(MediaRecorder.isTypeSupported('audio/webm;codecs=opus')){
+   options.mimeType='audio/webm;codecs=opus';
+  }else if(MediaRecorder.isTypeSupported('audio/webm')){
+   options.mimeType='audio/webm';
+  }
+
+  mediaRecorder=new MediaRecorder(recordingStream,options);
+
+  mediaRecorder.ondataavailable=e=>{
+   if(e.data&&e.data.size>0)audioChunks.push(e.data);
+  };
+
+  mediaRecorder.onstop=async()=>{
+   const mime=mediaRecorder?.mimeType||'audio/webm';
+   const blob=new Blob(audioChunks,{type:mime});
+
+   if(recordingStream){
+    recordingStream.getTracks().forEach(track=>track.stop());
+    recordingStream=null;
+   }
+
+   mediaRecorder=null;
+   $('recordVoice').disabled=false;
+   $('stopVoice').disabled=true;
+   $('recordVoice').classList.remove('recording');
+
+   if(blob.size===0){
+    $('chatStatus').textContent='No audio recorded.';
+    return;
+   }
+
+   await uploadAdminVoice(blob);
+  };
+
+  mediaRecorder.start();
+  $('recordVoice').disabled=true;
+  $('stopVoice').disabled=false;
+  $('recordVoice').classList.add('recording');
+  $('chatStatus').textContent=t('recording');
+
+ }catch(error){
+  stopRecordingSilently();
+  $('chatStatus').textContent=t('micError')+error.message;
+ }
+};
+
+/* Stop recording button */
+$('stopVoice').onclick=()=>{
+ if(mediaRecorder&&mediaRecorder.state!=='inactive'){
+  $('chatStatus').textContent=t('uploading');
+  mediaRecorder.stop();
+ }
+};
+
+/* Upload recorded voice and confirm message */
+async function uploadAdminVoice(blob){
+ if(!activeOrderNo)return;
+
+ try{
+  if(blob.size>10*1024*1024){
+   throw new Error('Voice message must be less than 10 MB.');
+  }
+
+  $('chatStatus').textContent=t('uploading');
+
+  const prepared=await callChatFunction('admin_prepare',{
+   order_no:Number(activeOrderNo)
+  });
+
+  const path=prepared.path||prepared.file_path;
+  const token=prepared.token||prepared.signed_token;
+
+  if(!path||!token){
+   throw new Error('Voice upload details were not returned by the server.');
+  }
+
+  const contentType=blob.type||'audio/webm';
+
+  const {error:uploadError}=await client.storage
+   .from('chat-voice')
+   .uploadToSignedUrl(path,token,blob,{
+    contentType,
+    upsert:false
+   });
+
+  if(uploadError)throw uploadError;
+
+  await callChatFunction('admin_confirm',{
+   order_no:Number(activeOrderNo),
+   path:path,
+   content_type:contentType
+  });
+
+  $('chatStatus').textContent=t('voiceSent');
+  await loadChatMessages();
+
+ }catch(error){
+  $('chatStatus').textContent=t('chatError')+error.message;
+ }
+}
+
+/* File, receipt, WhatsApp, chat and status buttons */
 $('rows').onclick=async e=>{
-
  const b=e.target.closest('button');
-
  if(!b)return;
 
- /* WhatsApp اطلاع */
+ if(b.dataset.chat){
+  openChat(b.dataset.chat,b.dataset.customer);
+  return;
+ }
 
  if(b.dataset.whatsapp){
-
   sendWhatsApp(b.dataset.whatsapp);
   return;
  }
 
- /* فائل اور رسید */
-
  if(b.dataset.file){
-
   const {data,error}=await client.storage
    .from('print-files')
    .createSignedUrl(b.dataset.file,300);
 
   if(error){
-
    alert(t('fileError')+error.message);
-
   }else{
-
    window.open(data.signedUrl,'_blank');
   }
-
   return;
  }
 
- /* آرڈر کی حالت تبدیل کرنا */
-
  if(b.dataset.status){
-
   const labels={
    approved:t('approve'),
    rejected:t('reject'),
    printed:t('printed')
   };
 
-  if(!confirm(
-   t('confirm')+
-   labels[b.dataset.status]+
-   t('confirmEnd')
-  )){
-   return;
-  }
+  if(!confirm(t('confirm')+labels[b.dataset.status]+t('confirmEnd')))return;
 
-  const {error}=await client
-   .from('orders')
+  const {error}=await client.from('orders')
    .update({status:b.dataset.status})
    .eq('id',b.dataset.id);
 
   if(error){
-
    alert(t('error')+error.message);
-
   }else{
-
    alert(t('changed'));
    await load();
   }
  }
 };
 
-/* پہلے سے لاگ اِن سیشن */
-
-client.auth.getSession().then(({data})=>{
+/* Restore existing authenticated session */
+client.auth.getSession().then(({data,error})=>{
+ if(error){
+  $('loginMsg').textContent=t('error')+error.message;
+  return;
+ }
 
  if(data.session){
-
   $('loginBox').style.display='none';
   $('orders').style.display='block';
-
   load();
  }
 });
 
-/* ابتدائی زبان */
-
 setLanguage('ur');
-
 </script>
 </body>
 </html>
