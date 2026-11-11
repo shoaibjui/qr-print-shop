@@ -32,8 +32,12 @@ header img{
   height:auto;
   background:#fff;
 }
+
+/* Language buttons: fixed position */
 .lang{
   display:flex;
+  flex-direction:row;
+  direction:ltr;
   justify-content:center;
   gap:8px;
   margin:10px auto;
@@ -50,6 +54,7 @@ header img{
   background:var(--green);
   color:white;
 }
+
 main{
   max-width:620px;
   margin:12px auto;
@@ -234,11 +239,13 @@ footer{
   <img src="usmani-print-logo-2.png" alt="USMANI PRINT">
 </header>
 
-<div class="lang">
-  <button type="button" id="urduBtn"
-          class="active" onclick="setLanguage('ur')">اردو</button>
+<!-- English ہمیشہ بائیں، اردو ہمیشہ دائیں -->
+<div class="lang" dir="ltr">
   <button type="button" id="englishBtn"
           onclick="setLanguage('en')">English</button>
+
+  <button type="button" id="urduBtn"
+          class="active" onclick="setLanguage('ur')">اردو</button>
 </div>
 
 <main>
@@ -263,7 +270,7 @@ footer{
        type="file" accept=".pdf,.jpg,.jpeg,.png" required>
 
 <div class="notice" id="fileNote">
-  PDF، JPG یا PNG فائل منتخب کریں۔ زیادہ سے زیادہ 20MB۔
+  صرف PDF، JPG یا PNG فائل منتخب کریں۔ زیادہ سے زیادہ 20MB۔
 </div>
 
 <div class="preview" id="filePreview">
