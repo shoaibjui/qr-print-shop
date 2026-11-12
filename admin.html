@@ -535,8 +535,18 @@ async function loadChatMessages(){
    if(m.message_type==='voice'){
     const audioUrl=m.voice_url||m.signed_url||m.signedUrl||m.url||'';
     content=audioUrl
-     ?`<audio controls preload="none" src="${escapeHtml(audioUrl)}"></audio>`
-     :'<span>Voice message</span>';
+    content=audioUrl
+ ?`
+ <audio controls preload="metadata"
+   controlsList="nodownload"
+   style="width:100%;max-width:280px"
+   onloadedmetadata="console.log('Audio loaded:',this.duration)"
+   onerror="console.error('Audio error:',this.error)">
+   <source src="${escapeHtml(audioUrl)}" type="audio/webm">
+ </audio>
+ <small>Voice: ${escapeHtml(m.storage_path||'')}</small>
+ `
+ :'<span>Voice URL not found</span>';
    }else{
     content=`<div>${escapeHtml(body)}</div>`;
    }
