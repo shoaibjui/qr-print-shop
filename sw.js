@@ -1,12 +1,13 @@
 
-const CACHE_NAME = "usmani-print-pwa-v2";
+const CACHE_NAME = "usmani-print-pwa-v3";
 
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "./icon-192.png",
+  "./icon-512.png",
+  "./apple-touch-icon.png"
 ];
 
 self.addEventListener("install", event => {
@@ -36,7 +37,6 @@ self.addEventListener("fetch", event => {
 
   const url = new URL(request.url);
 
-  // Supabase اور دوسری ویب سائٹس کو Cache نہ کریں۔
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === "navigate") {
