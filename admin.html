@@ -537,14 +537,20 @@ async function loadChatMessages(){
     content=audioUrl
     content=audioUrl
  ?`
- <audio controls preload="metadata"
-   controlsList="nodownload"
+ content=audioUrl
+ ?`
+ <audio controls preload="auto"
    style="width:100%;max-width:280px"
-   onloadedmetadata="console.log('Audio loaded:',this.duration)"
-   onerror="console.error('Audio error:',this.error)">
-   <source src="${escapeHtml(audioUrl)}" type="audio/webm">
+   src="${escapeHtml(audioUrl)}">
  </audio>
- <small>Voice: ${escapeHtml(m.storage_path||'')}</small>
+ <div style="margin-top:8px">
+   <a href="${escapeHtml(audioUrl)}"
+      target="_blank"
+      rel="noopener"
+      style="color:#155eef;font-weight:bold">
+      وائس الگ کھول کر سنیں
+   </a>
+ </div>
  `
  :'<span>Voice URL not found</span>';
    }else{
