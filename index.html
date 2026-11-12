@@ -6,6 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>USMANI PRINT - عثمانی پرنٹ</title>
 
+<!-- PWA SETTINGS -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#126b3a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="USMANI PRINT">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
 <style>
 :root{
  --green:#126b3a;--blue:#0756b9;--ink:#172033;
@@ -16,24 +23,14 @@ body{
  margin:0;background:var(--bg);color:var(--ink);
  font-family:Arial,system-ui,sans-serif
 }
-
-/* Professional responsive logo */
 header{
- width:100%;
- background:#fff;
- line-height:0;
- text-align:center;
- padding:8px 12px;
+ width:100%;background:#fff;line-height:0;
+ text-align:center;padding:8px 12px;
  border-bottom:1px solid #e5eaf0;
 }
 header img{
- display:block;
- width:100%;
- max-width:1100px;
- height:auto;
- max-height:220px;
- object-fit:contain;
- margin:0 auto;
+ display:block;width:100%;max-width:1100px;
+ height:auto;max-height:220px;object-fit:contain;margin:0 auto;
 }
 .lang{
  display:flex;flex-direction:row;direction:ltr;
@@ -128,8 +125,6 @@ input[type=file]{padding:9px}
  padding:14px;text-align:center;line-height:1.9;overflow-wrap:anywhere
 }
 footer{text-align:center;padding:15px;color:#667085;font-size:12px}
-
-/* Customer chat */
 #chatSection{display:none}
 .chat-heading{text-align:center;color:var(--green);margin:0 0 10px}
 .chat-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
@@ -163,7 +158,6 @@ footer{text-align:center;padding:15px;color:#667085;font-size:12px}
 .voice-btn{background:#0756b9}
 .voice-btn.recording{background:#b42318}
 .chat-note{font-size:12px;color:#667085;line-height:1.6;margin-top:8px}
-
 @media(max-width:480px){
  header{padding:5px 7px}
  header img{max-height:125px}
@@ -190,12 +184,10 @@ footer{text-align:center;padding:15px;color:#667085;font-size:12px}
 </div>
 
 <main>
-
 <section class="card">
 <h2 id="formTitle">السلام علیکم! ہماری ویب سائٹ پر آنے پر خوش آمدید 🌹</h2>
 
 <form id="orderForm">
-
 <label id="nameLabel" for="customer_name">آپ کا نام</label>
 <input id="customer_name" name="customer_name" type="text" required maxlength="100" placeholder="اپنا نام لکھیں">
 
@@ -270,37 +262,29 @@ footer{text-align:center;padding:15px;color:#667085;font-size:12px}
 
 <button class="submit" id="submitBtn" type="submit">آرڈر جمع کریں</button>
 </form>
-
 <div class="result" id="resultBox"></div>
 </section>
 
-<!-- Customer chat -->
 <section class="card" id="chatSection">
  <h2 class="chat-heading" id="chatTitle">آرڈر چیٹ</h2>
-
  <label id="chooseOrderLabel" for="chatOrderSelect">اپنا آرڈر منتخب کریں</label>
  <div class="chat-tools">
   <select id="chatOrderSelect"></select>
   <button type="button" class="secondary" id="reloadChatBtn">تازہ کریں</button>
  </div>
-
  <div id="chatMessages" aria-live="polite"></div>
-
  <div class="chat-compose">
   <input id="chatText" type="text" maxlength="2000" placeholder="اپنا پیغام لکھیں">
   <button type="button" class="chat-send" id="sendChatBtn">بھیجیں</button>
  </div>
-
  <div class="voice-row">
   <button type="button" class="voice-btn" id="recordVoiceBtn">🎙 وائس ریکارڈ کریں</button>
   <span id="recordStatus" class="chat-note"></span>
  </div>
-
  <div class="chat-note" id="chatNote">
   آپ کے پیغامات اور وائس میسجز اسی آرڈر کی نجی چیٹ میں محفوظ ہوں گے۔
  </div>
 </section>
-
 </main>
 
 <footer>USMANI PRINT © 2026</footer>
@@ -414,7 +398,6 @@ function tr(key){
 function setLanguage(language){
  currentLanguage=language;
  const t=translations[language];
-
  document.documentElement.lang=language;
  document.documentElement.dir=language==="ur"?"rtl":"ltr";
 
@@ -425,7 +408,6 @@ function setLanguage(language){
  "receiptLabel","receiptNote","submitBtn",
  "chatTitle","chooseOrderLabel","chatNote"
  ];
-
  ids.forEach(id=>{
   const el=document.getElementById(id);
   if(el)el.textContent=t[id];
@@ -435,18 +417,13 @@ function setLanguage(language){
  document.getElementById("phone").placeholder=t.phonePlaceholder;
  document.getElementById("transaction_id").placeholder=t.transactionPlaceholder;
  document.getElementById("chatText").placeholder=t.chatPlaceholder;
-
  document.querySelector('#print_type option[value="bw"]').textContent=t.bw;
  document.querySelector('#print_type option[value="color"]').textContent=t.color;
-
  document.getElementById("reloadChatBtn").textContent=t.refreshChat;
  document.getElementById("sendChatBtn").textContent=t.send;
- document.getElementById("recordVoiceBtn").textContent=
-  isRecording?t.stop:t.record;
-
+ document.getElementById("recordVoiceBtn").textContent=isRecording?t.stop:t.record;
  document.getElementById("urduBtn").classList.toggle("active",language==="ur");
  document.getElementById("englishBtn").classList.toggle("active",language==="en");
-
  updatePaymentInfo();
  updatePrice();
 }
@@ -455,7 +432,6 @@ function updatePaymentInfo(){
  const method=document.getElementById("payment_method").value;
  const number=document.getElementById("accountNumber");
  const logo=document.getElementById("paymentLogo");
-
  document.getElementById("paymentBox").style.display="block";
  document.getElementById("accountTitle").textContent=tr("accountTitle");
 
@@ -468,7 +444,6 @@ function updatePaymentInfo(){
   logo.alt="JazzCash Logo";
   number.textContent="03065612619";
  }
-
  document.getElementById("paymentMessage").textContent=tr("paymentMessage");
 }
 
@@ -492,12 +467,10 @@ function updatePrice(){
  const type=document.getElementById("print_type").value;
  const totalPages=pages*copies;
  const amount=getRate(type,totalPages)*totalPages;
-
  document.getElementById("totalAmount").textContent=
   (currentLanguage==="ur"?"کل رقم: ":"Total Amount: Rs ")+
   amount.toLocaleString("en-US")+
   (currentLanguage==="ur"?" روپے":"");
-
  return amount;
 }
 
@@ -509,11 +482,9 @@ document.getElementById("payment_method").addEventListener("change",updatePaymen
 function extension(file){
  return file.name.split(".").pop().toLowerCase();
 }
-
 function validPrintFile(file){
  return ["pdf","jpg","jpeg","png"].includes(extension(file))&&file.size<=MAX_FILE_SIZE;
 }
-
 function validReceipt(file){
  return !file||(["jpg","jpeg","png"].includes(extension(file))&&file.size<=MAX_FILE_SIZE);
 }
@@ -528,19 +499,16 @@ function showPreview(file){
   URL.revokeObjectURL(previewUrl);
   previewUrl=null;
  }
-
  image.style.display="none";
  pdf.style.display="none";
  preview.style.display="none";
  image.src="";
  pdf.src="";
-
  if(!file)return;
 
  previewUrl=URL.createObjectURL(file);
  preview.style.display="block";
  details.textContent=file.name+" | "+(file.size/1024/1024).toFixed(2)+" MB";
-
  if(extension(file)==="pdf"){
   pdf.src=previewUrl;
   pdf.style.display="block";
@@ -564,35 +532,28 @@ document.getElementById("printFile").addEventListener("change",function(){
 
 function getSupabaseClient(){
  if(client)return client;
-
  if(!window.supabase||!window.QR_PRINT_CONFIG){
   throw new Error("Supabase یا config.js لوڈ نہیں ہوا۔");
  }
-
  const cfg=window.QR_PRINT_CONFIG;
  if(!cfg.url||!cfg.anonKey){
   throw new Error("config.js میں Supabase URL یا anonKey موجود نہیں۔");
  }
-
  client=window.supabase.createClient(cfg.url,cfg.anonKey);
  return client;
 }
 
-/* Same-browser customer chat token */
 function getChatToken(){
  let token=localStorage.getItem(CHAT_TOKEN_KEY);
-
  if(!token){
   const bytes=new Uint8Array(32);
   crypto.getRandomValues(bytes);
   token=Array.from(bytes).map(b=>b.toString(16).padStart(2,"0")).join("");
   localStorage.setItem(CHAT_TOKEN_KEY,token);
  }
-
  if(!/^[a-f0-9]{64}$/.test(token)){
   throw new Error("Customer chat session is invalid.");
  }
-
  return token;
 }
 
@@ -614,22 +575,18 @@ function saveOrderForChat(orderNo){
 function refreshOrderChoices(){
  const select=document.getElementById("chatOrderSelect");
  const orders=getSavedOrders();
-
  select.replaceChildren();
-
  orders.forEach(no=>{
   const option=document.createElement("option");
   option.value=no;
   option.textContent=(currentLanguage==="ur"?"آرڈر نمبر ":"Order #")+no;
   select.appendChild(option);
  });
-
  if(chatOrderNo!==null)select.value=String(chatOrderNo);
 }
 
 async function callChatFunction(payload){
  const token=getChatToken();
-
  const response=await fetch(CHAT_FUNCTION_URL,{
   method:"POST",
   headers:{
@@ -639,13 +596,10 @@ async function callChatFunction(payload){
   },
   body:JSON.stringify({...payload,session_token:token})
  });
-
  const data=await response.json();
-
  if(!response.ok||data.error){
   throw new Error(data.error||"Chat request failed");
  }
-
  return data;
 }
 
@@ -654,25 +608,20 @@ function openChat(orderNo){
  document.getElementById("chatSection").style.display="block";
  refreshOrderChoices();
  loadChatMessages();
-
  if(chatTimer)clearInterval(chatTimer);
  chatTimer=setInterval(()=>{
   if(chatOrderNo)loadChatMessages();
  },8000);
-
  document.getElementById("chatSection").scrollIntoView({behavior:"smooth"});
 }
 
 function addMessage(message){
  const box=document.getElementById("chatMessages");
  const item=document.createElement("div");
-
  item.className="message "+(message.sender_role==="admin"?"admin":"customer");
-
  const who=document.createElement("strong");
  who.textContent=message.sender_role==="admin"?tr("admin"):tr("customer");
  item.appendChild(who);
-
  if(message.message_type==="voice"&&message.voice_url){
   const audio=document.createElement("audio");
   audio.controls=true;
@@ -684,29 +633,22 @@ function addMessage(message){
   content.textContent=message.message_text||"";
   item.appendChild(content);
  }
-
  const date=document.createElement("small");
- date.textContent=message.created_at?
-  new Date(message.created_at).toLocaleString():"";
+ date.textContent=message.created_at?new Date(message.created_at).toLocaleString():"";
  item.appendChild(date);
-
  box.appendChild(item);
 }
 
 async function loadChatMessages(){
  if(!chatOrderNo)return;
-
  try{
   const data=await callChatFunction({
    action:"customer_messages",
    order_no:Number(chatOrderNo)
   });
-
   const box=document.getElementById("chatMessages");
   box.replaceChildren();
-
   const messages=data.messages||[];
-
   if(!messages.length){
    const p=document.createElement("p");
    p.textContent=tr("noMessages");
@@ -714,48 +656,31 @@ async function loadChatMessages(){
   }else{
    messages.forEach(addMessage);
   }
-
   box.scrollTop=box.scrollHeight;
-
  }catch(error){
   console.error(error);
-  document.getElementById("recordStatus").textContent=
-   tr("chatError")+error.message;
+  document.getElementById("recordStatus").textContent=tr("chatError")+error.message;
  }
 }
 
 async function sendChatText(){
  const input=document.getElementById("chatText");
  const message=input.value.trim();
-
- if(!chatOrderNo){
-  alert(tr("noOrder"));
-  return;
- }
-
- if(!message){
-  alert(tr("textEmpty"));
-  return;
- }
-
+ if(!chatOrderNo){alert(tr("noOrder"));return;}
+ if(!message){alert(tr("textEmpty"));return;}
  const button=document.getElementById("sendChatBtn");
  button.disabled=true;
  button.textContent=tr("sending");
-
  try{
   const db=getSupabaseClient();
-
   const {error}=await db.rpc("customer_send_chat_text",{
    p_order_no:Number(chatOrderNo),
    p_session_token:getChatToken(),
    p_message_text:message
   });
-
   if(error)throw error;
-
   input.value="";
   await loadChatMessages();
-
  }catch(error){
   alert(tr("chatError")+error.message);
  }finally{
@@ -765,65 +690,50 @@ async function sendChatText(){
 }
 
 document.getElementById("sendChatBtn").addEventListener("click",sendChatText);
-
 document.getElementById("chatText").addEventListener("keydown",event=>{
  if(event.key==="Enter"){
   event.preventDefault();
   sendChatText();
  }
 });
-
 document.getElementById("reloadChatBtn").addEventListener("click",loadChatMessages);
-
 document.getElementById("chatOrderSelect").addEventListener("change",event=>{
  if(event.target.value)openChat(event.target.value);
 });
 
-/* Voice recording and upload */
 async function startVoiceRecording(){
  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){
   alert(tr("voiceUnsupported"));
   return;
  }
-
  try{
   const stream=await navigator.mediaDevices.getUserMedia({audio:true});
   recordedChunks=[];
-
   let mimeType="";
   if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus")){
    mimeType="audio/webm;codecs=opus";
   }else if(MediaRecorder.isTypeSupported("audio/webm")){
    mimeType="audio/webm";
   }
-
   recorder=new MediaRecorder(stream,mimeType?{mimeType}:undefined);
-
   recorder.ondataavailable=event=>{
    if(event.data&&event.data.size>0)recordedChunks.push(event.data);
   };
-
   recorder.onstop=async()=>{
    stream.getTracks().forEach(track=>track.stop());
-
    const blob=new Blob(recordedChunks,{type:recorder.mimeType||"audio/webm"});
-
    if(blob.size>10*1024*1024){
     alert("Voice message is larger than 10 MB.");
     return;
    }
-
    await uploadVoice(blob);
   };
-
   recorder.start();
   isRecording=true;
-
   const button=document.getElementById("recordVoiceBtn");
   button.textContent=tr("stop");
   button.classList.add("recording");
   document.getElementById("recordStatus").textContent=tr("recording");
-
  }catch(error){
   console.error(error);
   alert(tr("micError"));
@@ -834,7 +744,6 @@ async function stopVoiceRecording(){
  if(recorder&&isRecording){
   isRecording=false;
   recorder.stop();
-
   const button=document.getElementById("recordVoiceBtn");
   button.textContent=tr("record");
   button.classList.remove("recording");
@@ -843,11 +752,7 @@ async function stopVoiceRecording(){
 }
 
 document.getElementById("recordVoiceBtn").addEventListener("click",async()=>{
- if(!chatOrderNo){
-  alert(tr("noOrder"));
-  return;
- }
-
+ if(!chatOrderNo){alert(tr("noOrder"));return;}
  if(isRecording){
   await stopVoiceRecording();
  }else{
@@ -858,50 +763,35 @@ document.getElementById("recordVoiceBtn").addEventListener("click",async()=>{
 async function uploadVoice(blob){
  try{
   const db=getSupabaseClient();
-
   const prepared=await callChatFunction({
    action:"prepare",
    order_no:Number(chatOrderNo)
   });
-
   const {error:uploadError}=await db.storage
    .from("chat-voice")
-   .uploadToSignedUrl(
-    prepared.path,
-    prepared.token,
-    blob,
-    {
-     contentType:"audio/webm",
-     upsert:false
-    }
-   );
-
+   .uploadToSignedUrl(prepared.path,prepared.token,blob,{
+    contentType:"audio/webm",
+    upsert:false
+   });
   if(uploadError)throw uploadError;
-
   await callChatFunction({
    action:"confirm",
    order_no:Number(chatOrderNo),
    path:prepared.path
   });
-
   document.getElementById("recordStatus").textContent="";
   await loadChatMessages();
-
  }catch(error){
   console.error(error);
-  document.getElementById("recordStatus").textContent=
-   tr("chatError")+error.message;
+  document.getElementById("recordStatus").textContent=tr("chatError")+error.message;
  }
 }
 
-/* Submit new print order */
 document.getElementById("orderForm").addEventListener("submit",async function(event){
  event.preventDefault();
-
  const form=this;
  const btn=document.getElementById("submitBtn");
  const resultBox=document.getElementById("resultBox");
-
  resultBox.style.display="none";
 
  const customerName=form.elements.customer_name.value.trim();
@@ -919,16 +809,8 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
   alert(tr("invalid"));
   return;
  }
-
- if(!validPrintFile(file)){
-  alert(tr("fileError"));
-  return;
- }
-
- if(!validReceipt(receipt)){
-  alert(tr("receiptError"));
-  return;
- }
+ if(!validPrintFile(file)){alert(tr("fileError"));return;}
+ if(!validReceipt(receipt)){alert(tr("receiptError"));return;}
 
  btn.disabled=true;
  btn.textContent=tr("uploading");
@@ -937,24 +819,17 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
   const db=getSupabaseClient();
   const token=getChatToken();
   const id=crypto.randomUUID();
-
   const printPath="orders/"+id+"/print."+extension(file);
 
-  const uploadPrint=await db.storage
-   .from("print-files")
+  const uploadPrint=await db.storage.from("print-files")
    .upload(printPath,file,{upsert:false});
-
   if(uploadPrint.error)throw uploadPrint.error;
 
   let receiptPath=null;
-
   if(receipt){
    receiptPath="orders/"+id+"/receipt."+extension(receipt);
-
-   const uploadReceipt=await db.storage
-    .from("print-files")
+   const uploadReceipt=await db.storage.from("print-files")
     .upload(receiptPath,receipt,{upsert:false});
-
    if(uploadReceipt.error)throw uploadReceipt.error;
   }
 
@@ -974,17 +849,13 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
   };
 
   const result=await db.rpc("create_print_order_with_chat",row);
-
   if(result.error)throw result.error;
-
   const orderNo=Array.isArray(result.data)?result.data[0]:result.data;
-
   if(orderNo===null||orderNo===undefined){
    throw new Error("Order number was not returned.");
   }
 
   saveOrderForChat(orderNo);
-
   resultBox.replaceChildren();
 
   const success=document.createElement("strong");
@@ -1004,12 +875,10 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
   resultBox.appendChild(saveLine);
 
   resultBox.style.display="block";
-
   form.reset();
   showPreview(null);
   updatePrice();
   updatePaymentInfo();
-
   refreshOrderChoices();
   openChat(orderNo);
 
@@ -1022,7 +891,6 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
  }
 });
 
-/* Restore previous chats on same browser */
 try{
  const oldOrders=getSavedOrders();
  if(oldOrders.length){
@@ -1034,10 +902,20 @@ try{
  console.error("Could not restore previous chats:",error);
 }
 
-/* Initial setup */
 setLanguage("ur");
 updatePaymentInfo();
 updatePrice();
+</script>
+
+<!-- PWA SERVICE WORKER REGISTRATION -->
+<script>
+if ("serviceWorker" in navigator) {
+ window.addEventListener("load", () => {
+  navigator.serviceWorker.register("./sw.js")
+   .then(reg => console.log("Service Worker Registered:",reg.scope))
+   .catch(err => console.error("Service Worker Error:",err));
+ });
+}
 </script>
 
 </body>
