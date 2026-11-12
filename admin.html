@@ -19,11 +19,14 @@ body{
  font-family:system-ui,Arial,sans-serif
 }
 
+/* HEADER: FIXED VISUAL ORDER */
 header{
  background:#fff;
  border-bottom:4px solid #126b3a;
  padding:12px 18px;
  display:flex;
+ flex-direction:row;
+ direction:ltr;
  align-items:center;
  justify-content:space-between;
  gap:12px;
@@ -56,7 +59,10 @@ header{
  border:2px solid #d9b65c
 }
 
-.brand-text{text-align:left}
+.brand-text{
+ direction:ltr;
+ text-align:left
+}
 
 .brand-text h2{
  margin:0;
@@ -76,9 +82,11 @@ header{
 .header-actions{
  display:flex;
  align-items:center;
+ justify-content:flex-end;
  gap:8px;
- flex-wrap:wrap;
- direction:ltr
+ flex-wrap:nowrap;
+ direction:ltr;
+ margin-left:auto
 }
 
 .language-buttons{
@@ -278,7 +286,13 @@ footer{
 }
 
 @media(max-width:600px){
- header{padding:10px}
+
+ header{
+  padding:10px;
+  flex-direction:row;
+  direction:ltr;
+  justify-content:space-between
+ }
 
  .brand-mark{
   width:46px;
@@ -291,13 +305,20 @@ footer{
 
  .header-actions{
   width:100%;
-  justify-content:flex-start;
-  direction:ltr
+  justify-content:flex-end;
+  direction:ltr;
+  flex-wrap:wrap;
+  margin-left:0
  }
 
  .language-buttons{
   direction:ltr;
   flex-direction:row
+ }
+
+ #logoutBtn{
+  margin-left:0;
+  flex-shrink:0
  }
 
  .lang-btn{padding:9px 13px}
@@ -343,17 +364,17 @@ footer{
 
 <section id="loginSection" class="card login">
 
- <h2 id="loginTitle" data-i18n="loginTitle">USMANI PRINT لاگ اِن</h2>
+ <h2 data-i18n="loginTitle">USMANI PRINT لاگ اِن</h2>
 
  <label data-i18n="email">ای میل</label>
  <input id="email" type="email"
   data-i18n-placeholder="emailPlaceholder"
-  placeholder="Admin email">
+  placeholder="ایڈمن ای میل">
 
  <label data-i18n="password">پاس ورڈ</label>
  <input id="password" type="password"
   data-i18n-placeholder="passwordPlaceholder"
-  placeholder="Password">
+  placeholder="پاس ورڈ">
 
  <button class="primary" style="width:100%"
   onclick="login()" data-i18n="login">لاگ اِن</button>
@@ -366,15 +387,13 @@ footer{
 
  <div class="card">
   <div class="row">
-
    <div>
-    <h2 id="ordersTitle" data-i18n="ordersTitle">تمام آرڈرز</h2>
+    <h2 data-i18n="ordersTitle">تمام آرڈرز</h2>
     <p class="muted" id="orderCount">آرڈرز لوڈ ہو رہے ہیں...</p>
    </div>
 
    <button class="primary" onclick="loadOrders()"
     data-i18n="refresh">آرڈرز ریفریش کریں</button>
-
   </div>
  </div>
 
@@ -419,7 +438,9 @@ footer{
   </div>
 
   <div class="chatbox" id="chatMessages">
-   <p class="muted" data-i18n="messagesLoading">پیغامات لوڈ ہو رہے ہیں...</p>
+   <p class="muted" data-i18n="messagesLoading">
+    پیغامات لوڈ ہو رہے ہیں...
+   </p>
   </div>
 
   <p id="chatStatus" class="muted"></p>
@@ -664,6 +685,10 @@ function setLanguage(lang){
  document.documentElement.lang=lang;
  document.documentElement.dir=lang==="ur"?"rtl":"ltr";
 
+ /* Header direction and logo position NEVER change */
+ document.querySelector("header").style.direction="ltr";
+ $("brand")?.style.setProperty("direction","ltr");
+
  $("urduBtn").classList.toggle("active",lang==="ur");
  $("englishBtn").classList.toggle("active",lang==="en");
 
@@ -683,16 +708,11 @@ function setLanguage(lang){
   ?t("totalOrders")+currentOrders.length
   :t("loadingOrders");
 
- if(currentOrders.length){
-  renderOrders();
- }
+ if(currentOrders.length)renderOrders();
 
  if(activeOrderNo){
-  $("chatHeading").textContent=
-   t("chatHeading")+" #"+activeOrderNo;
-
+  $("chatHeading").textContent=t("chatHeading")+" #"+activeOrderNo;
   $("chatOrderLabel").textContent=t("chatCustomerAdmin");
-
   renderChatMessages();
  }
 }
@@ -765,18 +785,14 @@ async function loadOrders(){
   .order("created_at",{ascending:false});
 
  if(error){
-
   $("ordersBody").innerHTML=
-   '<tr><td colspan="13">Error: '+
-   escapeHTML(error.message)+'</td></tr>';
-
+   '<tr><td colspan="13">Error: '+escapeHTML(error.message)+'</td></tr>';
   return;
  }
 
  currentOrders=data||[];
 
- $("orderCount").textContent=
-  t("totalOrders")+currentOrders.length;
+ $("orderCount").textContent=t("totalOrders")+currentOrders.length;
 
  renderOrders();
 }
@@ -784,21 +800,15 @@ async function loadOrders(){
 function renderOrders(){
 
  if(!currentOrders.length){
-
   $("ordersBody").innerHTML=
    '<tr><td colspan="13">'+escapeHTML(t("noOrders"))+'</td></tr>';
-
   return;
  }
 
  $("ordersBody").innerHTML=currentOrders.map(o=>{
 
   const status=o.status||"pending";
-
-  const statusClass=
-   ["approved","rejected","printed"].includes(status)
-   ?status:"";
-
+  const statusClass=["approved","rejected","printed"].includes(status)?status:"";
   const statusText=translations[language][status]||status;
 
   return `
@@ -811,61 +821,31 @@ function renderOrders(){
     <td>${escapeHTML(o.pages)}</td>
     <td>${escapeHTML(o.copies)}</td>
     <td>${escapeHTML(o.amount)}</td>
-
     <td>
      ${escapeHTML(o.payment_method)}
-     ${o.transaction_id?
-      '<br>'+escapeHTML(o.transaction_id):""}
+     ${o.transaction_id?'<br>'+escapeHTML(o.transaction_id):""}
     </td>
-
     <td>
      ${o.file_path?
-      `<button class="blue"
-       onclick="openFile('${escapeHTML(o.file_path)}')">${escapeHTML(t("open"))}</button>`
-      :"—"}
+      `<button class="blue" onclick="openFile('${escapeHTML(o.file_path)}')">${escapeHTML(t("open"))}</button>`:"—"}
     </td>
-
     <td>
      ${o.receipt_path?
-      `<button class="blue"
-       onclick="openFile('${escapeHTML(o.receipt_path)}')">${escapeHTML(t("open"))}</button>`
-      :"—"}
+      `<button class="blue" onclick="openFile('${escapeHTML(o.receipt_path)}')">${escapeHTML(t("open"))}</button>`:"—"}
     </td>
-
     <td>
-     <span class="status ${statusClass}">
-      ${escapeHTML(statusText)}
-     </span>
+     <span class="status ${statusClass}">${escapeHTML(statusText)}</span>
     </td>
-
     <td>
      <div class="order-actions">
-
-      <button class="primary"
-       onclick="changeStatus(${Number(o.id)},'approved')">
-       ${escapeHTML(t("approve"))}
-      </button>
-
-      <button class="red"
-       onclick="changeStatus(${Number(o.id)},'rejected')">
-       ${escapeHTML(t("reject"))}
-      </button>
-
-      <button class="blue"
-       onclick="changeStatus(${Number(o.id)},'printed')">
-       ${escapeHTML(t("printed"))}
-      </button>
-
-      <button class="orange"
-       onclick="openChat(${Number(o.id)})">
-       ${escapeHTML(t("chat"))}
-      </button>
-
+      <button class="primary" onclick="changeStatus(${Number(o.id)},'approved')">${escapeHTML(t("approve"))}</button>
+      <button class="red" onclick="changeStatus(${Number(o.id)},'rejected')">${escapeHTML(t("reject"))}</button>
+      <button class="blue" onclick="changeStatus(${Number(o.id)},'printed')">${escapeHTML(t("printed"))}</button>
+      <button class="orange" onclick="openChat(${Number(o.id)})">${escapeHTML(t("chat"))}</button>
      </div>
     </td>
    </tr>
   `;
-
  }).join("");
 }
 
@@ -902,7 +882,6 @@ async function changeStatus(id,status){
  }
 
  alert(t("statusUpdated"));
-
  await loadOrders();
 }
 
@@ -917,17 +896,13 @@ async function edgeRequest(action,body={}){
  }
 
  const response=await fetch(EDGE_URL,{
-
   method:"POST",
-
   headers:{
    "Content-Type":"application/json",
    "apikey":CONFIG.anonKey,
    "Authorization":"Bearer "+session.access_token
   },
-
   body:JSON.stringify({action,...body})
-
  });
 
  const result=await response.json().catch(()=>({}));
@@ -946,16 +921,11 @@ async function edgeRequest(action,body={}){
 async function openChat(orderNo){
 
  activeOrderNo=orderNo;
-
  $("chatSection").classList.remove("hidden");
 
- $("chatHeading").textContent=
-  t("chatHeading")+" #"+orderNo;
-
+ $("chatHeading").textContent=t("chatHeading")+" #"+orderNo;
  $("chatOrderLabel").textContent=t("chatCustomerAdmin");
-
- $("chatMessages").innerHTML=
-  "<p>"+escapeHTML(t("loading"))+"</p>";
+ $("chatMessages").innerHTML="<p>"+escapeHTML(t("loading"))+"</p>";
 
  await loadChatMessages();
 
@@ -966,16 +936,13 @@ function closeChat(){
 
  activeOrderNo=null;
  currentMessages=[];
-
  $("chatSection").classList.add("hidden");
 
  recordedBlob=null;
-
  $("voicePreview").src="";
  $("voicePreview").classList.add("hidden");
  $("sendVoiceBtn").classList.add("hidden");
  $("sendVoiceBtn").disabled=false;
-
 }
 
 async function loadChatMessages(){
@@ -990,33 +957,24 @@ async function loadChatMessages(){
 
   let messages=[];
 
-  if(Array.isArray(result)){
-   messages=result;
-  }else if(Array.isArray(result.messages)){
-   messages=result.messages;
-  }else if(Array.isArray(result.data)){
-   messages=result.data;
-  }
+  if(Array.isArray(result))messages=result;
+  else if(Array.isArray(result.messages))messages=result.messages;
+  else if(Array.isArray(result.data))messages=result.data;
 
   currentMessages=messages;
-
   renderChatMessages();
-
   $("chatStatus").textContent="";
 
  }catch(error){
 
   console.error("Chat loading error:",error);
-
-  $("chatStatus").textContent=
-   t("chatError")+error.message;
+  $("chatStatus").textContent=t("chatError")+error.message;
  }
 }
 
 function renderChatMessages(){
 
  const box=$("chatMessages");
-
  box.replaceChildren();
 
  if(!currentMessages.length){
@@ -1025,70 +983,52 @@ function renderChatMessages(){
   p.className="muted";
   p.textContent=t("noMessages");
   box.appendChild(p);
-
   return;
  }
 
  currentMessages.forEach(m=>{
 
   const isAdmin=m.sender_role==="admin";
-
   const item=document.createElement("div");
 
   item.className="msg "+(isAdmin?"admin":"customer");
 
   const who=document.createElement("strong");
-
   who.textContent=isAdmin?t("adminRole"):t("customerRole");
-
   item.appendChild(who);
 
   if(m.message_type==="voice"){
 
    const audioUrl=
-    m.voice_url||
-    m.signed_url||
-    m.signedUrl||
-    m.url||
-    "";
+    m.voice_url||m.signed_url||m.signedUrl||m.url||"";
 
    if(audioUrl){
 
     const audio=document.createElement("audio");
-
     audio.controls=true;
     audio.preload="metadata";
     audio.src=audioUrl;
-
     item.appendChild(audio);
 
    }else{
 
     const missing=document.createElement("div");
-
     missing.textContent=t("voiceUrlMissing");
-
     item.appendChild(missing);
    }
 
   }else{
 
    const content=document.createElement("div");
-
    content.textContent=m.message_text||m.text||"";
-
    item.appendChild(content);
   }
 
   const time=document.createElement("small");
-
   time.textContent=m.created_at?
-   new Date(m.created_at).toLocaleString(
-    language==="ur"?"ur-PK":"en-US"
-   ):"";
+   new Date(m.created_at).toLocaleString(language==="ur"?"ur-PK":"en-US"):"";
 
   item.appendChild(time);
-
   box.appendChild(item);
  });
 
@@ -1102,29 +1042,21 @@ async function sendText(){
  if(!activeOrderNo)return;
 
  const message=$("chatText").value.trim();
-
  if(!message)return;
 
  $("chatStatus").textContent=t("sending");
 
  const {error}=await db.rpc("admin_send_chat_text",{
-
   p_order_no:Number(activeOrderNo),
-
   p_message_text:message
-
  });
 
  if(error){
-
-  $("chatStatus").textContent=
-   t("sendError")+error.message;
-
+  $("chatStatus").textContent=t("sendError")+error.message;
   return;
  }
 
  $("chatText").value="";
-
  await loadChatMessages();
 }
 
@@ -1134,8 +1066,7 @@ async function startRecording(){
 
  try{
 
-  mediaStream=
-   await navigator.mediaDevices.getUserMedia({audio:true});
+  mediaStream=await navigator.mediaDevices.getUserMedia({audio:true});
 
   const mimeTypes=[
    "audio/webm;codecs=opus",
@@ -1143,23 +1074,14 @@ async function startRecording(){
    "audio/mp4"
   ];
 
-  const mimeType=mimeTypes.find(
-   t=>MediaRecorder.isTypeSupported(t)
-  );
+  const mimeType=mimeTypes.find(t=>MediaRecorder.isTypeSupported(t));
 
-  recorder=new MediaRecorder(
-   mediaStream,
-   mimeType?{mimeType}:{}
-  );
+  recorder=new MediaRecorder(recorderOptions(mimeType));
 
   const chunks=[];
 
   recorder.ondataavailable=e=>{
-
-   if(e.data&&e.data.size){
-    chunks.push(e.data);
-   }
-
+   if(e.data&&e.data.size)chunks.push(e.data);
   };
 
   recorder.onstop=()=>{
@@ -1168,33 +1090,30 @@ async function startRecording(){
     type:recorder.mimeType||"audio/webm"
    });
 
-   $("voicePreview").src=
-    URL.createObjectURL(recordedBlob);
-
+   $("voicePreview").src=URL.createObjectURL(recordedBlob);
    $("voicePreview").classList.remove("hidden");
-
    $("sendVoiceBtn").classList.remove("hidden");
 
    if(mediaStream){
-
     mediaStream.getTracks().forEach(t=>t.stop());
-
     mediaStream=null;
    }
-
   };
 
   recorder.start();
 
   $("recordBtn").disabled=true;
   $("stopBtn").disabled=false;
-
   $("chatStatus").textContent=t("recording");
 
  }catch(error){
 
   alert(t("microphoneError")+error.message);
  }
+}
+
+function recorderOptions(mimeType){
+ return mimeType?{mimeType}:undefined;
 }
 
 function stopRecording(){
@@ -1205,7 +1124,6 @@ function stopRecording(){
 
  $("recordBtn").disabled=false;
  $("stopBtn").disabled=true;
-
  $("chatStatus").textContent=t("recordingComplete");
 }
 
@@ -1218,7 +1136,6 @@ async function sendVoice(){
  try{
 
   $("chatStatus").textContent=t("voicePreparing");
-
   $("sendVoiceBtn").disabled=true;
 
   const prepared=await edgeRequest("admin_prepare",{
@@ -1232,8 +1149,7 @@ async function sendVoice(){
    throw new Error(t("uploadPathMissing"));
   }
 
-  const extension=
-   recordedBlob.type.includes("mp4")?"m4a":"webm";
+  const extension=recordedBlob.type.includes("mp4")?"m4a":"webm";
 
   const file=new File(
    [recordedBlob],
@@ -1241,13 +1157,11 @@ async function sendVoice(){
    {type:recordedBlob.type||"audio/webm"}
   );
 
-  const {data:uploadData,error:uploadError}=await db.storage
+  const {error:uploadError}=await db.storage
    .from("chat-voice")
    .uploadToSignedUrl(path,token,file);
 
-  if(uploadError){
-   throw uploadError;
-  }
+  if(uploadError)throw uploadError;
 
   await edgeRequest("admin_confirm",{
    order_no:Number(activeOrderNo),
@@ -1255,11 +1169,9 @@ async function sendVoice(){
   });
 
   recordedBlob=null;
-
   $("voicePreview").src="";
   $("voicePreview").classList.add("hidden");
   $("sendVoiceBtn").classList.add("hidden");
-
   $("chatStatus").textContent=t("voiceSent");
 
   await loadChatMessages();
@@ -1267,9 +1179,7 @@ async function sendVoice(){
  }catch(error){
 
   console.error("Voice upload error:",error);
-
-  $("chatStatus").textContent=
-   t("voiceError")+error.message;
+  $("chatStatus").textContent=t("voiceError")+error.message;
 
  }finally{
 
