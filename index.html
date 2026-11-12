@@ -9,9 +9,10 @@
 <!-- PWA SETTINGS -->
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#126b3a">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="USMANI PRINT">
-<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
 
 <style>
 :root{
@@ -32,6 +33,13 @@ header img{
  display:block;width:100%;max-width:1100px;
  height:auto;max-height:220px;object-fit:contain;margin:0 auto;
 }
+#installAppBtn{
+ display:none;border:0;border-radius:9px;
+ background:var(--green);color:white;
+ padding:11px 20px;font-weight:bold;
+ font-size:15px;cursor:pointer
+}
+#installAppBtn.show{display:inline-block}
 .lang{
  display:flex;flex-direction:row;direction:ltr;
  justify-content:center;gap:8px;margin:10px auto
@@ -177,6 +185,13 @@ footer{text-align:center;padding:15px;color:#667085;font-size:12px}
 <header>
  <img src="usmani-logo.png" alt="USMANI PRINT Logo">
 </header>
+
+<!-- PWA INSTALL BUTTON -->
+<div style="text-align:center;margin:10px auto">
+ <button id="installAppBtn" type="button">
+  📲 ایپ انسٹال کریں / Install App
+ </button>
+</div>
 
 <div class="lang" dir="ltr">
  <button type="button" id="englishBtn" onclick="setLanguage('en')">English</button>
@@ -907,15 +922,103 @@ updatePaymentInfo();
 updatePrice();
 </script>
 
-<!-- PWA SERVICE WORKER REGISTRATION -->
+<!-- PWA REGISTRATION AND INSTALL BUTTON -->
 <script>
-if ("serviceWorker" in navigator) {
- window.addEventListener("load", () => {
-  navigator.serviceWorker.register("./sw.js")
-   .then(reg => console.log("Service Worker Registered:",reg.scope))
-   .catch(err => console.error("Service Worker Error:",err));
+(function(){
+
+ const installButton=document.getElementById("installAppBtn");
+ let deferredInstallPrompt=null;
+
+ function showPwaError(message){
+  console.error("USMANI PRINT PWA:",message);
+  alert("USMANI PRINT PWA ERROR:\n"+message);
+ }
+
+ function watchWorker(worker){
+  if(!worker)return;
+
+  worker.addEventListener("statechange",function(){
+   console.log("Service Worker State:",worker.state);
+
+   if(worker.state==="redundant"){
+    showPwaError(
+     "Service Worker انسٹال نہیں ہو سکا۔ sw.js کی APP_SHELL فائلوں میں 404 یا دوسری خرابی چیک کریں۔"
+    );
+   }
+  });
+ }
+
+ if("serviceWorker" in navigator){
+
+  window.addEventListener("load",async function(){
+
+   try{
+    const registration=await navigator.serviceWorker.register("./sw.js");
+
+    console.log("Service Worker Registration:",registration.scope);
+
+    if(registration.installing){
+     watchWorker(registration.installing);
+    }
+
+    registration.addEventListener("updatefound",function(){
+     watchWorker(registration.installing);
+    });
+
+    if(registration.active){
+     console.log("Service Worker Active");
+    }
+
+   }catch(error){
+    showPwaError(error.name+": "+error.message);
+   }
+
+  });
+
+ }else{
+  console.log("This browser does not support Service Workers.");
+ }
+
+ window.addEventListener("beforeinstallprompt",function(event){
+  event.preventDefault();
+  deferredInstallPrompt=event;
+  installButton.classList.add("show");
  });
-}
+
+ installButton.addEventListener("click",async function(){
+
+  if(!deferredInstallPrompt){
+   alert(
+    "انسٹالیشن کا آپشن ابھی دستیاب نہیں۔ Chrome کے تین نقطوں والے مینو سے Install app آزمائیں۔"
+   );
+   return;
+  }
+
+  const promptEvent=deferredInstallPrompt;
+  deferredInstallPrompt=null;
+
+  try{
+   await promptEvent.prompt();
+   const choice=await promptEvent.userChoice;
+
+   console.log("Install choice:",choice.outcome);
+
+   if(choice.outcome==="accepted"){
+    installButton.classList.remove("show");
+   }
+
+  }catch(error){
+   showPwaError("Install Error: "+error.message);
+  }
+
+ });
+
+ window.addEventListener("appinstalled",function(){
+  installButton.classList.remove("show");
+  console.log("USMANI PRINT installed successfully.");
+ });
+
+})();
 </script>
 
 </body>
