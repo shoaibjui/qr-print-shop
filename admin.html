@@ -34,7 +34,9 @@ header{
 .brand{
  display:flex;
  align-items:center;
- gap:12px
+ gap:12px;
+ direction:ltr;
+ flex-shrink:0
 }
 
 .brand-mark{
@@ -53,6 +55,8 @@ header{
  box-shadow:0 4px 10px #126b3a35;
  border:2px solid #d9b65c
 }
+
+.brand-text{text-align:left}
 
 .brand-text h2{
  margin:0;
@@ -73,13 +77,17 @@ header{
  display:flex;
  align-items:center;
  gap:8px;
- flex-wrap:wrap
+ flex-wrap:wrap;
+ direction:ltr
 }
 
 .language-buttons{
  display:flex;
+ flex-direction:row;
+ direction:ltr;
  gap:5px;
- align-items:center
+ align-items:center;
+ flex-shrink:0
 }
 
 button{
@@ -94,7 +102,8 @@ button{
 .lang-btn{
  background:#e5eaf1;
  color:#172033;
- min-width:70px
+ min-width:70px;
+ direction:ltr
 }
 
 .lang-btn.active{
@@ -176,7 +185,7 @@ table{
 th,td{
  padding:10px;
  border-bottom:1px solid #e8edf3;
- text-align:right;
+ text-align:start;
  vertical-align:middle;
  font-size:14px
 }
@@ -227,12 +236,12 @@ th{background:#f2f5f8}
 
 .msg.customer{
  background:#e5eaf1;
- margin-left:auto
+ margin-inline-start:auto
 }
 
 .msg.admin{
  background:#d9f4e4;
- margin-right:auto
+ margin-inline-end:auto
 }
 
 .msg strong{
@@ -282,12 +291,16 @@ footer{
 
  .header-actions{
   width:100%;
-  justify-content:flex-start
+  justify-content:flex-start;
+  direction:ltr
  }
 
- .lang-btn{
-  padding:9px 13px
+ .language-buttons{
+  direction:ltr;
+  flex-direction:row
  }
+
+ .lang-btn{padding:9px 13px}
 
  .login{margin:25px 10px}
  main{padding:8px}
@@ -312,15 +325,15 @@ footer{
  <div class="header-actions">
 
   <div class="language-buttons">
-   <button class="lang-btn active" id="urduBtn"
-    onclick="setLanguage('ur')">اردو</button>
+   <button type="button" class="lang-btn active"
+    id="urduBtn" onclick="setLanguage('ur')">اردو</button>
 
-   <button class="lang-btn" id="englishBtn"
-    onclick="setLanguage('en')">English</button>
+   <button type="button" class="lang-btn"
+    id="englishBtn" onclick="setLanguage('en')">English</button>
   </div>
 
   <button class="red hidden" id="logoutBtn"
-   onclick="logout()">Logout</button>
+   onclick="logout()" data-i18n="logout">لاگ آؤٹ</button>
 
  </div>
 
@@ -330,16 +343,20 @@ footer{
 
 <section id="loginSection" class="card login">
 
- <h2 id="loginTitle">USMANI PRINT لاگ اِن</h2>
+ <h2 id="loginTitle" data-i18n="loginTitle">USMANI PRINT لاگ اِن</h2>
 
- <label>Email</label>
- <input id="email" type="email" placeholder="Admin email">
+ <label data-i18n="email">ای میل</label>
+ <input id="email" type="email"
+  data-i18n-placeholder="emailPlaceholder"
+  placeholder="Admin email">
 
- <label>Password</label>
- <input id="password" type="password" placeholder="Password">
+ <label data-i18n="password">پاس ورڈ</label>
+ <input id="password" type="password"
+  data-i18n-placeholder="passwordPlaceholder"
+  placeholder="Password">
 
  <button class="primary" style="width:100%"
-  onclick="login()">Login</button>
+  onclick="login()" data-i18n="login">لاگ اِن</button>
 
  <p id="loginMessage" class="muted"></p>
 
@@ -351,99 +368,94 @@ footer{
   <div class="row">
 
    <div>
-    <h2 id="ordersTitle">تمام آرڈرز</h2>
+    <h2 id="ordersTitle" data-i18n="ordersTitle">تمام آرڈرز</h2>
     <p class="muted" id="orderCount">آرڈرز لوڈ ہو رہے ہیں...</p>
    </div>
 
-   <button class="primary" onclick="loadOrders()">
-    Refresh Orders
-   </button>
+   <button class="primary" onclick="loadOrders()"
+    data-i18n="refresh">آرڈرز ریفریش کریں</button>
 
   </div>
  </div>
 
  <div class="card">
-
   <div class="tablewrap">
-
    <table>
     <thead>
      <tr>
-      <th>Order</th>
-      <th>Customer</th>
-      <th>Phone</th>
-      <th>Paper</th>
-      <th>Type</th>
-      <th>Pages</th>
-      <th>Copies</th>
-      <th>Amount</th>
-      <th>Payment</th>
-      <th>File</th>
-      <th>Receipt</th>
-      <th>Status</th>
-      <th>Actions</th>
+      <th data-i18n="order">آرڈر</th>
+      <th data-i18n="customer">کسٹمر</th>
+      <th data-i18n="phone">فون</th>
+      <th data-i18n="paper">پیپر</th>
+      <th data-i18n="type">قسم</th>
+      <th data-i18n="pages">صفحات</th>
+      <th data-i18n="copies">کاپیاں</th>
+      <th data-i18n="amount">رقم</th>
+      <th data-i18n="payment">ادائیگی</th>
+      <th data-i18n="file">فائل</th>
+      <th data-i18n="receipt">رسید</th>
+      <th data-i18n="status">اسٹیٹس</th>
+      <th data-i18n="actions">ایکشن</th>
      </tr>
     </thead>
 
     <tbody id="ordersBody">
-     <tr>
-      <td colspan="13">Loading...</td>
-     </tr>
+     <tr><td colspan="13">لوڈ ہو رہا ہے...</td></tr>
     </tbody>
    </table>
-
   </div>
  </div>
 
  <section class="card hidden" id="chatSection">
 
   <div class="row">
-
    <div>
-    <h2 id="chatHeading">Order Chat</h2>
+    <h2 id="chatHeading">آرڈر چیٹ</h2>
     <p class="muted" id="chatOrderLabel"></p>
    </div>
 
-   <button class="gray" onclick="closeChat()">
-    Close Chat
-   </button>
-
+   <button class="gray" onclick="closeChat()"
+    data-i18n="closeChat">چیٹ بند کریں</button>
   </div>
 
   <div class="chatbox" id="chatMessages">
-   <p class="muted">پیغامات لوڈ ہو رہے ہیں...</p>
+   <p class="muted" data-i18n="messagesLoading">پیغامات لوڈ ہو رہے ہیں...</p>
   </div>
 
   <p id="chatStatus" class="muted"></p>
 
-  <label>Text Message</label>
+  <label data-i18n="textMessage">ٹیکسٹ پیغام</label>
 
   <div class="row">
-   <input id="chatText" placeholder="اپنا پیغام لکھیں">
+   <input id="chatText"
+    data-i18n-placeholder="writeMessage"
+    placeholder="اپنا پیغام لکھیں">
 
    <button class="primary" style="flex:0 0 auto"
-    onclick="sendText()">Send</button>
+    onclick="sendText()" data-i18n="send">بھیجیں</button>
   </div>
 
-  <label>Voice Message</label>
+  <label data-i18n="voiceMessage">وائس پیغام</label>
 
   <div class="row">
-
    <button class="blue" id="recordBtn"
-    onclick="startRecording()">Start Recording</button>
+    onclick="startRecording()" data-i18n="startRecording">
+    ریکارڈنگ شروع کریں
+   </button>
 
    <button class="red" id="stopBtn"
-    onclick="stopRecording()" disabled>Stop Recording</button>
-
+    onclick="stopRecording()" disabled data-i18n="stopRecording">
+    ریکارڈنگ بند کریں
+   </button>
   </div>
 
   <audio id="voicePreview" controls class="hidden"
    style="width:100%;margin-top:10px"></audio>
 
   <button class="primary hidden" id="sendVoiceBtn"
-   onclick="sendVoice()">Send Voice</button>
+   onclick="sendVoice()" data-i18n="sendVoice">وائس بھیجیں</button>
 
-  <p class="muted">
+  <p class="muted" data-i18n="microphoneHelp">
    وائس ریکارڈنگ کے لیے مائیکروفون کی اجازت دیں۔
   </p>
 
@@ -453,12 +465,11 @@ footer{
 
 </main>
 
-<footer>
+<footer data-i18n="footer">
  USMANI PRINT © 2026 — Print Smart, Print Easy
 </footer>
 
 <script>
-
 const CONFIG=window.QR_PRINT_CONFIG;
 
 if(!CONFIG || !CONFIG.url || !CONFIG.anonKey){
@@ -466,7 +477,6 @@ if(!CONFIG || !CONFIG.url || !CONFIG.anonKey){
 }
 
 const db=supabase.createClient(CONFIG.url,CONFIG.anonKey);
-
 const EDGE_URL=CONFIG.url.replace(/\/$/,"")+"/functions/v1/chat-voice";
 
 let activeOrderNo=null;
@@ -475,8 +485,163 @@ let recordedBlob=null;
 let mediaStream=null;
 let language="ur";
 let currentOrders=[];
+let currentMessages=[];
 
 const $=id=>document.getElementById(id);
+
+/* TRANSLATIONS */
+
+const translations={
+
+ ur:{
+  loginTitle:"USMANI PRINT لاگ اِن",
+  email:"ای میل",
+  emailPlaceholder:"ایڈمن ای میل درج کریں",
+  password:"پاس ورڈ",
+  passwordPlaceholder:"پاس ورڈ درج کریں",
+  login:"لاگ اِن",
+  logout:"لاگ آؤٹ",
+  ordersTitle:"تمام آرڈرز",
+  loadingOrders:"آرڈرز لوڈ ہو رہے ہیں...",
+  totalOrders:"کل آرڈرز: ",
+  refresh:"آرڈرز ریفریش کریں",
+  order:"آرڈر",
+  customer:"کسٹمر",
+  phone:"فون",
+  paper:"پیپر",
+  type:"قسم",
+  pages:"صفحات",
+  copies:"کاپیاں",
+  amount:"رقم",
+  payment:"ادائیگی",
+  file:"فائل",
+  receipt:"رسید",
+  status:"اسٹیٹس",
+  actions:"ایکشن",
+  loading:"لوڈ ہو رہا ہے...",
+  noOrders:"کوئی آرڈر موجود نہیں",
+  open:"کھولیں",
+  approve:"منظور کریں",
+  reject:"مسترد کریں",
+  printed:"پرنٹ ہوگیا",
+  pending:"زیرِ انتظار",
+  approved:"منظور شدہ",
+  rejected:"مسترد",
+  closeChat:"چیٹ بند کریں",
+  chat:"چیٹ",
+  chatHeading:"آرڈر چیٹ",
+  chatCustomerAdmin:"کسٹمر اور ایڈمن کے پیغامات",
+  messagesLoading:"پیغامات لوڈ ہو رہے ہیں...",
+  noMessages:"ابھی کوئی پیغام موجود نہیں",
+  textMessage:"ٹیکسٹ پیغام",
+  writeMessage:"اپنا پیغام لکھیں",
+  send:"بھیجیں",
+  voiceMessage:"وائس پیغام",
+  startRecording:"ریکارڈنگ شروع کریں",
+  stopRecording:"ریکارڈنگ بند کریں",
+  sendVoice:"وائس بھیجیں",
+  microphoneHelp:"وائس ریکارڈنگ کے لیے مائیکروفون کی اجازت دیں۔",
+  recording:"ریکارڈنگ جاری ہے...",
+  recordingComplete:"ریکارڈنگ مکمل ہوگئی",
+  sending:"بھیجا جا رہا ہے...",
+  voicePreparing:"وائس اپ لوڈ کی تیاری...",
+  voiceSent:"وائس کامیابی سے بھیج دی گئی",
+  footer:"USMANI PRINT © 2026 — پرنٹنگ آسان اور تیز",
+  confirmStatus:"کیا آپ آرڈر کا اسٹیٹس تبدیل کرنا چاہتے ہیں؟",
+  statusUpdated:"اسٹیٹس تبدیل ہوگیا",
+  statusError:"اسٹیٹس کی خرابی: ",
+  fileError:"فائل کی خرابی: ",
+  sendError:"پیغام بھیجنے میں خرابی: ",
+  chatError:"چیٹ کی خرابی: ",
+  voiceError:"وائس کی خرابی: ",
+  voiceUrlMissing:"وائس کا لنک نہیں ملا",
+  customerRole:"کسٹمر",
+  adminRole:"ایڈمن",
+  loginRequired:"ای میل اور پاس ورڈ درج کریں",
+  loggingIn:"لاگ اِن ہو رہا ہے...",
+  sessionExpired:"ایڈمن سیشن ختم ہوگیا ہے۔ دوبارہ لاگ اِن کریں۔",
+  uploadPathMissing:"اپ لوڈ کا راستہ یا ٹوکن نہیں ملا",
+  serverError:"سرور کی خرابی ",
+  microphoneError:"مائیکروفون کی خرابی: "
+ },
+
+ en:{
+  loginTitle:"USMANI PRINT Login",
+  email:"Email",
+  emailPlaceholder:"Enter admin email",
+  password:"Password",
+  passwordPlaceholder:"Enter password",
+  login:"Login",
+  logout:"Logout",
+  ordersTitle:"All Orders",
+  loadingOrders:"Loading orders...",
+  totalOrders:"Total Orders: ",
+  refresh:"Refresh Orders",
+  order:"Order",
+  customer:"Customer",
+  phone:"Phone",
+  paper:"Paper",
+  type:"Type",
+  pages:"Pages",
+  copies:"Copies",
+  amount:"Amount",
+  payment:"Payment",
+  file:"File",
+  receipt:"Receipt",
+  status:"Status",
+  actions:"Actions",
+  loading:"Loading...",
+  noOrders:"No orders found",
+  open:"Open",
+  approve:"Approve",
+  reject:"Reject",
+  printed:"Printed",
+  pending:"Pending",
+  approved:"Approved",
+  rejected:"Rejected",
+  closeChat:"Close Chat",
+  chat:"Chat",
+  chatHeading:"Order Chat",
+  chatCustomerAdmin:"Customer and Admin messages",
+  messagesLoading:"Loading messages...",
+  noMessages:"No messages yet",
+  textMessage:"Text Message",
+  writeMessage:"Write your message",
+  send:"Send",
+  voiceMessage:"Voice Message",
+  startRecording:"Start Recording",
+  stopRecording:"Stop Recording",
+  sendVoice:"Send Voice",
+  microphoneHelp:"Allow microphone access for voice recording.",
+  recording:"Recording...",
+  recordingComplete:"Recording complete",
+  sending:"Sending...",
+  voicePreparing:"Preparing voice upload...",
+  voiceSent:"Voice sent successfully",
+  footer:"USMANI PRINT © 2026 — Print Smart, Print Easy",
+  confirmStatus:"Do you want to change the order status?",
+  statusUpdated:"Status Updated",
+  statusError:"Status Error: ",
+  fileError:"File Error: ",
+  sendError:"Send Error: ",
+  chatError:"Chat Error: ",
+  voiceError:"Voice Error: ",
+  voiceUrlMissing:"Voice URL not found",
+  customerRole:"Customer",
+  adminRole:"Admin",
+  loginRequired:"Please enter email and password",
+  loggingIn:"Logging in...",
+  sessionExpired:"Admin session expired. Please login again.",
+  uploadPathMissing:"Upload path or token not found",
+  serverError:"Server Error ",
+  microphoneError:"Microphone Error: "
+ }
+
+};
+
+function t(key){
+ return translations[language][key]||key;
+}
 
 function escapeHTML(value){
  return String(value??"").replace(/[&<>"']/g,c=>({
@@ -492,19 +657,44 @@ function escapeHTML(value){
 
 function setLanguage(lang){
 
+ if(lang!=="ur"&&lang!=="en")return;
+
  language=lang;
 
  document.documentElement.lang=lang;
  document.documentElement.dir=lang==="ur"?"rtl":"ltr";
 
- $("ordersTitle").textContent=
-  lang==="ur"?"تمام آرڈرز":"All Orders";
-
- $("loginTitle").textContent=
-  lang==="ur"?"USMANI PRINT لاگ اِن":"USMANI PRINT Login";
-
  $("urduBtn").classList.toggle("active",lang==="ur");
  $("englishBtn").classList.toggle("active",lang==="en");
+
+ document.querySelectorAll("[data-i18n]").forEach(el=>{
+  const key=el.getAttribute("data-i18n");
+  if(translations[lang][key]!==undefined){
+   el.textContent=t(key);
+  }
+ });
+
+ document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
+  const key=el.getAttribute("data-i18n-placeholder");
+  el.placeholder=t(key);
+ });
+
+ $("orderCount").textContent=currentOrders.length
+  ?t("totalOrders")+currentOrders.length
+  :t("loadingOrders");
+
+ if(currentOrders.length){
+  renderOrders();
+ }
+
+ if(activeOrderNo){
+  $("chatHeading").textContent=
+   t("chatHeading")+" #"+activeOrderNo;
+
+  $("chatOrderLabel").textContent=t("chatCustomerAdmin");
+
+  renderChatMessages();
+ }
 }
 
 /* LOGIN */
@@ -515,11 +705,11 @@ async function login(){
  const password=$("password").value;
 
  if(!email||!password){
-  $("loginMessage").textContent="Email اور Password درج کریں";
+  $("loginMessage").textContent=t("loginRequired");
   return;
  }
 
- $("loginMessage").textContent="Logging in...";
+ $("loginMessage").textContent=t("loggingIn");
 
  const {data,error}=await db.auth.signInWithPassword({
   email,password
@@ -567,7 +757,7 @@ async function checkSession(){
 async function loadOrders(){
 
  $("ordersBody").innerHTML=
-  '<tr><td colspan="13">Loading...</td></tr>';
+  '<tr><td colspan="13">'+escapeHTML(t("loading"))+'</td></tr>';
 
  const {data,error}=await db
   .from("orders")
@@ -586,12 +776,17 @@ async function loadOrders(){
  currentOrders=data||[];
 
  $("orderCount").textContent=
-  "Total Orders: "+currentOrders.length;
+  t("totalOrders")+currentOrders.length;
+
+ renderOrders();
+}
+
+function renderOrders(){
 
  if(!currentOrders.length){
 
   $("ordersBody").innerHTML=
-   '<tr><td colspan="13">کوئی آرڈر موجود نہیں</td></tr>';
+   '<tr><td colspan="13">'+escapeHTML(t("noOrders"))+'</td></tr>';
 
   return;
  }
@@ -604,23 +799,17 @@ async function loadOrders(){
    ["approved","rejected","printed"].includes(status)
    ?status:"";
 
+  const statusText=translations[language][status]||status;
+
   return `
    <tr>
-
     <td>#${escapeHTML(o.id)}</td>
-
     <td>${escapeHTML(o.customer_name)}</td>
-
     <td>${escapeHTML(o.phone)}</td>
-
     <td>${escapeHTML(o.paper_size)}</td>
-
     <td>${escapeHTML(o.print_type)}</td>
-
     <td>${escapeHTML(o.pages)}</td>
-
     <td>${escapeHTML(o.copies)}</td>
-
     <td>${escapeHTML(o.amount)}</td>
 
     <td>
@@ -632,20 +821,20 @@ async function loadOrders(){
     <td>
      ${o.file_path?
       `<button class="blue"
-       onclick="openFile('${escapeHTML(o.file_path)}')">Open</button>`
+       onclick="openFile('${escapeHTML(o.file_path)}')">${escapeHTML(t("open"))}</button>`
       :"—"}
     </td>
 
     <td>
      ${o.receipt_path?
       `<button class="blue"
-       onclick="openFile('${escapeHTML(o.receipt_path)}')">Open</button>`
+       onclick="openFile('${escapeHTML(o.receipt_path)}')">${escapeHTML(t("open"))}</button>`
       :"—"}
     </td>
 
     <td>
      <span class="status ${statusClass}">
-      ${escapeHTML(status)}
+      ${escapeHTML(statusText)}
      </span>
     </td>
 
@@ -654,27 +843,26 @@ async function loadOrders(){
 
       <button class="primary"
        onclick="changeStatus(${Number(o.id)},'approved')">
-       Approve
+       ${escapeHTML(t("approve"))}
       </button>
 
       <button class="red"
        onclick="changeStatus(${Number(o.id)},'rejected')">
-       Reject
+       ${escapeHTML(t("reject"))}
       </button>
 
       <button class="blue"
        onclick="changeStatus(${Number(o.id)},'printed')">
-       Printed
+       ${escapeHTML(t("printed"))}
       </button>
 
       <button class="orange"
        onclick="openChat(${Number(o.id)})">
-       Chat
+       ${escapeHTML(t("chat"))}
       </button>
 
      </div>
     </td>
-
    </tr>
   `;
 
@@ -690,7 +878,7 @@ async function openFile(path){
   .createSignedUrl(path,300);
 
  if(error){
-  alert("File error: "+error.message);
+  alert(t("fileError")+error.message);
   return;
  }
 
@@ -701,8 +889,7 @@ async function openFile(path){
 
 async function changeStatus(id,status){
 
- if(!confirm("کیا آپ آرڈر کا اسٹیٹس تبدیل کرنا چاہتے ہیں؟"))
-  return;
+ if(!confirm(t("confirmStatus")))return;
 
  const {error}=await db
   .from("orders")
@@ -710,11 +897,11 @@ async function changeStatus(id,status){
   .eq("id",id);
 
  if(error){
-  alert("Status Error: "+error.message);
+  alert(t("statusError")+error.message);
   return;
  }
 
- alert("Status Updated");
+ alert(t("statusUpdated"));
 
  await loadOrders();
 }
@@ -726,9 +913,7 @@ async function edgeRequest(action,body={}){
  const {data:{session},error}=await db.auth.getSession();
 
  if(error||!session){
-  throw new Error(
-   "Admin login session ختم ہو گیا ہے۔ دوبارہ Login کریں۔"
-  );
+  throw new Error(t("sessionExpired"));
  }
 
  const response=await fetch(EDGE_URL,{
@@ -749,7 +934,7 @@ async function edgeRequest(action,body={}){
 
  if(!response.ok){
   throw new Error(
-   result.error||result.message||"Server Error "+response.status
+   result.error||result.message||t("serverError")+response.status
   );
  }
 
@@ -764,12 +949,13 @@ async function openChat(orderNo){
 
  $("chatSection").classList.remove("hidden");
 
- $("chatHeading").textContent="Order #"+orderNo+" Chat";
+ $("chatHeading").textContent=
+  t("chatHeading")+" #"+orderNo;
 
- $("chatOrderLabel").textContent=
-  "Customer اور Admin کے پیغامات";
+ $("chatOrderLabel").textContent=t("chatCustomerAdmin");
 
- $("chatMessages").innerHTML="<p>Loading...</p>";
+ $("chatMessages").innerHTML=
+  "<p>"+escapeHTML(t("loading"))+"</p>";
 
  await loadChatMessages();
 
@@ -779,14 +965,17 @@ async function openChat(orderNo){
 function closeChat(){
 
  activeOrderNo=null;
+ currentMessages=[];
 
  $("chatSection").classList.add("hidden");
 
  recordedBlob=null;
 
+ $("voicePreview").src="";
  $("voicePreview").classList.add("hidden");
-
  $("sendVoiceBtn").classList.add("hidden");
+ $("sendVoiceBtn").disabled=false;
+
 }
 
 async function loadChatMessages(){
@@ -809,84 +998,9 @@ async function loadChatMessages(){
    messages=result.data;
   }
 
-  const box=$("chatMessages");
+  currentMessages=messages;
 
-  box.replaceChildren();
-
-  if(!messages.length){
-
-   const p=document.createElement("p");
-
-   p.className="muted";
-   p.textContent="ابھی کوئی پیغام موجود نہیں";
-
-   box.appendChild(p);
-
-   return;
-  }
-
-  messages.forEach(m=>{
-
-   const isAdmin=m.sender_role==="admin";
-
-   const item=document.createElement("div");
-
-   item.className="msg "+(isAdmin?"admin":"customer");
-
-   const who=document.createElement("strong");
-
-   who.textContent=isAdmin?"Admin":"Customer";
-
-   item.appendChild(who);
-
-   if(m.message_type==="voice"){
-
-    const audioUrl=
-     m.voice_url||
-     m.signed_url||
-     m.signedUrl||
-     m.url||
-     "";
-
-    if(audioUrl){
-
-     const audio=document.createElement("audio");
-
-     audio.controls=true;
-     audio.preload="metadata";
-     audio.src=audioUrl;
-
-     item.appendChild(audio);
-
-    }else{
-
-     const missing=document.createElement("div");
-
-     missing.textContent="Voice URL not found";
-
-     item.appendChild(missing);
-    }
-
-   }else{
-
-    const content=document.createElement("div");
-
-    content.textContent=m.message_text||m.text||"";
-
-    item.appendChild(content);
-   }
-
-   const time=document.createElement("small");
-
-   time.textContent=m.created_at?
-    new Date(m.created_at).toLocaleString():"";
-
-   item.appendChild(time);
-
-   box.appendChild(item);
-  });
-
-  box.scrollTop=box.scrollHeight;
+  renderChatMessages();
 
   $("chatStatus").textContent="";
 
@@ -895,8 +1009,90 @@ async function loadChatMessages(){
   console.error("Chat loading error:",error);
 
   $("chatStatus").textContent=
-   "Chat Error: "+error.message;
+   t("chatError")+error.message;
  }
+}
+
+function renderChatMessages(){
+
+ const box=$("chatMessages");
+
+ box.replaceChildren();
+
+ if(!currentMessages.length){
+
+  const p=document.createElement("p");
+  p.className="muted";
+  p.textContent=t("noMessages");
+  box.appendChild(p);
+
+  return;
+ }
+
+ currentMessages.forEach(m=>{
+
+  const isAdmin=m.sender_role==="admin";
+
+  const item=document.createElement("div");
+
+  item.className="msg "+(isAdmin?"admin":"customer");
+
+  const who=document.createElement("strong");
+
+  who.textContent=isAdmin?t("adminRole"):t("customerRole");
+
+  item.appendChild(who);
+
+  if(m.message_type==="voice"){
+
+   const audioUrl=
+    m.voice_url||
+    m.signed_url||
+    m.signedUrl||
+    m.url||
+    "";
+
+   if(audioUrl){
+
+    const audio=document.createElement("audio");
+
+    audio.controls=true;
+    audio.preload="metadata";
+    audio.src=audioUrl;
+
+    item.appendChild(audio);
+
+   }else{
+
+    const missing=document.createElement("div");
+
+    missing.textContent=t("voiceUrlMissing");
+
+    item.appendChild(missing);
+   }
+
+  }else{
+
+   const content=document.createElement("div");
+
+   content.textContent=m.message_text||m.text||"";
+
+   item.appendChild(content);
+  }
+
+  const time=document.createElement("small");
+
+  time.textContent=m.created_at?
+   new Date(m.created_at).toLocaleString(
+    language==="ur"?"ur-PK":"en-US"
+   ):"";
+
+  item.appendChild(time);
+
+  box.appendChild(item);
+ });
+
+ box.scrollTop=box.scrollHeight;
 }
 
 /* TEXT MESSAGE */
@@ -909,7 +1105,7 @@ async function sendText(){
 
  if(!message)return;
 
- $("chatStatus").textContent="Sending...";
+ $("chatStatus").textContent=t("sending");
 
  const {error}=await db.rpc("admin_send_chat_text",{
 
@@ -922,7 +1118,7 @@ async function sendText(){
  if(error){
 
   $("chatStatus").textContent=
-   "Send Error: "+error.message;
+   t("sendError")+error.message;
 
   return;
  }
@@ -993,11 +1189,11 @@ async function startRecording(){
   $("recordBtn").disabled=true;
   $("stopBtn").disabled=false;
 
-  $("chatStatus").textContent="Recording...";
+  $("chatStatus").textContent=t("recording");
 
  }catch(error){
 
-  alert("Microphone Error: "+error.message);
+  alert(t("microphoneError")+error.message);
  }
 }
 
@@ -1010,7 +1206,7 @@ function stopRecording(){
  $("recordBtn").disabled=false;
  $("stopBtn").disabled=true;
 
- $("chatStatus").textContent="Recording complete";
+ $("chatStatus").textContent=t("recordingComplete");
 }
 
 /* SEND VOICE */
@@ -1021,41 +1217,32 @@ async function sendVoice(){
 
  try{
 
-  $("chatStatus").textContent="Preparing voice upload...";
+  $("chatStatus").textContent=t("voicePreparing");
 
   $("sendVoiceBtn").disabled=true;
 
   const prepared=await edgeRequest("admin_prepare",{
-
    order_no:Number(activeOrderNo)
-
   });
 
   const path=prepared.path||prepared.storage_path;
-
   const token=prepared.token||prepared.upload_token;
 
   if(!path||!token){
-   throw new Error("Upload path یا token نہیں ملا");
+   throw new Error(t("uploadPathMissing"));
   }
 
   const extension=
    recordedBlob.type.includes("mp4")?"m4a":"webm";
 
   const file=new File(
-
    [recordedBlob],
-
    "admin-voice."+extension,
-
    {type:recordedBlob.type||"audio/webm"}
-
   );
 
   const {data:uploadData,error:uploadError}=await db.storage
-
    .from("chat-voice")
-
    .uploadToSignedUrl(path,token,file);
 
   if(uploadError){
@@ -1063,22 +1250,17 @@ async function sendVoice(){
   }
 
   await edgeRequest("admin_confirm",{
-
    order_no:Number(activeOrderNo),
-
    storage_path:path
-
   });
 
   recordedBlob=null;
 
   $("voicePreview").src="";
-
   $("voicePreview").classList.add("hidden");
-
   $("sendVoiceBtn").classList.add("hidden");
 
-  $("chatStatus").textContent="Voice sent successfully";
+  $("chatStatus").textContent=t("voiceSent");
 
   await loadChatMessages();
 
@@ -1087,7 +1269,7 @@ async function sendVoice(){
   console.error("Voice upload error:",error);
 
   $("chatStatus").textContent=
-   "Voice Error: "+error.message;
+   t("voiceError")+error.message;
 
  }finally{
 
@@ -1100,9 +1282,7 @@ async function sendVoice(){
 $("chatText").addEventListener("keydown",e=>{
 
  if(e.key==="Enter"){
-
   e.preventDefault();
-
   sendText();
  }
 
@@ -1115,16 +1295,17 @@ db.auth.onAuthStateChange((event,session)=>{
  if(event==="SIGNED_OUT"){
 
   $("dashboard").classList.add("hidden");
-
   $("loginSection").classList.remove("hidden");
-
   $("logoutBtn").classList.add("hidden");
+
+  closeChat();
  }
 
 });
 
 /* START */
 
+setLanguage("ur");
 checkSession();
 
 </script>
