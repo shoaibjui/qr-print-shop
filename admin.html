@@ -19,18 +19,19 @@ body{
  font-family:system-ui,Arial,sans-serif
 }
 
-/* HEADER: FIXED VISUAL ORDER */
+/* FIXED HEADER */
 header{
  background:#fff;
  border-bottom:4px solid #126b3a;
  padding:12px 18px;
+ min-height:82px;
  display:flex;
  flex-direction:row;
  direction:ltr;
  align-items:center;
  justify-content:space-between;
  gap:12px;
- flex-wrap:wrap;
+ flex-wrap:nowrap;
  box-shadow:0 2px 12px #0000000c
 }
 
@@ -86,7 +87,8 @@ header{
  gap:8px;
  flex-wrap:nowrap;
  direction:ltr;
- margin-left:auto
+ margin-left:auto;
+ flex-shrink:0
 }
 
 .language-buttons{
@@ -95,7 +97,8 @@ header{
  direction:ltr;
  gap:5px;
  align-items:center;
- flex-shrink:0
+ flex-shrink:0;
+ order:1
 }
 
 button{
@@ -111,7 +114,8 @@ button{
  background:#e5eaf1;
  color:#172033;
  min-width:70px;
- direction:ltr
+ direction:ltr;
+ white-space:nowrap
 }
 
 .lang-btn.active{
@@ -128,6 +132,12 @@ button{
 button:disabled{
  opacity:.5;
  cursor:not-allowed
+}
+
+#logoutBtn{
+ min-width:85px;
+ flex-shrink:0;
+ white-space:nowrap
 }
 
 main{
@@ -289,9 +299,11 @@ footer{
 
  header{
   padding:10px;
+  min-height:110px;
   flex-direction:row;
   direction:ltr;
-  justify-content:space-between
+  justify-content:space-between;
+  flex-wrap:wrap
  }
 
  .brand-mark{
@@ -305,23 +317,27 @@ footer{
 
  .header-actions{
   width:100%;
-  justify-content:flex-end;
+  min-height:42px;
+  justify-content:space-between;
   direction:ltr;
-  flex-wrap:wrap;
+  flex-wrap:nowrap;
   margin-left:0
  }
 
  .language-buttons{
   direction:ltr;
-  flex-direction:row
+  flex-direction:row;
+  order:1
  }
 
  #logoutBtn{
-  margin-left:0;
+  margin-left:auto;
   flex-shrink:0
  }
 
- .lang-btn{padding:9px 13px}
+ .lang-btn{
+  padding:9px 13px
+ }
 
  .login{margin:25px 10px}
  main{padding:8px}
@@ -346,11 +362,13 @@ footer{
  <div class="header-actions">
 
   <div class="language-buttons">
-   <button type="button" class="lang-btn active"
-    id="urduBtn" onclick="setLanguage('ur')">اردو</button>
 
    <button type="button" class="lang-btn"
     id="englishBtn" onclick="setLanguage('en')">English</button>
+
+   <button type="button" class="lang-btn active"
+    id="urduBtn" onclick="setLanguage('ur')">اردو</button>
+
   </div>
 
   <button class="red hidden" id="logoutBtn"
@@ -685,9 +703,8 @@ function setLanguage(lang){
  document.documentElement.lang=lang;
  document.documentElement.dir=lang==="ur"?"rtl":"ltr";
 
- /* Header direction and logo position NEVER change */
+ /* Header stays LTR in both languages */
  document.querySelector("header").style.direction="ltr";
- $("brand")?.style.setProperty("direction","ltr");
 
  $("urduBtn").classList.toggle("active",lang==="ur");
  $("englishBtn").classList.toggle("active",lang==="en");
