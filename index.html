@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>USMANI PRINT - عثمانی پرنٹ</title>
 
-<!-- PWA SETTINGS -->
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#126b3a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -57,15 +56,16 @@ main{max-width:620px;margin:12px auto;padding:0 12px 25px}
  box-shadow:0 3px 12px #1720330c;margin-bottom:14px
 }
 h2{
- margin:0 0 15px;font-size:22px;text-align:center;
- font-weight:bold;
- background:linear-gradient(90deg,#126b3a,#d49b18,#126b3a);
- -webkit-background-clip:text;background-clip:text;
- color:transparent;animation:welcomeBlink 1.5s ease-in-out infinite
-}
-@keyframes welcomeBlink{
- 0%,100%{opacity:1}
- 50%{opacity:.45}
+ margin:0 0 18px;
+ font-size:23px;
+ text-align:center;
+ font-weight:800;
+ line-height:1.8;
+ background:linear-gradient(90deg,#126b3a,#c18b16,#126b3a);
+ -webkit-background-clip:text;
+ background-clip:text;
+ color:transparent;
+ animation:none;
 }
 label{display:block;margin:12px 0 6px;font-weight:bold;font-size:14px}
 input,select{
@@ -171,7 +171,7 @@ footer{text-align:center;padding:15px;color:#667085;font-size:12px}
  header img{max-height:125px}
  .grid{grid-template-columns:1fr}
  .card{padding:13px}
- h2{font-size:19px}
+ h2{font-size:20px}
  .price{font-size:19px}
  .payment-logo{width:100px;height:38px}
  .chat-compose{flex-direction:column}
@@ -186,7 +186,6 @@ footer{text-align:center;padding:15px;color:#667085;font-size:12px}
  <img src="usmani-logo.png" alt="USMANI PRINT Logo">
 </header>
 
-<!-- PWA INSTALL BUTTON -->
 <div style="text-align:center;margin:10px auto">
  <button id="installAppBtn" type="button">
   📲 ایپ انسٹال کریں / Install App
@@ -200,7 +199,7 @@ footer{text-align:center;padding:15px;color:#667085;font-size:12px}
 
 <main>
 <section class="card">
-<h2 id="formTitle">السلام علیکم! ہماری ویب سائٹ پر آنے پر خوش آمدید 🌹</h2>
+<h2 id="formTitle">السلام علیکم! عثمانی پرنٹ میں خوش آمدید 🌹</h2>
 
 <form id="orderForm">
 <label id="nameLabel" for="customer_name">آپ کا نام</label>
@@ -320,7 +319,7 @@ const PAYMENT_LOGOS={
 
 const translations={
 ur:{
- formTitle:"السلام علیکم! ہماری ویب سائٹ پر آنے پر خوش آمدید 🌹",
+ formTitle:"السلام علیکم! عثمانی پرنٹ میں خوش آمدید 🌹",
  nameLabel:"آپ کا نام",namePlaceholder:"اپنا نام لکھیں",
  phoneLabel:"موبائل نمبر",phonePlaceholder:"03XXXXXXXXX",
  fileLabel:"پرنٹ کی فائل منتخب کریں",
@@ -355,10 +354,11 @@ ur:{
  micError:"مائیکروفون کی اجازت نہیں ملی۔",
  noOrder:"پہلے آرڈر منتخب کریں۔",
  textEmpty:"پیغام لکھیں۔",
- sending:"بھیجا جا رہا ہے..."
+ sending:"بھیجا جا رہا ہے...",
+ selectOrder:"آرڈر منتخب کریں"
 },
 en:{
- formTitle:"Welcome to Our Website! 🌹",
+ formTitle:"Assalam-o-Alaikum! Welcome to Usmani Print 🌹",
  nameLabel:"Your Name",namePlaceholder:"Enter your name",
  phoneLabel:"Mobile Number",phonePlaceholder:"03XXXXXXXXX",
  fileLabel:"Select Print File",
@@ -393,7 +393,8 @@ en:{
  micError:"Microphone permission was not granted.",
  noOrder:"Please select an order first.",
  textEmpty:"Write a message first.",
- sending:"Sending..."
+ sending:"Sending...",
+ selectOrder:"Select an order"
 }
 };
 
@@ -439,6 +440,8 @@ function setLanguage(language){
  document.getElementById("recordVoiceBtn").textContent=isRecording?t.stop:t.record;
  document.getElementById("urduBtn").classList.toggle("active",language==="ur");
  document.getElementById("englishBtn").classList.toggle("active",language==="en");
+
+ refreshOrderChoices();
  updatePaymentInfo();
  updatePrice();
 }
@@ -591,13 +594,24 @@ function refreshOrderChoices(){
  const select=document.getElementById("chatOrderSelect");
  const orders=getSavedOrders();
  select.replaceChildren();
+
+ const placeholder=document.createElement("option");
+ placeholder.value="";
+ placeholder.textContent=tr("selectOrder");
+ select.appendChild(placeholder);
+
  orders.forEach(no=>{
   const option=document.createElement("option");
   option.value=no;
   option.textContent=(currentLanguage==="ur"?"آرڈر نمبر ":"Order #")+no;
   select.appendChild(option);
  });
- if(chatOrderNo!==null)select.value=String(chatOrderNo);
+
+ if(chatOrderNo!==null){
+  select.value=String(chatOrderNo);
+ }else{
+  select.value="";
+ }
 }
 
 async function callChatFunction(payload){
@@ -906,12 +920,14 @@ document.getElementById("orderForm").addEventListener("submit",async function(ev
  }
 });
 
+/* پرانے آرڈرز محفوظ رہیں گے، لیکن چیٹ خودکار طور پر نہیں کھلے گی */
 try{
  const oldOrders=getSavedOrders();
+ chatOrderNo=null;
+
  if(oldOrders.length){
-  chatOrderNo=oldOrders[0];
+  document.getElementById("chatSection").style.display="block";
   refreshOrderChoices();
-  openChat(chatOrderNo);
  }
 }catch(error){
  console.error("Could not restore previous chats:",error);
@@ -920,12 +936,21 @@ try{
 setLanguage("ur");
 updatePaymentInfo();
 updatePrice();
+
+/* ایپ ہر بار اوپر سے شروع ہوگی */
+if("scrollRestoration" in history){
+ history.scrollRestoration="manual";
+}
+window.addEventListener("load",()=>{
+ window.scrollTo(0,0);
+});
+window.addEventListener("pageshow",()=>{
+ window.scrollTo(0,0);
+});
 </script>
 
-<!-- PWA REGISTRATION AND INSTALL BUTTON -->
 <script>
 (function(){
-
  const installButton=document.getElementById("installAppBtn");
  let deferredInstallPrompt=null;
 
@@ -936,10 +961,8 @@ updatePrice();
 
  function watchWorker(worker){
   if(!worker)return;
-
   worker.addEventListener("statechange",function(){
    console.log("Service Worker State:",worker.state);
-
    if(worker.state==="redundant"){
     showPwaError(
      "Service Worker انسٹال نہیں ہو سکا۔ sw.js کی APP_SHELL فائلوں میں 404 یا دوسری خرابی چیک کریں۔"
@@ -949,12 +972,9 @@ updatePrice();
  }
 
  if("serviceWorker" in navigator){
-
   window.addEventListener("load",async function(){
-
    try{
     const registration=await navigator.serviceWorker.register("./sw.js");
-
     console.log("Service Worker Registration:",registration.scope);
 
     if(registration.installing){
@@ -968,13 +988,10 @@ updatePrice();
     if(registration.active){
      console.log("Service Worker Active");
     }
-
    }catch(error){
     showPwaError(error.name+": "+error.message);
    }
-
   });
-
  }else{
   console.log("This browser does not support Service Workers.");
  }
@@ -986,11 +1003,8 @@ updatePrice();
  });
 
  installButton.addEventListener("click",async function(){
-
   if(!deferredInstallPrompt){
-   alert(
-    "انسٹالیشن کا آپشن ابھی دستیاب نہیں۔ Chrome کے تین نقطوں والے مینو سے Install app آزمائیں۔"
-   );
+   alert("انسٹالیشن کا آپشن ابھی دستیاب نہیں۔ Chrome کے تین نقطوں والے مینو سے Install app آزمائیں۔");
    return;
   }
 
@@ -1000,24 +1014,20 @@ updatePrice();
   try{
    await promptEvent.prompt();
    const choice=await promptEvent.userChoice;
-
    console.log("Install choice:",choice.outcome);
 
    if(choice.outcome==="accepted"){
     installButton.classList.remove("show");
    }
-
   }catch(error){
    showPwaError("Install Error: "+error.message);
   }
-
  });
 
  window.addEventListener("appinstalled",function(){
   installButton.classList.remove("show");
   console.log("USMANI PRINT installed successfully.");
  });
-
 })();
 </script>
 
