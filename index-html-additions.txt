@@ -1,0 +1,49 @@
+<!-- PWA: add these lines inside <head>, before </head> -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#126b3a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="USMANI PRINT">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+<!-- PWA install button: add immediately after the </header> tag -->
+<div style="text-align:center;margin:10px auto">
+  <button id="installAppBtn" type="button" hidden
+    style="border:0;border-radius:9px;background:#126b3a;color:#fff;
+    padding:11px 20px;font-weight:bold;font-size:15px;cursor:pointer">
+    📲 ایپ انسٹال کریں / Install App
+  </button>
+</div>
+
+<!-- PWA registration: add this separate script just before </body> -->
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .catch(error => console.error("PWA service worker:", error));
+  });
+}
+
+let deferredInstallPrompt = null;
+const installButton = document.getElementById("installAppBtn");
+
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  if (installButton) installButton.hidden = false;
+});
+
+if (installButton) {
+  installButton.addEventListener("click", async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    installButton.hidden = true;
+  });
+}
+
+window.addEventListener("appinstalled", () => {
+  if (installButton) installButton.hidden = true;
+});
+</script>
