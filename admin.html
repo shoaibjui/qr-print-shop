@@ -533,7 +533,7 @@ async function loadChatMessages(){
    let content='';
 
    if(m.message_type==='voice'){
-    const audioUrl=m.signed_url||m.signedUrl||m.url||'';
+    const audioUrl=m.voice_url||m.signed_url||m.signedUrl||m.url||'';
     content=audioUrl
      ?`<audio controls preload="none" src="${escapeHtml(audioUrl)}"></audio>`
      :'<span>Voice message</span>';
