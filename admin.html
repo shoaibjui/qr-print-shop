@@ -4,82 +4,291 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>USMANI PRINT - Admin</title>
+<title>USMANI PRINT - Admin Panel</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;background:#f3f5f9;color:#172033;
+ margin:0;
+ background:#f3f5f9;
+ color:#172033;
  font-family:system-ui,Arial,sans-serif
 }
+
 header{
- background:#126b3a;color:white;padding:15px;
- display:flex;align-items:center;justify-content:space-between;
- gap:10px;flex-wrap:wrap
+ background:#fff;
+ border-bottom:4px solid #126b3a;
+ padding:12px 18px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
+ flex-wrap:wrap;
+ box-shadow:0 2px 12px #0000000c
 }
-header h2{margin:0;font-size:21px}
+
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px
+}
+
+.brand-mark{
+ width:55px;
+ height:55px;
+ border-radius:13px;
+ background:linear-gradient(145deg,#126b3a,#064525);
+ color:#fff;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:25px;
+ font-weight:900;
+ letter-spacing:-3px;
+ direction:ltr;
+ box-shadow:0 4px 10px #126b3a35;
+ border:2px solid #d9b65c
+}
+
+.brand-text h2{
+ margin:0;
+ color:#126b3a;
+ font-size:21px;
+ letter-spacing:1px
+}
+
+.brand-text p{
+ margin:3px 0 0;
+ color:#a17a27;
+ font-size:11px;
+ font-weight:800;
+ letter-spacing:2px
+}
+
+.header-actions{
+ display:flex;
+ align-items:center;
+ gap:8px;
+ flex-wrap:wrap
+}
+
+.language-buttons{
+ display:flex;
+ gap:5px;
+ align-items:center
+}
+
 button{
- border:0;border-radius:8px;padding:10px 14px;
- cursor:pointer;font-weight:700;font-size:14px
+ border:0;
+ border-radius:8px;
+ padding:10px 14px;
+ cursor:pointer;
+ font-weight:700;
+ font-size:14px
 }
+
+.lang-btn{
+ background:#e5eaf1;
+ color:#172033;
+ min-width:70px
+}
+
+.lang-btn.active{
+ background:#126b3a;
+ color:white
+}
+
 .primary{background:#126b3a;color:white}
 .blue{background:#0756b9;color:white}
 .red{background:#c62828;color:white}
 .gray{background:#e5eaf1;color:#172033}
 .orange{background:#ef8b16;color:white}
-button:disabled{opacity:.5;cursor:not-allowed}
-main{max-width:1200px;margin:18px auto;padding:12px}
+
+button:disabled{
+ opacity:.5;
+ cursor:not-allowed
+}
+
+main{
+ max-width:1200px;
+ margin:18px auto;
+ padding:12px
+}
+
 .card{
- background:white;border-radius:12px;padding:16px;
- margin-bottom:15px;box-shadow:0 2px 10px #0000000c
+ background:white;
+ border-radius:12px;
+ padding:16px;
+ margin-bottom:15px;
+ box-shadow:0 2px 10px #0000000c
 }
+
 input,textarea,select{
- width:100%;padding:12px;border:1px solid #d9e0ea;
- border-radius:8px;font:inherit;margin:6px 0
+ width:100%;
+ padding:12px;
+ border:1px solid #d9e0ea;
+ border-radius:8px;
+ font:inherit;
+ margin:6px 0
 }
-textarea{resize:vertical;min-height:65px}
+
+textarea{
+ resize:vertical;
+ min-height:65px
+}
+
 label{font-weight:700}
+
 .hidden{display:none!important}
-.muted{color:#687386;font-size:13px}
+
+.muted{
+ color:#687386;
+ font-size:13px
+}
+
 .error{color:#c62828}
 .success{color:#126b3a}
-.login{max-width:420px;margin:60px auto}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+.login{
+ max-width:420px;
+ margin:60px auto
+}
+
+.row{
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+ align-items:center
+}
+
 .row>*{flex:1}
-table{width:100%;border-collapse:collapse;min-width:850px}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:850px
+}
+
 th,td{
- padding:10px;border-bottom:1px solid #e8edf3;
- text-align:right;vertical-align:middle;font-size:14px
+ padding:10px;
+ border-bottom:1px solid #e8edf3;
+ text-align:right;
+ vertical-align:middle;
+ font-size:14px
 }
+
 th{background:#f2f5f8}
+
 .tablewrap{overflow-x:auto}
+
 .status{
- display:inline-block;padding:5px 9px;border-radius:20px;
- background:#e5eaf1;font-size:12px
+ display:inline-block;
+ padding:5px 9px;
+ border-radius:20px;
+ background:#e5eaf1;
+ font-size:12px
 }
-.status.approved{background:#d9f4e4;color:#126b3a}
-.status.rejected{background:#ffe0e0;color:#b71c1c}
-.status.printed{background:#dceaff;color:#0756b9}
+
+.status.approved{
+ background:#d9f4e4;
+ color:#126b3a
+}
+
+.status.rejected{
+ background:#ffe0e0;
+ color:#b71c1c
+}
+
+.status.printed{
+ background:#dceaff;
+ color:#0756b9
+}
+
 .chatbox{
- height:320px;overflow-y:auto;background:#f5f7fa;
- border:1px solid #e1e6ed;border-radius:10px;padding:12px
+ height:320px;
+ overflow-y:auto;
+ background:#f5f7fa;
+ border:1px solid #e1e6ed;
+ border-radius:10px;
+ padding:12px
 }
+
 .msg{
- max-width:88%;padding:10px;margin:9px 0;
- border-radius:10px;overflow-wrap:anywhere
+ max-width:88%;
+ padding:10px;
+ margin:9px 0;
+ border-radius:10px;
+ overflow-wrap:anywhere
 }
-.msg.customer{background:#e5eaf1;margin-left:auto}
-.msg.admin{background:#d9f4e4;margin-right:auto}
-.msg strong{display:block;font-size:12px;margin-bottom:5px}
-.msg small{display:block;color:#687386;margin-top:6px;font-size:11px}
-.msg audio{display:block;max-width:100%;width:250px;margin-top:7px}
-.order-actions{display:flex;gap:5px;flex-wrap:wrap}
-footer{text-align:center;color:#687386;padding:20px;font-size:13px}
+
+.msg.customer{
+ background:#e5eaf1;
+ margin-left:auto
+}
+
+.msg.admin{
+ background:#d9f4e4;
+ margin-right:auto
+}
+
+.msg strong{
+ display:block;
+ font-size:12px;
+ margin-bottom:5px
+}
+
+.msg small{
+ display:block;
+ color:#687386;
+ margin-top:6px;
+ font-size:11px
+}
+
+.msg audio{
+ display:block;
+ max-width:100%;
+ width:250px;
+ margin-top:7px
+}
+
+.order-actions{
+ display:flex;
+ gap:5px;
+ flex-wrap:wrap
+}
+
+footer{
+ text-align:center;
+ color:#687386;
+ padding:20px;
+ font-size:13px
+}
+
 @media(max-width:600px){
- header h2{font-size:17px}
+ header{padding:10px}
+
+ .brand-mark{
+  width:46px;
+  height:46px;
+  font-size:22px
+ }
+
+ .brand-text h2{font-size:17px}
+ .brand-text p{font-size:9px}
+
+ .header-actions{
+  width:100%;
+  justify-content:flex-start
+ }
+
+ .lang-btn{
+  padding:9px 13px
+ }
+
  .login{margin:25px 10px}
  main{padding:8px}
  .card{padding:12px}
@@ -90,17 +299,38 @@ footer{text-align:center;color:#687386;padding:20px;font-size:13px}
 <body>
 
 <header>
- <h2>USMANI PRINT — Admin</h2>
- <div class="row" style="flex:0 0 auto">
-  <button class="gray" onclick="toggleLanguage()">اردو / English</button>
-  <button class="red hidden" id="logoutBtn" onclick="logout()">Logout</button>
+
+ <div class="brand">
+  <div class="brand-mark">UP</div>
+
+  <div class="brand-text">
+   <h2>USMANI PRINT</h2>
+   <p>ADMIN PANEL</p>
+  </div>
  </div>
+
+ <div class="header-actions">
+
+  <div class="language-buttons">
+   <button class="lang-btn active" id="urduBtn"
+    onclick="setLanguage('ur')">اردو</button>
+
+   <button class="lang-btn" id="englishBtn"
+    onclick="setLanguage('en')">English</button>
+  </div>
+
+  <button class="red hidden" id="logoutBtn"
+   onclick="logout()">Logout</button>
+
+ </div>
+
 </header>
 
 <main>
 
 <section id="loginSection" class="card login">
- <h2 id="loginTitle">USMANI PRINT Login</h2>
+
+ <h2 id="loginTitle">USMANI PRINT لاگ اِن</h2>
 
  <label>Email</label>
  <input id="email" type="email" placeholder="Admin email">
@@ -108,24 +338,34 @@ footer{text-align:center;color:#687386;padding:20px;font-size:13px}
  <label>Password</label>
  <input id="password" type="password" placeholder="Password">
 
- <button class="primary" style="width:100%" onclick="login()">Login</button>
+ <button class="primary" style="width:100%"
+  onclick="login()">Login</button>
+
  <p id="loginMessage" class="muted"></p>
+
 </section>
 
 <section id="dashboard" class="hidden">
 
  <div class="card">
   <div class="row">
+
    <div>
     <h2 id="ordersTitle">تمام آرڈرز</h2>
     <p class="muted" id="orderCount">آرڈرز لوڈ ہو رہے ہیں...</p>
    </div>
-   <button class="primary" onclick="loadOrders()">Refresh Orders</button>
+
+   <button class="primary" onclick="loadOrders()">
+    Refresh Orders
+   </button>
+
   </div>
  </div>
 
  <div class="card">
+
   <div class="tablewrap">
+
    <table>
     <thead>
      <tr>
@@ -144,20 +384,30 @@ footer{text-align:center;color:#687386;padding:20px;font-size:13px}
       <th>Actions</th>
      </tr>
     </thead>
+
     <tbody id="ordersBody">
-     <tr><td colspan="13">Loading...</td></tr>
+     <tr>
+      <td colspan="13">Loading...</td>
+     </tr>
     </tbody>
    </table>
+
   </div>
  </div>
 
  <section class="card hidden" id="chatSection">
+
   <div class="row">
+
    <div>
     <h2 id="chatHeading">Order Chat</h2>
     <p class="muted" id="chatOrderLabel"></p>
    </div>
-   <button class="gray" onclick="closeChat()">Close Chat</button>
+
+   <button class="gray" onclick="closeChat()">
+    Close Chat
+   </button>
+
   </div>
 
   <div class="chatbox" id="chatMessages">
@@ -167,29 +417,48 @@ footer{text-align:center;color:#687386;padding:20px;font-size:13px}
   <p id="chatStatus" class="muted"></p>
 
   <label>Text Message</label>
+
   <div class="row">
    <input id="chatText" placeholder="اپنا پیغام لکھیں">
-   <button class="primary" style="flex:0 0 auto" onclick="sendText()">Send</button>
+
+   <button class="primary" style="flex:0 0 auto"
+    onclick="sendText()">Send</button>
   </div>
 
   <label>Voice Message</label>
+
   <div class="row">
-   <button class="blue" id="recordBtn" onclick="startRecording()">Start Recording</button>
-   <button class="red" id="stopBtn" onclick="stopRecording()" disabled>Stop Recording</button>
+
+   <button class="blue" id="recordBtn"
+    onclick="startRecording()">Start Recording</button>
+
+   <button class="red" id="stopBtn"
+    onclick="stopRecording()" disabled>Stop Recording</button>
+
   </div>
 
-  <audio id="voicePreview" controls class="hidden" style="width:100%;margin-top:10px"></audio>
+  <audio id="voicePreview" controls class="hidden"
+   style="width:100%;margin-top:10px"></audio>
 
-  <button class="primary hidden" id="sendVoiceBtn" onclick="sendVoice()">Send Voice</button>
-  <p class="muted">وائس ریکارڈنگ کے لیے مائیکروفون کی اجازت دیں۔</p>
+  <button class="primary hidden" id="sendVoiceBtn"
+   onclick="sendVoice()">Send Voice</button>
+
+  <p class="muted">
+   وائس ریکارڈنگ کے لیے مائیکروفون کی اجازت دیں۔
+  </p>
+
  </section>
 
 </section>
+
 </main>
 
-<footer>USMANI PRINT © 2026 — Print Smart, Print Easy</footer>
+<footer>
+ USMANI PRINT © 2026 — Print Smart, Print Easy
+</footer>
 
 <script>
+
 const CONFIG=window.QR_PRINT_CONFIG;
 
 if(!CONFIG || !CONFIG.url || !CONFIG.anonKey){
@@ -211,20 +480,37 @@ const $=id=>document.getElementById(id);
 
 function escapeHTML(value){
  return String(value??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",
-  '"':"&quot;","'":"&#39;"
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
  }[c]));
 }
 
-function toggleLanguage(){
- language=language==="ur"?"en":"ur";
- document.documentElement.lang=language;
- document.documentElement.dir=language==="ur"?"rtl":"ltr";
- $("ordersTitle").textContent=language==="ur"?"تمام آرڈرز":"All Orders";
- $("loginTitle").textContent="USMANI PRINT Login";
+/* LANGUAGE */
+
+function setLanguage(lang){
+
+ language=lang;
+
+ document.documentElement.lang=lang;
+ document.documentElement.dir=lang==="ur"?"rtl":"ltr";
+
+ $("ordersTitle").textContent=
+  lang==="ur"?"تمام آرڈرز":"All Orders";
+
+ $("loginTitle").textContent=
+  lang==="ur"?"USMANI PRINT لاگ اِن":"USMANI PRINT Login";
+
+ $("urduBtn").classList.toggle("active",lang==="ur");
+ $("englishBtn").classList.toggle("active",lang==="en");
 }
 
+/* LOGIN */
+
 async function login(){
+
  const email=$("email").value.trim();
  const password=$("password").value;
 
@@ -248,28 +534,38 @@ async function login(){
 }
 
 async function logout(){
+
  await db.auth.signOut();
+
  $("dashboard").classList.add("hidden");
  $("loginSection").classList.remove("hidden");
  $("logoutBtn").classList.add("hidden");
+
  closeChat();
 }
 
 async function showDashboard(){
+
  $("loginSection").classList.add("hidden");
  $("dashboard").classList.remove("hidden");
  $("logoutBtn").classList.remove("hidden");
+
  await loadOrders();
 }
 
 async function checkSession(){
+
  const {data}=await db.auth.getSession();
+
  if(data.session){
   await showDashboard();
  }
 }
 
+/* LOAD ORDERS */
+
 async function loadOrders(){
+
  $("ordersBody").innerHTML=
   '<tr><td colspan="13">Loading...</td></tr>';
 
@@ -279,61 +575,116 @@ async function loadOrders(){
   .order("created_at",{ascending:false});
 
  if(error){
+
   $("ordersBody").innerHTML=
-   '<tr><td colspan="13">Error: '+escapeHTML(error.message)+'</td></tr>';
+   '<tr><td colspan="13">Error: '+
+   escapeHTML(error.message)+'</td></tr>';
+
   return;
  }
 
  currentOrders=data||[];
- $("orderCount").textContent="Total Orders: "+currentOrders.length;
+
+ $("orderCount").textContent=
+  "Total Orders: "+currentOrders.length;
 
  if(!currentOrders.length){
+
   $("ordersBody").innerHTML=
    '<tr><td colspan="13">کوئی آرڈر موجود نہیں</td></tr>';
+
   return;
  }
 
  $("ordersBody").innerHTML=currentOrders.map(o=>{
+
   const status=o.status||"pending";
-  const statusClass=["approved","rejected","printed"].includes(status)?status:"";
+
+  const statusClass=
+   ["approved","rejected","printed"].includes(status)
+   ?status:"";
 
   return `
    <tr>
+
     <td>#${escapeHTML(o.id)}</td>
+
     <td>${escapeHTML(o.customer_name)}</td>
+
     <td>${escapeHTML(o.phone)}</td>
+
     <td>${escapeHTML(o.paper_size)}</td>
+
     <td>${escapeHTML(o.print_type)}</td>
+
     <td>${escapeHTML(o.pages)}</td>
+
     <td>${escapeHTML(o.copies)}</td>
+
     <td>${escapeHTML(o.amount)}</td>
+
     <td>
      ${escapeHTML(o.payment_method)}
-     ${o.transaction_id?'<br>'+escapeHTML(o.transaction_id):""}
+     ${o.transaction_id?
+      '<br>'+escapeHTML(o.transaction_id):""}
     </td>
+
     <td>
      ${o.file_path?
-      `<button class="blue" onclick="openFile('${escapeHTML(o.file_path)}')">Open</button>`:"—"}
+      `<button class="blue"
+       onclick="openFile('${escapeHTML(o.file_path)}')">Open</button>`
+      :"—"}
     </td>
+
     <td>
      ${o.receipt_path?
-      `<button class="blue" onclick="openFile('${escapeHTML(o.receipt_path)}')">Open</button>`:"—"}
+      `<button class="blue"
+       onclick="openFile('${escapeHTML(o.receipt_path)}')">Open</button>`
+      :"—"}
     </td>
-    <td><span class="status ${statusClass}">${escapeHTML(status)}</span></td>
+
+    <td>
+     <span class="status ${statusClass}">
+      ${escapeHTML(status)}
+     </span>
+    </td>
+
     <td>
      <div class="order-actions">
-      <button class="primary" onclick="changeStatus(${Number(o.id)},'approved')">Approve</button>
-      <button class="red" onclick="changeStatus(${Number(o.id)},'rejected')">Reject</button>
-      <button class="blue" onclick="changeStatus(${Number(o.id)},'printed')">Printed</button>
-      <button class="orange" onclick="openChat(${Number(o.id)})">Chat</button>
+
+      <button class="primary"
+       onclick="changeStatus(${Number(o.id)},'approved')">
+       Approve
+      </button>
+
+      <button class="red"
+       onclick="changeStatus(${Number(o.id)},'rejected')">
+       Reject
+      </button>
+
+      <button class="blue"
+       onclick="changeStatus(${Number(o.id)},'printed')">
+       Printed
+      </button>
+
+      <button class="orange"
+       onclick="openChat(${Number(o.id)})">
+       Chat
+      </button>
+
      </div>
     </td>
+
    </tr>
   `;
+
  }).join("");
 }
 
+/* FILES */
+
 async function openFile(path){
+
  const {data,error}=await db.storage
   .from("print-files")
   .createSignedUrl(path,300);
@@ -346,8 +697,12 @@ async function openFile(path){
  window.open(data.signedUrl,"_blank");
 }
 
+/* ORDER STATUS */
+
 async function changeStatus(id,status){
- if(!confirm("کیا آپ آرڈر کا اسٹیٹس تبدیل کرنا چاہتے ہیں؟"))return;
+
+ if(!confirm("کیا آپ آرڈر کا اسٹیٹس تبدیل کرنا چاہتے ہیں؟"))
+  return;
 
  const {error}=await db
   .from("orders")
@@ -360,40 +715,60 @@ async function changeStatus(id,status){
  }
 
  alert("Status Updated");
+
  await loadOrders();
 }
 
+/* EDGE FUNCTION */
+
 async function edgeRequest(action,body={}){
+
  const {data:{session},error}=await db.auth.getSession();
 
  if(error||!session){
-  throw new Error("Admin login session ختم ہو گیا ہے۔ دوبارہ Login کریں۔");
+  throw new Error(
+   "Admin login session ختم ہو گیا ہے۔ دوبارہ Login کریں۔"
+  );
  }
 
  const response=await fetch(EDGE_URL,{
+
   method:"POST",
+
   headers:{
    "Content-Type":"application/json",
    "apikey":CONFIG.anonKey,
    "Authorization":"Bearer "+session.access_token
   },
+
   body:JSON.stringify({action,...body})
+
  });
 
  const result=await response.json().catch(()=>({}));
 
  if(!response.ok){
-  throw new Error(result.error||result.message||"Server Error "+response.status);
+  throw new Error(
+   result.error||result.message||"Server Error "+response.status
+  );
  }
 
  return result;
 }
 
+/* CHAT */
+
 async function openChat(orderNo){
+
  activeOrderNo=orderNo;
+
  $("chatSection").classList.remove("hidden");
+
  $("chatHeading").textContent="Order #"+orderNo+" Chat";
- $("chatOrderLabel").textContent="Customer اور Admin کے پیغامات";
+
+ $("chatOrderLabel").textContent=
+  "Customer اور Admin کے پیغامات";
+
  $("chatMessages").innerHTML="<p>Loading...</p>";
 
  await loadChatMessages();
@@ -402,17 +777,24 @@ async function openChat(orderNo){
 }
 
 function closeChat(){
+
  activeOrderNo=null;
+
  $("chatSection").classList.add("hidden");
+
  recordedBlob=null;
+
  $("voicePreview").classList.add("hidden");
+
  $("sendVoiceBtn").classList.add("hidden");
 }
 
 async function loadChatMessages(){
+
  if(!activeOrderNo)return;
 
  try{
+
   const result=await edgeRequest("admin_messages",{
    order_no:Number(activeOrderNo)
   });
@@ -428,27 +810,37 @@ async function loadChatMessages(){
   }
 
   const box=$("chatMessages");
+
   box.replaceChildren();
 
   if(!messages.length){
+
    const p=document.createElement("p");
+
    p.className="muted";
    p.textContent="ابھی کوئی پیغام موجود نہیں";
+
    box.appendChild(p);
+
    return;
   }
 
   messages.forEach(m=>{
+
    const isAdmin=m.sender_role==="admin";
+
    const item=document.createElement("div");
 
    item.className="msg "+(isAdmin?"admin":"customer");
 
    const who=document.createElement("strong");
+
    who.textContent=isAdmin?"Admin":"Customer";
+
    item.appendChild(who);
 
    if(m.message_type==="voice"){
+
     const audioUrl=
      m.voice_url||
      m.signed_url||
@@ -457,64 +849,97 @@ async function loadChatMessages(){
      "";
 
     if(audioUrl){
+
      const audio=document.createElement("audio");
+
      audio.controls=true;
      audio.preload="metadata";
      audio.src=audioUrl;
+
      item.appendChild(audio);
+
     }else{
+
      const missing=document.createElement("div");
+
      missing.textContent="Voice URL not found";
+
      item.appendChild(missing);
     }
+
    }else{
+
     const content=document.createElement("div");
+
     content.textContent=m.message_text||m.text||"";
+
     item.appendChild(content);
    }
 
    const time=document.createElement("small");
+
    time.textContent=m.created_at?
     new Date(m.created_at).toLocaleString():"";
 
    item.appendChild(time);
+
    box.appendChild(item);
   });
 
   box.scrollTop=box.scrollHeight;
+
   $("chatStatus").textContent="";
 
  }catch(error){
+
   console.error("Chat loading error:",error);
-  $("chatStatus").textContent="Chat Error: "+error.message;
+
+  $("chatStatus").textContent=
+   "Chat Error: "+error.message;
  }
 }
 
+/* TEXT MESSAGE */
+
 async function sendText(){
+
  if(!activeOrderNo)return;
 
  const message=$("chatText").value.trim();
+
  if(!message)return;
 
  $("chatStatus").textContent="Sending...";
 
  const {error}=await db.rpc("admin_send_chat_text",{
+
   p_order_no:Number(activeOrderNo),
+
   p_message_text:message
+
  });
 
  if(error){
-  $("chatStatus").textContent="Send Error: "+error.message;
+
+  $("chatStatus").textContent=
+   "Send Error: "+error.message;
+
   return;
  }
 
  $("chatText").value="";
+
  await loadChatMessages();
 }
 
+/* VOICE RECORDING */
+
 async function startRecording(){
+
  try{
-  mediaStream=await navigator.mediaDevices.getUserMedia({audio:true});
+
+  mediaStream=
+   await navigator.mediaDevices.getUserMedia({audio:true});
 
   const mimeTypes=[
    "audio/webm;codecs=opus",
@@ -522,7 +947,9 @@ async function startRecording(){
    "audio/mp4"
   ];
 
-  const mimeType=mimeTypes.find(t=>MediaRecorder.isTypeSupported(t));
+  const mimeType=mimeTypes.find(
+   t=>MediaRecorder.isTypeSupported(t)
+  );
 
   recorder=new MediaRecorder(
    mediaStream,
@@ -532,73 +959,103 @@ async function startRecording(){
   const chunks=[];
 
   recorder.ondataavailable=e=>{
-   if(e.data&&e.data.size)chunks.push(e.data);
+
+   if(e.data&&e.data.size){
+    chunks.push(e.data);
+   }
+
   };
 
   recorder.onstop=()=>{
+
    recordedBlob=new Blob(chunks,{
     type:recorder.mimeType||"audio/webm"
    });
 
-   $("voicePreview").src=URL.createObjectURL(recordedBlob);
+   $("voicePreview").src=
+    URL.createObjectURL(recordedBlob);
+
    $("voicePreview").classList.remove("hidden");
+
    $("sendVoiceBtn").classList.remove("hidden");
 
    if(mediaStream){
+
     mediaStream.getTracks().forEach(t=>t.stop());
+
     mediaStream=null;
    }
+
   };
 
   recorder.start();
 
   $("recordBtn").disabled=true;
   $("stopBtn").disabled=false;
+
   $("chatStatus").textContent="Recording...";
 
  }catch(error){
+
   alert("Microphone Error: "+error.message);
  }
 }
 
 function stopRecording(){
+
  if(recorder&&recorder.state==="recording"){
   recorder.stop();
  }
 
  $("recordBtn").disabled=false;
  $("stopBtn").disabled=true;
+
  $("chatStatus").textContent="Recording complete";
 }
 
+/* SEND VOICE */
+
 async function sendVoice(){
+
  if(!activeOrderNo||!recordedBlob)return;
 
  try{
+
   $("chatStatus").textContent="Preparing voice upload...";
+
   $("sendVoiceBtn").disabled=true;
 
   const prepared=await edgeRequest("admin_prepare",{
+
    order_no:Number(activeOrderNo)
+
   });
 
   const path=prepared.path||prepared.storage_path;
+
   const token=prepared.token||prepared.upload_token;
 
   if(!path||!token){
    throw new Error("Upload path یا token نہیں ملا");
   }
 
-  const extension=recordedBlob.type.includes("mp4")?"m4a":"webm";
+  const extension=
+   recordedBlob.type.includes("mp4")?"m4a":"webm";
 
   const file=new File(
+
    [recordedBlob],
+
    "admin-voice."+extension,
+
    {type:recordedBlob.type||"audio/webm"}
+
   );
 
   const {data:uploadData,error:uploadError}=await db.storage
+
    .from("chat-voice")
+
    .uploadToSignedUrl(path,token,file);
 
   if(uploadError){
@@ -606,42 +1063,71 @@ async function sendVoice(){
   }
 
   await edgeRequest("admin_confirm",{
+
    order_no:Number(activeOrderNo),
+
    storage_path:path
+
   });
 
   recordedBlob=null;
+
   $("voicePreview").src="";
+
   $("voicePreview").classList.add("hidden");
+
   $("sendVoiceBtn").classList.add("hidden");
+
   $("chatStatus").textContent="Voice sent successfully";
 
   await loadChatMessages();
 
  }catch(error){
+
   console.error("Voice upload error:",error);
-  $("chatStatus").textContent="Voice Error: "+error.message;
+
+  $("chatStatus").textContent=
+   "Voice Error: "+error.message;
+
  }finally{
+
   $("sendVoiceBtn").disabled=false;
  }
 }
 
+/* ENTER TO SEND */
+
 $("chatText").addEventListener("keydown",e=>{
+
  if(e.key==="Enter"){
+
   e.preventDefault();
+
   sendText();
  }
+
 });
+
+/* AUTH SESSION */
 
 db.auth.onAuthStateChange((event,session)=>{
+
  if(event==="SIGNED_OUT"){
+
   $("dashboard").classList.add("hidden");
+
   $("loginSection").classList.remove("hidden");
+
   $("logoutBtn").classList.add("hidden");
  }
+
 });
 
+/* START */
+
 checkSession();
+
 </script>
+
 </body>
 </html>
