@@ -20,7 +20,7 @@ body{
  direction:ltr;
 }
 
-/* HEADER: LOGOUT LEFT, LANGUAGE RIGHT */
+/* HEADER: LANGUAGE LEFT, EMPTY MIDDLE, LOGOUT RIGHT */
 
 header{
  background:#fff;
@@ -35,12 +35,14 @@ header{
  box-shadow:0 2px 12px #0000000c;
 }
 
-.logout-box{
+.language-buttons{
  grid-column:1;
  justify-self:start;
  display:flex;
- align-items:center;
+ flex-direction:row;
  direction:ltr;
+ gap:5px;
+ align-items:center;
 }
 
 .header-space{
@@ -50,14 +52,12 @@ header{
  min-height:35px;
 }
 
-.language-buttons{
+.logout-box{
  grid-column:3;
  justify-self:end;
  display:flex;
- flex-direction:row;
- direction:ltr;
- gap:5px;
  align-items:center;
+ direction:ltr;
 }
 
 button{
@@ -303,13 +303,6 @@ footer{
 
 <header>
 
- <div class="logout-box">
-  <button class="red hidden" id="logoutBtn"
-   onclick="logout()" data-i18n="logout">لاگ آؤٹ</button>
- </div>
-
- <div class="header-space"></div>
-
  <div class="language-buttons">
 
   <button type="button" class="lang-btn"
@@ -318,6 +311,13 @@ footer{
   <button type="button" class="lang-btn active"
    id="urduBtn" onclick="setLanguage('ur')">اردو</button>
 
+ </div>
+
+ <div class="header-space"></div>
+
+ <div class="logout-box">
+  <button class="red hidden" id="logoutBtn"
+   onclick="logout()" data-i18n="logout">لاگ آؤٹ</button>
  </div>
 
 </header>
