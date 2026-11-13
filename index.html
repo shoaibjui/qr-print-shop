@@ -1,975 +1,1026 @@
-<!DOCTYPE html>  <html lang="ur" dir="rtl">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1">  
-<title>USMANI PRINT - عثمانی پرنٹ</title>  <!-- PWA SETTINGS -->  <link rel="manifest" href="./manifest.json">  
-<meta name="theme-color" content="#126b3a">  
-<meta name="mobile-web-app-capable" content="yes">  
-<meta name="apple-mobile-web-app-capable" content="yes">  
-<meta name="apple-mobile-web-app-title" content="USMANI PRINT">  
-<link rel="apple-touch-icon" href="./icon-192.png">  <style>  
-:root{  
- --green:#126b3a;--blue:#0756b9;--ink:#172033;  
- --bg:#f4f6fa;--border:#d9e0ea;  
-}  
-*{box-sizing:border-box}  
-body{  
- margin:0;background:var(--bg);color:var(--ink);  
- font-family:Arial,system-ui,sans-serif  
-}  
-header{  
- width:100%;background:#fff;line-height:0;  
- text-align:center;padding:8px 12px;  
- border-bottom:1px solid #e5eaf0;  
-}  
-header img{  
- display:block;width:100%;max-width:1100px;  
- height:auto;max-height:220px;object-fit:contain;margin:0 auto;  
-}  
-#installAppBtn{  
- display:none;border:0;border-radius:9px;  
- background:var(--green);color:white;  
- padding:11px 20px;font-weight:bold;  
- font-size:15px;cursor:pointer  
-}  
-#installAppBtn.show{display:inline-block}  
-.lang{  
- display:flex;flex-direction:row;direction:ltr;  
- justify-content:center;gap:8px;margin:10px auto  
-}  
-.lang button{  
- border:1px solid var(--green);background:white;  
- color:var(--green);padding:8px 20px;border-radius:8px;  
- font-weight:bold;cursor:pointer  
-}  
-.lang button.active{background:var(--green);color:white}  
-main{max-width:620px;margin:12px auto;padding:0 12px 25px}  
-.card{  
- background:white;border:1px solid var(--border);  
- border-radius:13px;padding:16px;  
- box-shadow:0 3px 12px #1720330c;margin-bottom:14px  
-}  
-h2{  
- margin:0 0 15px;font-size:22px;text-align:center;  
- font-weight:bold;  
- background:linear-gradient(90deg,#126b3a,#d49b18,#126b3a);  
- -webkit-background-clip:text;background-clip:text;  
- color:transparent;animation:welcomeBlink 1.5s ease-in-out infinite  
-}  
-@keyframes welcomeBlink{  
- 0%,100%{opacity:1}  
- 50%{opacity:.45}  
-}  
-label{display:block;margin:12px 0 6px;font-weight:bold;font-size:14px}  
-input,select{  
- width:100%;padding:12px;border:1px solid var(--border);  
- border-radius:8px;background:white;font-size:15px;color:var(--ink)  
-}  
-input[type=file]{padding:9px}  
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}  
-.pricebox{  
- background:#f0f6ff;border:1px solid #c6daf5;  
- padding:10px 12px;border-radius:8px;margin-top:10px;text-align:center  
-}  
-.price{  
- font-size:21px;font-weight:700;color:var(--blue);  
- direction:inherit;line-height:1.5  
-}  
-.payment-box{  
- display:none;background:#eef7f1;border:1px solid #b8dfc4;  
- border-radius:8px;padding:12px 10px;margin-top:8px;  
- text-align:center;line-height:1.5  
-}  
-.payment-heading{  
- display:flex;align-items:center;justify-content:center;  
- gap:10px;flex-wrap:wrap;font-weight:bold;font-size:15px;margin-bottom:8px  
-}  
-.payment-logo{  
- display:block;width:110px;height:42px;object-fit:contain;  
- background:white;border-radius:7px;padding:4px 7px  
-}  
-.payment-number{  
- font-size:20px;font-weight:bold;color:var(--green);  
- direction:ltr;margin:6px 0  
-}  
-.payment-message{  
- font-size:12px;color:#d00000;font-weight:bold;line-height:1.7  
-}  
-.preview{  
- display:none;background:#f7f9fc;border:1px solid #d9e0ea;  
- border-radius:10px;padding:12px;margin-top:12px;text-align:center  
-}  
-.preview-title{font-weight:bold;margin-bottom:8px}  
-.preview img{  
- display:block;max-width:100%;max-height:450px;  
- width:auto;height:auto;object-fit:contain;margin:0 auto;  
- background:white;border:1px solid #ddd  
-}  
-.preview iframe{  
- width:100%;height:420px;border:1px solid #ddd;  
- border-radius:6px;background:white  
-}  
-.file-details{  
- font-size:12px;color:#667085;margin-top:8px;  
- direction:ltr;overflow-wrap:anywhere  
-}  
-.notice{font-size:13px;color:#667085;line-height:1.7;margin-top:10px}  
-.submit{  
- width:100%;border:0;border-radius:9px;background:var(--green);  
- color:white;padding:14px;font-size:17px;font-weight:bold;  
- margin-top:16px;cursor:pointer  
-}  
-.submit:disabled{opacity:.6}  
-.result{  
- display:none;margin-top:15px;border:1px solid #9bd5ad;  
- background:#effaf2;color:#14532d;border-radius:10px;  
- padding:14px;text-align:center;line-height:1.9;overflow-wrap:anywhere  
-}  
-footer{text-align:center;padding:15px;color:#667085;font-size:12px}  
-#chatSection{display:none}  
-.chat-heading{text-align:center;color:var(--green);margin:0 0 10px}  
-.chat-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}  
-.chat-tools select{flex:1;min-width:150px}  
-.chat-tools button,.chat-send,.voice-btn{  
- border:0;border-radius:8px;padding:11px 14px;  
- color:white;background:var(--green);cursor:pointer;font-weight:bold  
-}  
-.chat-tools button.secondary{background:#475467}  
-#chatMessages{  
- height:300px;overflow-y:auto;background:#f5f7fa;  
- border:1px solid var(--border);border-radius:9px;padding:10px  
-}  
-.message{  
- max-width:90%;padding:10px;margin:8px 0;  
- border-radius:10px;overflow-wrap:anywhere;line-height:1.6  
-}  
-.message.customer{background:#e4f4e9;margin-right:auto}  
-.message.admin{background:#e6efff;margin-left:auto}  
-.message small{  
- display:block;color:#667085;font-size:11px;margin-top:5px  
-}  
-.message audio{max-width:100%;width:230px;margin-top:5px}  
-.chat-compose{display:flex;gap:7px;margin-top:10px}  
-.chat-compose input{flex:1;min-width:0}  
-.chat-send{white-space:nowrap}  
-.voice-row{  
- display:flex;gap:8px;align-items:center;  
- flex-wrap:wrap;margin-top:10px  
-}  
-.voice-btn{background:#0756b9}  
-.voice-btn.recording{background:#b42318}  
-.chat-note{font-size:12px;color:#667085;line-height:1.6;margin-top:8px}  
-@media(max-width:480px){  
- header{padding:5px 7px}  
- header img{max-height:125px}  
- .grid{grid-template-columns:1fr}  
- .card{padding:13px}  
- h2{font-size:19px}  
- .price{font-size:19px}  
- .payment-logo{width:100px;height:38px}  
- .chat-compose{flex-direction:column}  
- .chat-send{width:100%}  
-}  
-</style>  </head>  <body>  <header>  
- <img src="usmani-logo.png" alt="USMANI PRINT Logo">  
-</header>  <!-- PWA INSTALL BUTTON -->  <div style="text-align:center;margin:10px auto">  
- <button id="installAppBtn" type="button">  
-  📲 ایپ انسٹال کریں / Install App  
- </button>  
-</div>  <div class="lang" dir="ltr">  
- <button type="button" id="englishBtn" onclick="setLanguage('en')">English</button>  
- <button type="button" id="urduBtn" class="active" onclick="setLanguage('ur')">اردو</button>  
-</div>  <main>  
-<section class="card">  
-<h2 id="formTitle">السلام علیکم! ہماری ویب سائٹ پر آنے پر خوش آمدید 🌹</h2>  <form id="orderForm">  
-<label id="nameLabel" for="customer_name">آپ کا نام</label>  
-<input id="customer_name" name="customer_name" type="text" required maxlength="100" placeholder="اپنا نام لکھیں">  <label id="phoneLabel" for="phone">موبائل نمبر</label>
+HTML
+
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>USMANI PRINT - عثمانی پرنٹ</title>
+
+<!-- PWA SETTINGS -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#126b3a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="USMANI PRINT">
+<link rel="apple-touch-icon" href="./icon-192.png">
+
+<style>
+:root{
+ --green:#126b3a;--blue:#0756b9;--ink:#172033;
+ --bg:#f4f6fa;--border:#d9e0ea;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--ink);
+ font-family:Arial,system-ui,sans-serif
+}
+header{
+ width:100%;background:#fff;line-height:0;
+ text-align:center;padding:8px 12px;
+ border-bottom:1px solid #e5eaf0;
+}
+header img{
+ display:block;width:100%;max-width:1100px;
+ height:auto;max-height:220px;object-fit:contain;margin:0 auto;
+}
+#installAppBtn{
+ display:none;border:0;border-radius:9px;
+ background:var(--green);color:white;
+ padding:11px 20px;font-weight:bold;
+ font-size:15px;cursor:pointer
+}
+#installAppBtn.show{display:inline-block}
+.lang{
+ display:flex;flex-direction:row;direction:ltr;
+ justify-content:center;gap:8px;margin:10px auto
+}
+.lang button{
+ border:1px solid var(--green);background:white;
+ color:var(--green);padding:8px 20px;border-radius:8px;
+ font-weight:bold;cursor:pointer
+}
+.lang button.active{background:var(--green);color:white}
+main{max-width:620px;margin:12px auto;padding:0 12px 25px}
+.card{
+ background:white;border:1px solid var(--border);
+ border-radius:13px;padding:16px;
+ box-shadow:0 3px 12px #1720330c;margin-bottom:14px
+}
+h2{
+ margin:0 0 15px;font-size:22px;text-align:center;
+ font-weight:bold;
+ background:linear-gradient(90deg,#126b3a,#d49b18,#126b3a);
+ -webkit-background-clip:text;background-clip:text;
+ color:transparent;animation:welcomeBlink 1.5s ease-in-out infinite
+}
+@keyframes welcomeBlink{
+ 0%,100%{opacity:1}
+ 50%{opacity:.45}
+}
+label{display:block;margin:12px 0 6px;font-weight:bold;font-size:14px}
+input,select{
+ width:100%;padding:12px;border:1px solid var(--border);
+ border-radius:8px;background:white;font-size:15px;color:var(--ink)
+}
+input[type=file]{padding:9px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pricebox{
+ background:#f0f6ff;border:1px solid #c6daf5;
+ padding:10px 12px;border-radius:8px;margin-top:10px;text-align:center
+}
+.price{
+ font-size:21px;font-weight:700;color:var(--blue);
+ direction:inherit;line-height:1.5
+}
+.payment-box{
+ display:none;background:#eef7f1;border:1px solid #b8dfc4;
+ border-radius:8px;padding:12px 10px;margin-top:8px;
+ text-align:center;line-height:1.5
+}
+.payment-heading{
+ display:flex;align-items:center;justify-content:center;
+ gap:10px;flex-wrap:wrap;font-weight:bold;font-size:15px;margin-bottom:8px
+}
+.payment-logo{
+ display:block;width:110px;height:42px;object-fit:contain;
+ background:white;border-radius:7px;padding:4px 7px
+}
+.payment-number{
+ font-size:20px;font-weight:bold;color:var(--green);
+ direction:ltr;margin:6px 0
+}
+.payment-message{
+ font-size:12px;color:#d00000;font-weight:bold;line-height:1.7
+}
+.preview{
+ display:none;background:#f7f9fc;border:1px solid #d9e0ea;
+ border-radius:10px;padding:12px;margin-top:12px;text-align:center
+}
+.preview-title{font-weight:bold;margin-bottom:8px}
+.preview img{
+ display:block;max-width:100%;max-height:450px;
+ width:auto;height:auto;object-fit:contain;margin:0 auto;
+ background:white;border:1px solid #ddd
+}
+.preview iframe{
+ width:100%;height:420px;border:1px solid #ddd;
+ border-radius:6px;background:white
+}
+.file-details{
+ font-size:12px;color:#667085;margin-top:8px;
+ direction:ltr;overflow-wrap:anywhere
+}
+.notice{font-size:13px;color:#667085;line-height:1.7;margin-top:10px}
+.submit{
+ width:100%;border:0;border-radius:9px;background:var(--green);
+ color:white;padding:14px;font-size:17px;font-weight:bold;
+ margin-top:16px;cursor:pointer
+}
+.submit:disabled{opacity:.6}
+.result{
+ display:none;margin-top:15px;border:1px solid #9bd5ad;
+ background:#effaf2;color:#14532d;border-radius:10px;
+ padding:14px;text-align:center;line-height:1.9;overflow-wrap:anywhere
+}
+footer{text-align:center;padding:15px;color:#667085;font-size:12px}
+#chatSection{display:none}
+.chat-heading{text-align:center;color:var(--green);margin:0 0 10px}
+.chat-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chat-tools select{flex:1;min-width:150px}
+.chat-tools button,.chat-send,.voice-btn{
+ border:0;border-radius:8px;padding:11px 14px;
+ color:white;background:var(--green);cursor:pointer;font-weight:bold
+}
+.chat-tools button.secondary{background:#475467}
+#chatMessages{
+ height:300px;overflow-y:auto;background:#f5f7fa;
+ border:1px solid var(--border);border-radius:9px;padding:10px
+}
+.message{
+ max-width:90%;padding:10px;margin:8px 0;
+ border-radius:10px;overflow-wrap:anywhere;line-height:1.6
+}
+.message.customer{background:#e4f4e9;margin-right:auto}
+.message.admin{background:#e6efff;margin-left:auto}
+.message small{
+ display:block;color:#667085;font-size:11px;margin-top:5px
+}
+.message audio{max-width:100%;width:230px;margin-top:5px}
+.chat-compose{display:flex;gap:7px;margin-top:10px}
+.chat-compose input{flex:1;min-width:0}
+.chat-send{white-space:nowrap}
+.voice-row{
+ display:flex;gap:8px;align-items:center;
+ flex-wrap:wrap;margin-top:10px
+}
+.voice-btn{background:#0756b9}
+.voice-btn.recording{background:#b42318}
+.chat-note{font-size:12px;color:#667085;line-height:1.6;margin-top:8px}
+@media(max-width:480px){
+ header{padding:5px 7px}
+ header img{max-height:125px}
+ .grid{grid-template-columns:1fr}
+ .card{padding:13px}
+ h2{font-size:19px}
+ .price{font-size:19px}
+ .payment-logo{width:100px;height:38px}
+ .chat-compose{flex-direction:column}
+ .chat-send{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <img src="usmani-logo.png" alt="USMANI PRINT Logo">
+</header>
+
+<!-- PWA INSTALL BUTTON -->
+<div style="text-align:center;margin:10px auto">
+ <button id="installAppBtn" type="button">
+  📲 ایپ انسٹال کریں / Install App
+ </button>
+</div>
+
+<div class="lang" dir="ltr">
+ <button type="button" id="englishBtn" onclick="setLanguage('en')">English</button>
+ <button type="button" id="urduBtn" class="active" onclick="setLanguage('ur')">اردو</button>
+</div>
+
+<main>
+<section class="card">
+<h2 id="formTitle">السلام علیکم! ہماری ویب سائٹ پر آنے پر خوش آمدید 🌹</h2>
+
+<form id="orderForm">
+<label id="nameLabel" for="customer_name">آپ کا نام</label>
+<input id="customer_name" name="customer_name" type="text" required maxlength="100" placeholder="اپنا نام لکھیں">
+
+<label id="phoneLabel" for="phone">موبائل نمبر</label>
 <input id="phone" name="phone" type="tel" required maxlength="20" placeholder="03XXXXXXXXX">
 
 <label id="fileLabel" for="printFile">پرنٹ کی فائل منتخب کریں</label>
 <input id="printFile" name="printFile" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
 
-<div class="notice" id="fileNote">صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔</div>  <div class="preview" id="filePreview">  
- <div class="preview-title" id="previewTitle">فائل کا پریویو</div>  
- <img id="imagePreview" alt="File Preview" style="display:none">  
- <iframe id="pdfPreview" title="PDF Preview" style="display:none"></iframe>  
- <div class="file-details" id="fileDetails"></div>  
-</div>  <div class="grid">  
- <div>  
-  <label id="paperLabel" for="paper_size">پیپر سائز</label>  
-  <select id="paper_size" name="paper_size" required>  
-   <option value="A4">A4</option>  
-   <option value="Legal">Legal (8.5 × 14)</option>  
-  </select>  
- </div>  
- <div>  
-  <label id="typeLabel" for="print_type">پرنٹ کی قسم</label>  
-  <select id="print_type" name="print_type" required>  
-   <option value="bw">بلیک اینڈ وائٹ</option>  
-   <option value="color">کلر</option>  
-  </select>  
- </div>  
-</div>  <div class="grid">  
- <div>  
-  <label id="pagesLabel" for="pages">صفحات کی تعداد</label>  
-  <input id="pages" name="pages" type="number" min="1" max="500" value="1" required>  
- </div>  
- <div>  
-  <label id="copiesLabel" for="copies">کاپیوں کی تعداد</label>  
-  <input id="copies" name="copies" type="number" min="1" max="100" value="1" required>  
- </div>  
-</div>  <div class="pricebox">  
- <div class="price" id="totalAmount">کل رقم: 20 روپے</div>  
-</div>  <label id="paymentLabel" for="payment_method">ادائیگی کا طریقہ</label>
-<select id="payment_method" name="payment_method" required>
+<div class="notice" id="fileNote">صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔</div>
 
- <option value="Easypaisa">Easypaisa</option>  
- <option value="JazzCash">JazzCash</option>  
-</select>  <div class="payment-box" id="paymentBox">  
- <div class="payment-heading">  
-  <img id="paymentLogo" class="payment-logo" src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Easypaisa_Digital_Bank_logo.png" alt="Easypaisa Logo">  
-  <strong id="accountTitle">اکاؤنٹ نمبر</strong>  
- </div>  
- <div class="payment-number" id="accountNumber">03337612619</div>  
- <div class="payment-message" id="paymentMessage">ادائیگی کی تصدیق کے بعد آرڈر منظور ہوگا۔</div>  
-</div>  <label id="transactionLabel" for="transaction_id">ٹرانزیکشن آئی ڈی</label>
+<div class="preview" id="filePreview">
+ <div class="preview-title" id="previewTitle">فائل کا پریویو</div>
+ <img id="imagePreview" alt="File Preview" style="display:none">
+ <iframe id="pdfPreview" title="PDF Preview" style="display:none"></iframe>
+ <div class="file-details" id="fileDetails"></div>
+</div>
+
+<div class="grid">
+ <div>
+  <label id="paperLabel" for="paper_size">پیپر سائز</label>
+  <select id="paper_size" name="paper_size" required>
+   <option value="A4">A4</option>
+   <option value="Legal">Legal (8.5 × 14)</option>
+  </select>
+ </div>
+ <div>
+  <label id="typeLabel" for="print_type">پرنٹ کی قسم</label>
+  <select id="print_type" name="print_type" required>
+   <option value="bw">بلیک اینڈ وائٹ</option>
+   <option value="color">کلر</option>
+  </select>
+ </div>
+</div>
+
+<div class="grid">
+ <div>
+  <label id="pagesLabel" for="pages">صفحات کی تعداد</label>
+  <input id="pages" name="pages" type="number" min="1" max="500" value="1" required>
+ </div>
+ <div>
+  <label id="copiesLabel" for="copies">کاپیوں کی تعداد</label>
+  <input id="copies" name="copies" type="number" min="1" max="100" value="1" required>
+ </div>
+</div>
+
+<div class="pricebox">
+ <div class="price" id="totalAmount">کل رقم: 20 روپے</div>
+</div>
+
+<label id="paymentLabel" for="payment_method">ادائیگی کا طریقہ</label>
+<select id="payment_method" name="payment_method" required>
+ <option value="Easypaisa">Easypaisa</option>
+ <option value="JazzCash">JazzCash</option>
+</select>
+
+<div class="payment-box" id="paymentBox">
+ <div class="payment-heading">
+  <img id="paymentLogo" class="payment-logo" src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Easypaisa_Digital_Bank_logo.png" alt="Easypaisa Logo">
+  <strong id="accountTitle">اکاؤنٹ نمبر</strong>
+ </div>
+ <div class="payment-number" id="accountNumber">03337612619</div>
+ <div class="payment-message" id="paymentMessage">ادائیگی کی تصدیق کے بعد آرڈر منظور ہوگا۔</div>
+</div>
+
+<label id="transactionLabel" for="transaction_id">ٹرانزیکشن آئی ڈی</label>
 <input id="transaction_id" name="transaction_id" type="text" required maxlength="100" placeholder="ٹرانزیکشن آئی ڈی درج کریں">
 
 <label id="receiptLabel" for="receiptFile">ادائیگی کی رسید (اختیاری)</label>
 <input id="receiptFile" name="receiptFile" type="file" accept=".jpg,.jpeg,.png">
+<div class="notice" id="receiptNote">رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔</div>
 
-<div class="notice" id="receiptNote">رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔</div>  <button class="submit" id="submitBtn" type="submit">آرڈر جمع کریں</button>
+<button class="submit" id="submitBtn" type="submit">آرڈر جمع کریں</button>
+</form>
+<div class="result" id="resultBox"></div>
+</section>
 
-</form>  
-<div class="result" id="resultBox"></div>  
-</section>  <section class="card" id="chatSection">  
- <h2 class="chat-heading" id="chatTitle">آرڈر چیٹ</h2>  
- <label id="chooseOrderLabel" for="chatOrderSelect">اپنا آرڈر منتخب کریں</label>  
- <div class="chat-tools">  
-  <select id="chatOrderSelect"></select>  
-  <button type="button" class="secondary" id="reloadChatBtn">تازہ کریں</button>  
- </div>  
- <div id="chatMessages" aria-live="polite"></div>  
- <div class="chat-compose">  
-  <input id="chatText" type="text" maxlength="2000" placeholder="اپنا پیغام لکھیں">  
-  <button type="button" class="chat-send" id="sendChatBtn">بھیجیں</button>  
- </div>  
- <div class="voice-row">  
-  <button type="button" class="voice-btn" id="recordVoiceBtn">🎙 وائس ریکارڈ کریں</button>  
-  <span id="recordStatus" class="chat-note"></span>  
- </div>  
- <div class="chat-note" id="chatNote">  
-  آپ کے پیغامات اور وائس میسجز اسی آرڈر کی نجی چیٹ میں محفوظ ہوں گے۔  
- </div>  
-</section>  
-</main>  <footer>USMANI PRINT © 2026</footer>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script src="config.js"></script>  <script>  
-const MAX_FILE_SIZE=20*1024*1024;  
-const CHAT_FUNCTION_URL="https://ewldhnrfclexdjipxkkp.supabase.co/functions/v1/chat-voice";  
-const CHAT_TOKEN_KEY="usmani_print_chat_token";  
-const CHAT_ORDERS_KEY="usmani_print_chat_orders";  
-  
-const PAYMENT_LOGOS={  
- JazzCash:"https://www.veon.com/fileadmin/static_assets/brands/JazzCash.svg",  
- Easypaisa:"https://upload.wikimedia.org/wikipedia/commons/9/9c/Easypaisa_Digital_Bank_logo.png"  
-};  
-  
-const translations={  
-ur:{  
- formTitle:"السلام علیکم! ہماری ویب سائٹ پر آنے پر خوش آمدید 🌹",  
- nameLabel:"آپ کا نام",namePlaceholder:"اپنا نام لکھیں",  
- phoneLabel:"موبائل نمبر",phonePlaceholder:"03XXXXXXXXX",  
- fileLabel:"پرنٹ کی فائل منتخب کریں",  
- fileNote:"صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔",  
- previewTitle:"فائل کا پریویو",paperLabel:"پیپر سائز",  
- typeLabel:"پرنٹ کی قسم",bw:"بلیک اینڈ وائٹ",color:"کلر",  
- pagesLabel:"صفحات کی تعداد",copiesLabel:"کاپیوں کی تعداد",  
- paymentLabel:"ادائیگی کا طریقہ",accountTitle:"اکاؤنٹ نمبر",  
- paymentMessage:"ادائیگی کی تصدیق کے بعد آرڈر منظور ہوگا۔",  
- transactionLabel:"ٹرانزیکشن آئی ڈی",  
- transactionPlaceholder:"ٹرانزیکشن آئی ڈی درج کریں",  
- receiptLabel:"ادائیگی کی رسید (اختیاری)",  
- receiptNote:"رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔",  
- submitBtn:"آرڈر جمع کریں",uploading:"آرڈر جمع ہو رہا ہے، انتظار کریں...",  
- success:"آپ کا آرڈر کامیابی سے جمع ہوگیا!",  
- orderNo:"آرڈر نمبر",amount:"تخمینی رقم",  
- save:"اس آرڈر نمبر کو محفوظ رکھیں۔",  
- error:"خرابی",invalid:"براہ کرم تمام معلومات درست درج کریں۔",  
- fileError:"فائل PDF، JPG یا PNG ہو اور 20MB سے زیادہ نہ ہو۔",  
- receiptError:"رسید JPG یا PNG ہونی چاہیے اور 20MB سے زیادہ نہ ہو۔",  
- rupee:"روپے",  
- chatTitle:"آرڈر چیٹ",chooseOrderLabel:"اپنا آرڈر منتخب کریں",  
- refreshChat:"تازہ کریں",send:"بھیجیں",  
- chatPlaceholder:"اپنا پیغام لکھیں",  
- record:"🎙 وائس ریکارڈ کریں",stop:"⏹ ریکارڈنگ بند کریں",  
- recording:"ریکارڈنگ جاری ہے...",  
- chatNote:"آپ کے پیغامات اور وائس میسجز اسی آرڈر کی نجی چیٹ میں محفوظ ہوں گے۔",  
- noMessages:"ابھی کوئی پیغام نہیں۔",  
- customer:"آپ",admin:"ایڈمن",  
- chatError:"چیٹ میں خرابی: ",  
- voiceUnsupported:"آپ کے براؤزر میں وائس ریکارڈنگ دستیاب نہیں۔",  
- micError:"مائیکروفون کی اجازت نہیں ملی۔",  
- noOrder:"پہلے آرڈر منتخب کریں۔",  
- textEmpty:"پیغام لکھیں۔",  
- sending:"بھیجا جا رہا ہے..."  
-},  
-en:{  
- formTitle:"Welcome to Our Website! 🌹",  
- nameLabel:"Your Name",namePlaceholder:"Enter your name",  
- phoneLabel:"Mobile Number",phonePlaceholder:"03XXXXXXXXX",  
- fileLabel:"Select Print File",  
- fileNote:"PDF, JPG or PNG only. Maximum file size 20MB.",  
- previewTitle:"File Preview",paperLabel:"Paper Size",  
- typeLabel:"Print Type",bw:"Black & White",color:"Color",  
- pagesLabel:"Number of Pages",copiesLabel:"Number of Copies",  
- paymentLabel:"Payment Method",accountTitle:"Account Number",  
- paymentMessage:"Payment verification is required before order approval.",  
- transactionLabel:"Transaction ID",  
- transactionPlaceholder:"Enter transaction ID",  
- receiptLabel:"Payment Receipt (Optional)",  
- receiptNote:"You can upload receipt in JPG or PNG format.",  
- submitBtn:"Submit Order",uploading:"Submitting order, please wait...",  
- success:"Your order has been submitted successfully!",  
- orderNo:"Order Number",amount:"Estimated Amount",  
- save:"Please save this order number.",  
- error:"Error",invalid:"Please enter all information correctly.",  
- fileError:"File must be PDF, JPG or PNG and no larger than 20MB.",  
- receiptError:"Receipt must be JPG or PNG and no larger than 20MB.",  
- rupee:"Rs",  
- chatTitle:"Order Chat",chooseOrderLabel:"Select your order",  
- refreshChat:"Refresh",send:"Send",  
- chatPlaceholder:"Write your message",  
- record:"🎙 Record voice",stop:"⏹ Stop recording",  
- recording:"Recording...",  
- chatNote:"Your text and voice messages are saved in this order's private chat.",  
- noMessages:"No messages yet.",  
- customer:"You",admin:"Admin",  
- chatError:"Chat error: ",  
- voiceUnsupported:"Voice recording is not available in your browser.",  
- micError:"Microphone permission was not granted.",  
- noOrder:"Please select an order first.",  
- textEmpty:"Write a message first.",  
- sending:"Sending..."  
-}  
-};  
-  
-let currentLanguage="ur";  
-let client=null;  
-let previewUrl=null;  
-let chatOrderNo=null;  
-let chatTimer=null;  
-let recorder=null;  
-let recordedChunks=[];  
-let isRecording=false;  
-  
-function tr(key){  
- return translations[currentLanguage][key]||key;  
-}  
-  
-function setLanguage(language){  
- currentLanguage=language;  
- const t=translations[language];  
- document.documentElement.lang=language;  
- document.documentElement.dir=language==="ur"?"rtl":"ltr";  
-  
- const ids=[  
- "formTitle","nameLabel","phoneLabel","fileLabel","fileNote",  
- "previewTitle","paperLabel","typeLabel","pagesLabel",  
- "copiesLabel","paymentLabel","transactionLabel",  
- "receiptLabel","receiptNote","submitBtn",  
- "chatTitle","chooseOrderLabel","chatNote"  
- ];  
- ids.forEach(id=>{  
-  const el=document.getElementById(id);  
-  if(el)el.textContent=t[id];  
- });  
-  
- document.getElementById("customer_name").placeholder=t.namePlaceholder;  
- document.getElementById("phone").placeholder=t.phonePlaceholder;  
- document.getElementById("transaction_id").placeholder=t.transactionPlaceholder;  
- document.getElementById("chatText").placeholder=t.chatPlaceholder;  
- document.querySelector('#print_type option[value="bw"]').textContent=t.bw;  
- document.querySelector('#print_type option[value="color"]').textContent=t.color;  
- document.getElementById("reloadChatBtn").textContent=t.refreshChat;  
- document.getElementById("sendChatBtn").textContent=t.send;  
- document.getElementById("recordVoiceBtn").textContent=isRecording?t.stop:t.record;  
- document.getElementById("urduBtn").classList.toggle("active",language==="ur");  
- document.getElementById("englishBtn").classList.toggle("active",language==="en");  
- updatePaymentInfo();  
- updatePrice();  
-}  
-  
-function updatePaymentInfo(){  
- const method=document.getElementById("payment_method").value;  
- const number=document.getElementById("accountNumber");  
- const logo=document.getElementById("paymentLogo");  
- document.getElementById("paymentBox").style.display="block";  
- document.getElementById("accountTitle").textContent=tr("accountTitle");  
-  
- if(method==="Easypaisa"){  
-  logo.src=PAYMENT_LOGOS.Easypaisa;  
-  logo.alt="Easypaisa Logo";  
-  number.textContent="03337612619";  
- }else{  
-  logo.src=PAYMENT_LOGOS.JazzCash;  
-  logo.alt="JazzCash Logo";  
-  number.textContent="03065612619";  
- }  
- document.getElementById("paymentMessage").textContent=tr("paymentMessage");  
-}  
-  
-function getRate(type,totalPages){  
- if(type==="bw"){  
-  if(totalPages<=10)return 20;  
-  if(totalPages<=30)return 15;  
-  if(totalPages<=60)return 13;  
-  if(totalPages<=100)return 12;  
-  return 10;  
- }  
- if(totalPages<=20)return 40;  
- if(totalPages<=50)return 36;  
- if(totalPages<=100)return 32;  
- return 30;  
-}  
-  
-function updatePrice(){  
- const pages=parseInt(document.getElementById("pages").value)||1;  
- const copies=parseInt(document.getElementById("copies").value)||1;  
- const type=document.getElementById("print_type").value;  
- const totalPages=pages*copies;  
- const amount=getRate(type,totalPages)*totalPages;  
- document.getElementById("totalAmount").textContent=  
-  (currentLanguage==="ur"?"کل رقم: ":"Total Amount: Rs ")+  
-  amount.toLocaleString("en-US")+  
-  (currentLanguage==="ur"?" روپے":"");  
- return amount;  
-}  
-  
-document.getElementById("pages").addEventListener("input",updatePrice);  
-document.getElementById("copies").addEventListener("input",updatePrice);  
-document.getElementById("print_type").addEventListener("change",updatePrice);  
-document.getElementById("payment_method").addEventListener("change",updatePaymentInfo);  
-  
-function extension(file){  
- return file.name.split(".").pop().toLowerCase();  
-}  
-function validPrintFile(file){  
- return ["pdf","jpg","jpeg","png"].includes(extension(file))&&file.size<=MAX_FILE_SIZE;  
-}  
-function validReceipt(file){  
- return !file||(["jpg","jpeg","png"].includes(extension(file))&&file.size<=MAX_FILE_SIZE);  
-}  
-  
-function showPreview(file){  
- const preview=document.getElementById("filePreview");  
- const image=document.getElementById("imagePreview");  
- const pdf=document.getElementById("pdfPreview");  
- const details=document.getElementById("fileDetails");  
-  
- if(previewUrl){  
-  URL.revokeObjectURL(previewUrl);  
-  previewUrl=null;  
- }  
- image.style.display="none";  
- pdf.style.display="none";  
- preview.style.display="none";  
- image.src="";  
- pdf.src="";  
- if(!file)return;  
-  
- previewUrl=URL.createObjectURL(file);  
- preview.style.display="block";  
- details.textContent=file.name+" | "+(file.size/1024/1024).toFixed(2)+" MB";  
- if(extension(file)==="pdf"){  
-  pdf.src=previewUrl;  
-  pdf.style.display="block";  
- }else{  
-  image.src=previewUrl;  
-  image.style.display="block";  
- }  
-}  
-  
-document.getElementById("printFile").addEventListener("change",function(){  
- const file=this.files[0];  
- if(!file){showPreview(null);return;}  
- if(!validPrintFile(file)){  
-  alert(tr("fileError"));  
-  this.value="";  
-  showPreview(null);  
-  return;  
- }  
- showPreview(file);  
-});  
-  
-function getSupabaseClient(){  
- if(client)return client;  
- if(!window.supabase||!window.QR_PRINT_CONFIG){  
-  throw new Error("Supabase یا config.js لوڈ نہیں ہوا۔");  
- }  
- const cfg=window.QR_PRINT_CONFIG;  
- if(!cfg.url||!cfg.anonKey){  
-  throw new Error("config.js میں Supabase URL یا anonKey موجود نہیں۔");  
- }  
- client=window.supabase.createClient(cfg.url,cfg.anonKey);  
- return client;  
-}  
-  
-function getChatToken(){  
- let token=localStorage.getItem(CHAT_TOKEN_KEY);  
- if(!token){  
-  const bytes=new Uint8Array(32);  
-  crypto.getRandomValues(bytes);  
-  token=Array.from(bytes).map(b=>b.toString(16).padStart(2,"0")).join("");  
-  localStorage.setItem(CHAT_TOKEN_KEY,token);  
- }  
- if(!/^[a-f0-9]{64}$/.test(token)){  
-  throw new Error("Customer chat session is invalid.");  
- }  
- return token;  
-}  
-  
-function getSavedOrders(){  
- try{  
-  const list=JSON.parse(localStorage.getItem(CHAT_ORDERS_KEY)||"[]");  
-  return Array.isArray(list)?list:[];  
- }catch{  
-  return [];  
- }  
-}  
-  
-function saveOrderForChat(orderNo){  
- const list=getSavedOrders().filter(x=>String(x)!==String(orderNo));  
- list.unshift(String(orderNo));  
- localStorage.setItem(CHAT_ORDERS_KEY,JSON.stringify(list.slice(0,20)));  
-}  
-  
-function refreshOrderChoices(){  
- const select=document.getElementById("chatOrderSelect");  
- const orders=getSavedOrders();  
- select.replaceChildren();  
- orders.forEach(no=>{  
-  const option=document.createElement("option");  
-  option.value=no;  
-  option.textContent=(currentLanguage==="ur"?"آرڈر نمبر ":"Order #")+no;  
-  select.appendChild(option);  
- });  
- if(chatOrderNo!==null)select.value=String(chatOrderNo);  
-}  
-  
-async function callChatFunction(payload){  
- const token=getChatToken();  
- const response=await fetch(CHAT_FUNCTION_URL,{  
-  method:"POST",  
-  headers:{  
-   "Content-Type":"application/json",  
-   "apikey":window.QR_PRINT_CONFIG.anonKey,  
-   "Authorization":"Bearer "+window.QR_PRINT_CONFIG.anonKey  
-  },  
-  body:JSON.stringify({...payload,session_token:token})  
- });  
- const data=await response.json();  
- if(!response.ok||data.error){  
-  throw new Error(data.error||"Chat request failed");  
- }  
- return data;  
-}  
-  
-function openChat(orderNo){  
- chatOrderNo=String(orderNo);  
- document.getElementById("chatSection").style.display="block";  
- refreshOrderChoices();  
- loadChatMessages();  
- if(chatTimer)clearInterval(chatTimer);  
- chatTimer=setInterval(()=>{  
-  if(chatOrderNo)loadChatMessages();  
- },8000);  
- document.getElementById("chatSection").scrollIntoView({behavior:"smooth"});  
-}  
-  
-function addMessage(message){  
- const box=document.getElementById("chatMessages");  
- const item=document.createElement("div");  
- item.className="message "+(message.sender_role==="admin"?"admin":"customer");  
- const who=document.createElement("strong");  
- who.textContent=message.sender_role==="admin"?tr("admin"):tr("customer");  
- item.appendChild(who);  
- if(message.message_type==="voice"&&message.voice_url){  
-  const audio=document.createElement("audio");  
-  audio.controls=true;  
-  audio.preload="none";  
-  audio.src=message.voice_url;  
-  item.appendChild(audio);  
- }else if(message.message_type==="text"){  
-  const content=document.createElement("div");  
-  content.textContent=message.message_text||"";  
-  item.appendChild(content);  
- }  
- const date=document.createElement("small");  
- date.textContent=message.created_at?new Date(message.created_at).toLocaleString():"";  
- item.appendChild(date);  
- box.appendChild(item);  
-}  
-  
-async function loadChatMessages(){  
- if(!chatOrderNo)return;  
- try{  
-  const data=await callChatFunction({  
-   action:"customer_messages",  
-   order_no:Number(chatOrderNo)  
-  });  
-  const box=document.getElementById("chatMessages");  
-  box.replaceChildren();  
-  const messages=data.messages||[];  
-  if(!messages.length){  
-   const p=document.createElement("p");  
-   p.textContent=tr("noMessages");  
-   box.appendChild(p);  
-  }else{  
-   messages.forEach(addMessage);  
-  }  
-  box.scrollTop=box.scrollHeight;  
- }catch(error){  
-  console.error(error);  
-  document.getElementById("recordStatus").textContent=tr("chatError")+error.message;  
- }  
-}  
-  
-async function sendChatText(){  
- const input=document.getElementById("chatText");  
- const message=input.value.trim();  
- if(!chatOrderNo){alert(tr("noOrder"));return;}  
- if(!message){alert(tr("textEmpty"));return;}  
- const button=document.getElementById("sendChatBtn");  
- button.disabled=true;  
- button.textContent=tr("sending");  
- try{  
-  const db=getSupabaseClient();  
-  const {error}=await db.rpc("customer_send_chat_text",{  
-   p_order_no:Number(chatOrderNo),  
-   p_session_token:getChatToken(),  
-   p_message_text:message  
-  });  
-  if(error)throw error;  
-  input.value="";  
-  await loadChatMessages();  
- }catch(error){  
-  alert(tr("chatError")+error.message);  
- }finally{  
-  button.disabled=false;  
-  button.textContent=tr("send");  
- }  
-}  
-  
-document.getElementById("sendChatBtn").addEventListener("click",sendChatText);  
-document.getElementById("chatText").addEventListener("keydown",event=>{  
- if(event.key==="Enter"){  
-  event.preventDefault();  
-  sendChatText();  
- }  
-});  
-document.getElementById("reloadChatBtn").addEventListener("click",loadChatMessages);  
-document.getElementById("chatOrderSelect").addEventListener("change",event=>{  
- if(event.target.value)openChat(event.target.value);  
-});  
-  
-async function startVoiceRecording(){  
- if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){  
-  alert(tr("voiceUnsupported"));  
-  return;  
- }  
- try{  
-  const stream=await navigator.mediaDevices.getUserMedia({audio:true});  
-  recordedChunks=[];  
-  let mimeType="";  
-  if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus")){  
-   mimeType="audio/webm;codecs=opus";  
-  }else if(MediaRecorder.isTypeSupported("audio/webm")){  
-   mimeType="audio/webm";  
-  }  
-  recorder=new MediaRecorder(stream,mimeType?{mimeType}:undefined);  
-  recorder.ondataavailable=event=>{  
-   if(event.data&&event.data.size>0)recordedChunks.push(event.data);  
-  };  
-  recorder.onstop=async()=>{  
-   stream.getTracks().forEach(track=>track.stop());  
-   const blob=new Blob(recordedChunks,{type:recorder.mimeType||"audio/webm"});  
-   if(blob.size>10*1024*1024){  
-    alert("Voice message is larger than 10 MB.");  
-    return;  
-   }  
-   await uploadVoice(blob);  
-  };  
-  recorder.start();  
-  isRecording=true;  
-  const button=document.getElementById("recordVoiceBtn");  
-  button.textContent=tr("stop");  
-  button.classList.add("recording");  
-  document.getElementById("recordStatus").textContent=tr("recording");  
- }catch(error){  
-  console.error(error);  
-  alert(tr("micError"));  
- }  
-}  
-  
-async function stopVoiceRecording(){  
- if(recorder&&isRecording){  
-  isRecording=false;  
-  recorder.stop();  
-  const button=document.getElementById("recordVoiceBtn");  
-  button.textContent=tr("record");  
-  button.classList.remove("recording");  
-  document.getElementById("recordStatus").textContent=tr("sending");  
- }  
-}  
-  
-document.getElementById("recordVoiceBtn").addEventListener("click",async()=>{  
- if(!chatOrderNo){alert(tr("noOrder"));return;}  
- if(isRecording){  
-  await stopVoiceRecording();  
- }else{  
-  await startVoiceRecording();  
- }  
-});  
-  
-async function uploadVoice(blob){  
- try{  
-  const db=getSupabaseClient();  
-  const prepared=await callChatFunction({  
-   action:"prepare",  
-   order_no:Number(chatOrderNo)  
-  });  
-  const {error:uploadError}=await db.storage  
-   .from("chat-voice")  
-   .uploadToSignedUrl(prepared.path,prepared.token,blob,{  
-    contentType:"audio/webm",  
-    upsert:false  
-   });  
-  if(uploadError)throw uploadError;  
-  await callChatFunction({  
-   action:"confirm",  
-   order_no:Number(chatOrderNo),  
-   path:prepared.path  
-  });  
-  document.getElementById("recordStatus").textContent="";  
-  await loadChatMessages();  
- }catch(error){  
-  console.error(error);  
-  document.getElementById("recordStatus").textContent=tr("chatError")+error.message;  
- }  
-}  
-  
-document.getElementById("orderForm").addEventListener("submit",async function(event){  
- event.preventDefault();  
- const form=this;  
- const btn=document.getElementById("submitBtn");  
- const resultBox=document.getElementById("resultBox");  
- resultBox.style.display="none";  
-  
- const customerName=form.elements.customer_name.value.trim();  
- const phone=form.elements.phone.value.trim();  
- const file=form.elements.printFile.files[0];  
- const receipt=form.elements.receiptFile.files[0]||null;  
- const pages=parseInt(form.elements.pages.value);  
- const copies=parseInt(form.elements.copies.value);  
- const amount=updatePrice();  
-  
- if(!customerName||!phone||!file||  
-    !form.elements.transaction_id.value.trim()||  
-    !Number.isInteger(pages)||pages<1||pages>500||  
-    !Number.isInteger(copies)||copies<1||copies>100){  
-  alert(tr("invalid"));  
-  return;  
- }  
- if(!validPrintFile(file)){alert(tr("fileError"));return;}  
- if(!validReceipt(receipt)){alert(tr("receiptError"));return;}  
-  
- btn.disabled=true;  
- btn.textContent=tr("uploading");  
-  
- try{  
-  const db=getSupabaseClient();  
-  const token=getChatToken();  
-  const id=crypto.randomUUID();  
-  const printPath="orders/"+id+"/print."+extension(file);  
-  
-  const uploadPrint=await db.storage.from("print-files")  
-   .upload(printPath,file,{upsert:false});  
-  if(uploadPrint.error)throw uploadPrint.error;  
-  
-  let receiptPath=null;  
-  if(receipt){  
-   receiptPath="orders/"+id+"/receipt."+extension(receipt);  
-   const uploadReceipt=await db.storage.from("print-files")  
-    .upload(receiptPath,receipt,{upsert:false});  
-   if(uploadReceipt.error)throw uploadReceipt.error;  
-  }  
-  
-  const row={  
-   p_customer_name:customerName,  
-   p_phone:phone,  
-   p_file_path:printPath,  
-   p_paper_size:form.elements.paper_size.value,  
-   p_print_type:form.elements.print_type.value,  
-   p_pages:pages,  
-   p_copies:copies,  
-   p_payment_method:form.elements.payment_method.value,  
-   p_transaction_id:form.elements.transaction_id.value.trim(),  
-   p_receipt_path:receiptPath,  
-   p_amount:amount,  
-   p_session_token:token  
-  };  
-  
-  const result=await db.rpc("create_print_order_with_chat",row);  
-  if(result.error)throw result.error;  
-  const orderNo=Array.isArray(result.data)?result.data[0]:result.data;  
-  if(orderNo===null||orderNo===undefined){  
-   throw new Error("Order number was not returned.");  
-  }  
-  
-  saveOrderForChat(orderNo);  
-  resultBox.replaceChildren();  
-  
-  const success=document.createElement("strong");  
-  success.textContent=tr("success");  
-  resultBox.appendChild(success);  
-  
-  const orderLine=document.createElement("div");  
-  orderLine.textContent=tr("orderNo")+": "+orderNo;  
-  resultBox.appendChild(orderLine);  
-  
-  const amountLine=document.createElement("div");  
-  amountLine.textContent=tr("amount")+": "+amount+" "+tr("rupee");  
-  resultBox.appendChild(amountLine);  
-  
-  const saveLine=document.createElement("div");  
-  saveLine.textContent=tr("save");  
-  resultBox.appendChild(saveLine);  
-  
-  resultBox.style.display="block";  
-  form.reset();  
-  showPreview(null);  
-  updatePrice();  
-  updatePaymentInfo();  
-  refreshOrderChoices();  
-  openChat(orderNo);  
-  
- }catch(error){  
-  console.error(error);  
-  alert(tr("error")+": "+(error.message||String(error)));  
- }finally{  
-  btn.disabled=false;  
-  btn.textContent=tr("submitBtn");  
- }  
-});  
-  
-try{  
- const oldOrders=getSavedOrders();  
- if(oldOrders.length){  
-  chatOrderNo=oldOrders[0];  
-  refreshOrderChoices();  
-  openChat(chatOrderNo);  
- }  
-}catch(error){  
- console.error("Could not restore previous chats:",error);  
-}  
-  
-setLanguage("ur");  
-updatePaymentInfo();  
-updatePrice();  
-</script>  <!-- PWA REGISTRATION AND INSTALL BUTTON -->  <script>  
-(function(){  
-  
- const installButton=document.getElementById("installAppBtn");  
- let deferredInstallPrompt=null;  
-  
- function showPwaError(message){  
-  console.error("USMANI PRINT PWA:",message);  
-  alert("USMANI PRINT PWA ERROR:\n"+message);  
- }  
-  
- function watchWorker(worker){  
-  if(!worker)return;  
-  
-  worker.addEventListener("statechange",function(){  
-   console.log("Service Worker State:",worker.state);  
-  
-   if(worker.state==="redundant"){  
-    showPwaError(  
-     "Service Worker انسٹال نہیں ہو سکا۔ sw.js کی APP_SHELL فائلوں میں 404 یا دوسری خرابی چیک کریں۔"  
-    );  
-   }  
-  });  
- }  
-  
- if("serviceWorker" in navigator){  
-  
-  window.addEventListener("load",async function(){  
-  
-   try{  
-    const registration=await navigator.serviceWorker.register("./sw.js");  
-  
-    console.log("Service Worker Registration:",registration.scope);  
-  
-    if(registration.installing){  
-     watchWorker(registration.installing);  
-    }  
-  
-    registration.addEventListener("updatefound",function(){  
-     watchWorker(registration.installing);  
-    });  
-  
-    if(registration.active){  
-     console.log("Service Worker Active");  
-    }  
-  
-   }catch(error){  
-    showPwaError(error.name+": "+error.message);  
-   }  
-  
-  });  
-  
- }else{  
-  console.log("This browser does not support Service Workers.");  
- }  
-  
- window.addEventListener("beforeinstallprompt",function(event){  
-  event.preventDefault();  
-  deferredInstallPrompt=event;  
-  installButton.classList.add("show");  
- });  
-  
- installButton.addEventListener("click",async function(){  
-  
-  if(!deferredInstallPrompt){  
-   alert(  
-    "انسٹالیشن کا آپشن ابھی دستیاب نہیں۔ Chrome کے تین نقطوں والے مینو سے Install app آزمائیں۔"  
-   );  
-   return;  
-  }  
-  
-  const promptEvent=deferredInstallPrompt;  
-  deferredInstallPrompt=null;  
-  
-  try{  
-   await promptEvent.prompt();  
-   const choice=await promptEvent.userChoice;  
-  
-   console.log("Install choice:",choice.outcome);  
-  
-   if(choice.outcome==="accepted"){  
-    installButton.classList.remove("show");  
-   }  
-  
-  }catch(error){  
-   showPwaError("Install Error: "+error.message);  
-  }  
-  
- });  
-  
- window.addEventListener("appinstalled",function(){  
-  installButton.classList.remove("show");  
-  console.log("USMANI PRINT installed successfully.");  
- });  
-  
-})();  
-</script>  </body>  
+<section class="card" id="chatSection">
+ <h2 class="chat-heading" id="chatTitle">آرڈر چیٹ</h2>
+ <label id="chooseOrderLabel" for="chatOrderSelect">اپنا آرڈر منتخب کریں</label>
+ <div class="chat-tools">
+  <select id="chatOrderSelect"></select>
+  <button type="button" class="secondary" id="reloadChatBtn">تازہ کریں</button>
+ </div>
+ <div id="chatMessages" aria-live="polite"></div>
+ <div class="chat-compose">
+  <input id="chatText" type="text" maxlength="2000" placeholder="اپنا پیغام لکھیں">
+  <button type="button" class="chat-send" id="sendChatBtn">بھیجیں</button>
+ </div>
+ <div class="voice-row">
+  <button type="button" class="voice-btn" id="recordVoiceBtn">🎙 وائس ریکارڈ کریں</button>
+  <span id="recordStatus" class="chat-note"></span>
+ </div>
+ <div class="chat-note" id="chatNote">
+  آپ کے پیغامات اور وائس میسجز اسی آرڈر کی نجی چیٹ میں محفوظ ہوں گے۔
+ </div>
+</section>
+</main>
+
+<footer>USMANI PRINT © 2026</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+
+<script>
+const MAX_FILE_SIZE=20*1024*1024;
+const CHAT_FUNCTION_URL="https://ewldhnrfclexdjipxkkp.supabase.co/functions/v1/chat-voice";
+const CHAT_TOKEN_KEY="usmani_print_chat_token";
+const CHAT_ORDERS_KEY="usmani_print_chat_orders";
+
+const PAYMENT_LOGOS={
+ JazzCash:"https://www.veon.com/fileadmin/static_assets/brands/JazzCash.svg",
+ Easypaisa:"https://upload.wikimedia.org/wikipedia/commons/9/9c/Easypaisa_Digital_Bank_logo.png"
+};
+
+const translations={
+ur:{
+ formTitle:"السلام علیکم! ہماری ویب سائٹ پر آنے پر خوش آمدید 🌹",
+ nameLabel:"آپ کا نام",namePlaceholder:"اپنا نام لکھیں",
+ phoneLabel:"موبائل نمبر",phonePlaceholder:"03XXXXXXXXX",
+ fileLabel:"پرنٹ کی فائل منتخب کریں",
+ fileNote:"صرف PDF، JPG یا PNG فائل۔ زیادہ سے زیادہ سائز 20MB۔",
+ previewTitle:"فائل کا پریویو",paperLabel:"پیپر سائز",
+ typeLabel:"پرنٹ کی قسم",bw:"بلیک اینڈ وائٹ",color:"کلر",
+ pagesLabel:"صفحات کی تعداد",copiesLabel:"کاپیوں کی تعداد",
+ paymentLabel:"ادائیگی کا طریقہ",accountTitle:"اکاؤنٹ نمبر",
+ paymentMessage:"ادائیگی کی تصدیق کے بعد آرڈر منظور ہوگا۔",
+ transactionLabel:"ٹرانزیکشن آئی ڈی",
+ transactionPlaceholder:"ٹرانزیکشن آئی ڈی درج کریں",
+ receiptLabel:"ادائیگی کی رسید (اختیاری)",
+ receiptNote:"رسید کی تصویر JPG یا PNG میں اپ لوڈ کرسکتے ہیں۔",
+ submitBtn:"آرڈر جمع کریں",uploading:"آرڈر جمع ہو رہا ہے، انتظار کریں...",
+ success:"آپ کا آرڈر کامیابی سے جمع ہوگیا!",
+ orderNo:"آرڈر نمبر",amount:"تخمینی رقم",
+ save:"اس آرڈر نمبر کو محفوظ رکھیں۔",
+ error:"خرابی",invalid:"براہ کرم تمام معلومات درست درج کریں۔",
+ fileError:"فائل PDF، JPG یا PNG ہو اور 20MB سے زیادہ نہ ہو۔",
+ receiptError:"رسید JPG یا PNG ہونی چاہیے اور 20MB سے زیادہ نہ ہو۔",
+ rupee:"روپے",
+ chatTitle:"آرڈر چیٹ",chooseOrderLabel:"اپنا آرڈر منتخب کریں",
+ refreshChat:"تازہ کریں",send:"بھیجیں",
+ chatPlaceholder:"اپنا پیغام لکھیں",
+ record:"🎙 وائس ریکارڈ کریں",stop:"⏹ ریکارڈنگ بند کریں",
+ recording:"ریکارڈنگ جاری ہے...",
+ chatNote:"آپ کے پیغامات اور وائس میسجز اسی آرڈر کی نجی چیٹ میں محفوظ ہوں گے۔",
+ noMessages:"ابھی کوئی پیغام نہیں۔",
+ customer:"آپ",admin:"ایڈمن",
+ chatError:"چیٹ میں خرابی: ",
+ voiceUnsupported:"آپ کے براؤزر میں وائس ریکارڈنگ دستیاب نہیں۔",
+ micError:"مائیکروفون کی اجازت نہیں ملی۔",
+ noOrder:"پہلے آرڈر منتخب کریں۔",
+ textEmpty:"پیغام لکھیں۔",
+ sending:"بھیجا جا رہا ہے..."
+},
+en:{
+ formTitle:"Welcome to Our Website! 🌹",
+ nameLabel:"Your Name",namePlaceholder:"Enter your name",
+ phoneLabel:"Mobile Number",phonePlaceholder:"03XXXXXXXXX",
+ fileLabel:"Select Print File",
+ fileNote:"PDF, JPG or PNG only. Maximum file size 20MB.",
+ previewTitle:"File Preview",paperLabel:"Paper Size",
+ typeLabel:"Print Type",bw:"Black & White",color:"Color",
+ pagesLabel:"Number of Pages",copiesLabel:"Number of Copies",
+ paymentLabel:"Payment Method",accountTitle:"Account Number",
+ paymentMessage:"Payment verification is required before order approval.",
+ transactionLabel:"Transaction ID",
+ transactionPlaceholder:"Enter transaction ID",
+ receiptLabel:"Payment Receipt (Optional)",
+ receiptNote:"You can upload receipt in JPG or PNG format.",
+ submitBtn:"Submit Order",uploading:"Submitting order, please wait...",
+ success:"Your order has been submitted successfully!",
+ orderNo:"Order Number",amount:"Estimated Amount",
+ save:"Please save this order number.",
+ error:"Error",invalid:"Please enter all information correctly.",
+ fileError:"File must be PDF, JPG or PNG and no larger than 20MB.",
+ receiptError:"Receipt must be JPG or PNG and no larger than 20MB.",
+ rupee:"Rs",
+ chatTitle:"Order Chat",chooseOrderLabel:"Select your order",
+ refreshChat:"Refresh",send:"Send",
+ chatPlaceholder:"Write your message",
+ record:"🎙 Record voice",stop:"⏹ Stop recording",
+ recording:"Recording...",
+ chatNote:"Your text and voice messages are saved in this order's private chat.",
+ noMessages:"No messages yet.",
+ customer:"You",admin:"Admin",
+ chatError:"Chat error: ",
+ voiceUnsupported:"Voice recording is not available in your browser.",
+ micError:"Microphone permission was not granted.",
+ noOrder:"Please select an order first.",
+ textEmpty:"Write a message first.",
+ sending:"Sending..."
+}
+};
+
+let currentLanguage="ur";
+let client=null;
+let previewUrl=null;
+let chatOrderNo=null;
+let chatTimer=null;
+let recorder=null;
+let recordedChunks=[];
+let isRecording=false;
+
+function tr(key){
+ return translations[currentLanguage][key]||key;
+}
+
+function setLanguage(language){
+ currentLanguage=language;
+ const t=translations[language];
+ document.documentElement.lang=language;
+ document.documentElement.dir=language==="ur"?"rtl":"ltr";
+
+ const ids=[
+ "formTitle","nameLabel","phoneLabel","fileLabel","fileNote",
+ "previewTitle","paperLabel","typeLabel","pagesLabel",
+ "copiesLabel","paymentLabel","transactionLabel",
+ "receiptLabel","receiptNote","submitBtn",
+ "chatTitle","chooseOrderLabel","chatNote"
+ ];
+ ids.forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)el.textContent=t[id];
+ });
+
+ document.getElementById("customer_name").placeholder=t.namePlaceholder;
+ document.getElementById("phone").placeholder=t.phonePlaceholder;
+ document.getElementById("transaction_id").placeholder=t.transactionPlaceholder;
+ document.getElementById("chatText").placeholder=t.chatPlaceholder;
+ document.querySelector('#print_type option[value="bw"]').textContent=t.bw;
+ document.querySelector('#print_type option[value="color"]').textContent=t.color;
+ document.getElementById("reloadChatBtn").textContent=t.refreshChat;
+ document.getElementById("sendChatBtn").textContent=t.send;
+ document.getElementById("recordVoiceBtn").textContent=isRecording?t.stop:t.record;
+ document.getElementById("urduBtn").classList.toggle("active",language==="ur");
+ document.getElementById("englishBtn").classList.toggle("active",language==="en");
+ updatePaymentInfo();
+ updatePrice();
+}
+
+function updatePaymentInfo(){
+ const method=document.getElementById("payment_method").value;
+ const number=document.getElementById("accountNumber");
+ const logo=document.getElementById("paymentLogo");
+ document.getElementById("paymentBox").style.display="block";
+ document.getElementById("accountTitle").textContent=tr("accountTitle");
+
+ if(method==="Easypaisa"){
+  logo.src=PAYMENT_LOGOS.Easypaisa;
+  logo.alt="Easypaisa Logo";
+  number.textContent="03337612619";
+ }else{
+  logo.src=PAYMENT_LOGOS.JazzCash;
+  logo.alt="JazzCash Logo";
+  number.textContent="03065612619";
+ }
+ document.getElementById("paymentMessage").textContent=tr("paymentMessage");
+}
+
+function getRate(type,totalPages){
+ if(type==="bw"){
+  if(totalPages<=10)return 20;
+  if(totalPages<=30)return 15;
+  if(totalPages<=60)return 13;
+  if(totalPages<=100)return 12;
+  return 10;
+ }
+ if(totalPages<=20)return 40;
+ if(totalPages<=50)return 36;
+ if(totalPages<=100)return 32;
+ return 30;
+}
+
+function updatePrice(){
+ const pages=parseInt(document.getElementById("pages").value)||1;
+ const copies=parseInt(document.getElementById("copies").value)||1;
+ const type=document.getElementById("print_type").value;
+ const totalPages=pages*copies;
+ const amount=getRate(type,totalPages)*totalPages;
+ document.getElementById("totalAmount").textContent=
+  (currentLanguage==="ur"?"کل رقم: ":"Total Amount: Rs ")+
+  amount.toLocaleString("en-US")+
+  (currentLanguage==="ur"?" روپے":"");
+ return amount;
+}
+
+document.getElementById("pages").addEventListener("input",updatePrice);
+document.getElementById("copies").addEventListener("input",updatePrice);
+document.getElementById("print_type").addEventListener("change",updatePrice);
+document.getElementById("payment_method").addEventListener("change",updatePaymentInfo);
+
+function extension(file){
+ return file.name.split(".").pop().toLowerCase();
+}
+function validPrintFile(file){
+ return ["pdf","jpg","jpeg","png"].includes(extension(file))&&file.size<=MAX_FILE_SIZE;
+}
+function validReceipt(file){
+ return !file||(["jpg","jpeg","png"].includes(extension(file))&&file.size<=MAX_FILE_SIZE);
+}
+
+function showPreview(file){
+ const preview=document.getElementById("filePreview");
+ const image=document.getElementById("imagePreview");
+ const pdf=document.getElementById("pdfPreview");
+ const details=document.getElementById("fileDetails");
+
+ if(previewUrl){
+  URL.revokeObjectURL(previewUrl);
+  previewUrl=null;
+ }
+ image.style.display="none";
+ pdf.style.display="none";
+ preview.style.display="none";
+ image.src="";
+ pdf.src="";
+ if(!file)return;
+
+ previewUrl=URL.createObjectURL(file);
+ preview.style.display="block";
+ details.textContent=file.name+" | "+(file.size/1024/1024).toFixed(2)+" MB";
+ if(extension(file)==="pdf"){
+  pdf.src=previewUrl;
+  pdf.style.display="block";
+ }else{
+  image.src=previewUrl;
+  image.style.display="block";
+ }
+}
+
+document.getElementById("printFile").addEventListener("change",function(){
+ const file=this.files[0];
+ if(!file){showPreview(null);return;}
+ if(!validPrintFile(file)){
+  alert(tr("fileError"));
+  this.value="";
+  showPreview(null);
+  return;
+ }
+ showPreview(file);
+});
+
+function getSupabaseClient(){
+ if(client)return client;
+ if(!window.supabase||!window.QR_PRINT_CONFIG){
+  throw new Error("Supabase یا config.js لوڈ نہیں ہوا۔");
+ }
+ const cfg=window.QR_PRINT_CONFIG;
+ if(!cfg.url||!cfg.anonKey){
+  throw new Error("config.js میں Supabase URL یا anonKey موجود نہیں۔");
+ }
+ client=window.supabase.createClient(cfg.url,cfg.anonKey);
+ return client;
+}
+
+function getChatToken(){
+ let token=localStorage.getItem(CHAT_TOKEN_KEY);
+ if(!token){
+  const bytes=new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  token=Array.from(bytes).map(b=>b.toString(16).padStart(2,"0")).join("");
+  localStorage.setItem(CHAT_TOKEN_KEY,token);
+ }
+ if(!/^[a-f0-9]{64}$/.test(token)){
+  throw new Error("Customer chat session is invalid.");
+ }
+ return token;
+}
+
+function getSavedOrders(){
+ try{
+  const list=JSON.parse(localStorage.getItem(CHAT_ORDERS_KEY)||"[]");
+  return Array.isArray(list)?list:[];
+ }catch{
+  return [];
+ }
+}
+
+function saveOrderForChat(orderNo){
+ const list=getSavedOrders().filter(x=>String(x)!==String(orderNo));
+ list.unshift(String(orderNo));
+ localStorage.setItem(CHAT_ORDERS_KEY,JSON.stringify(list.slice(0,20)));
+}
+
+function refreshOrderChoices(){
+ const select=document.getElementById("chatOrderSelect");
+ const orders=getSavedOrders();
+ select.replaceChildren();
+ orders.forEach(no=>{
+  const option=document.createElement("option");
+  option.value=no;
+  option.textContent=(currentLanguage==="ur"?"آرڈر نمبر ":"Order #")+no;
+  select.appendChild(option);
+ });
+ if(chatOrderNo!==null)select.value=String(chatOrderNo);
+}
+
+async function callChatFunction(payload){
+ const token=getChatToken();
+ const response=await fetch(CHAT_FUNCTION_URL,{
+  method:"POST",
+  headers:{
+   "Content-Type":"application/json",
+   "apikey":window.QR_PRINT_CONFIG.anonKey,
+   "Authorization":"Bearer "+window.QR_PRINT_CONFIG.anonKey
+  },
+  body:JSON.stringify({...payload,session_token:token})
+ });
+ const data=await response.json();
+ if(!response.ok||data.error){
+  throw new Error(data.error||"Chat request failed");
+ }
+ return data;
+}
+
+function openChat(orderNo){
+ chatOrderNo=String(orderNo);
+ document.getElementById("chatSection").style.display="block";
+ refreshOrderChoices();
+ loadChatMessages();
+ if(chatTimer)clearInterval(chatTimer);
+ chatTimer=setInterval(()=>{
+  if(chatOrderNo)loadChatMessages();
+ },8000);
+ document.getElementById("chatSection").scrollIntoView({behavior:"smooth"});
+}
+
+function addMessage(message){
+ const box=document.getElementById("chatMessages");
+ const item=document.createElement("div");
+ item.className="message "+(message.sender_role==="admin"?"admin":"customer");
+ const who=document.createElement("strong");
+ who.textContent=message.sender_role==="admin"?tr("admin"):tr("customer");
+ item.appendChild(who);
+ if(message.message_type==="voice"&&message.voice_url){
+  const audio=document.createElement("audio");
+  audio.controls=true;
+  audio.preload="none";
+  audio.src=message.voice_url;
+  item.appendChild(audio);
+ }else if(message.message_type==="text"){
+  const content=document.createElement("div");
+  content.textContent=message.message_text||"";
+  item.appendChild(content);
+ }
+ const date=document.createElement("small");
+ date.textContent=message.created_at?new Date(message.created_at).toLocaleString():"";
+ item.appendChild(date);
+ box.appendChild(item);
+}
+
+async function loadChatMessages(){
+ if(!chatOrderNo)return;
+ try{
+  const data=await callChatFunction({
+   action:"customer_messages",
+   order_no:Number(chatOrderNo)
+  });
+  const box=document.getElementById("chatMessages");
+  box.replaceChildren();
+  const messages=data.messages||[];
+  if(!messages.length){
+   const p=document.createElement("p");
+   p.textContent=tr("noMessages");
+   box.appendChild(p);
+  }else{
+   messages.forEach(addMessage);
+  }
+  box.scrollTop=box.scrollHeight;
+ }catch(error){
+  console.error(error);
+  document.getElementById("recordStatus").textContent=tr("chatError")+error.message;
+ }
+}
+
+async function sendChatText(){
+ const input=document.getElementById("chatText");
+ const message=input.value.trim();
+ if(!chatOrderNo){alert(tr("noOrder"));return;}
+ if(!message){alert(tr("textEmpty"));return;}
+ const button=document.getElementById("sendChatBtn");
+ button.disabled=true;
+ button.textContent=tr("sending");
+ try{
+  const db=getSupabaseClient();
+  const {error}=await db.rpc("customer_send_chat_text",{
+   p_order_no:Number(chatOrderNo),
+   p_session_token:getChatToken(),
+   p_message_text:message
+  });
+  if(error)throw error;
+  input.value="";
+  await loadChatMessages();
+ }catch(error){
+  alert(tr("chatError")+error.message);
+ }finally{
+  button.disabled=false;
+  button.textContent=tr("send");
+ }
+}
+
+document.getElementById("sendChatBtn").addEventListener("click",sendChatText);
+document.getElementById("chatText").addEventListener("keydown",event=>{
+ if(event.key==="Enter"){
+  event.preventDefault();
+  sendChatText();
+ }
+});
+document.getElementById("reloadChatBtn").addEventListener("click",loadChatMessages);
+document.getElementById("chatOrderSelect").addEventListener("change",event=>{
+ if(event.target.value)openChat(event.target.value);
+});
+
+async function startVoiceRecording(){
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){
+  alert(tr("voiceUnsupported"));
+  return;
+ }
+ try{
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  recordedChunks=[];
+  let mimeType="";
+  if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus")){
+   mimeType="audio/webm;codecs=opus";
+  }else if(MediaRecorder.isTypeSupported("audio/webm")){
+   mimeType="audio/webm";
+  }
+  recorder=new MediaRecorder(stream,mimeType?{mimeType}:undefined);
+  recorder.ondataavailable=event=>{
+   if(event.data&&event.data.size>0)recordedChunks.push(event.data);
+  };
+  recorder.onstop=async()=>{
+   stream.getTracks().forEach(track=>track.stop());
+   const blob=new Blob(recordedChunks,{type:recorder.mimeType||"audio/webm"});
+   if(blob.size>10*1024*1024){
+    alert("Voice message is larger than 10 MB.");
+    return;
+   }
+   await uploadVoice(blob);
+  };
+  recorder.start();
+  isRecording=true;
+  const button=document.getElementById("recordVoiceBtn");
+  button.textContent=tr("stop");
+  button.classList.add("recording");
+  document.getElementById("recordStatus").textContent=tr("recording");
+ }catch(error){
+  console.error(error);
+  alert(tr("micError"));
+ }
+}
+
+async function stopVoiceRecording(){
+ if(recorder&&isRecording){
+  isRecording=false;
+  recorder.stop();
+  const button=document.getElementById("recordVoiceBtn");
+  button.textContent=tr("record");
+  button.classList.remove("recording");
+  document.getElementById("recordStatus").textContent=tr("sending");
+ }
+}
+
+document.getElementById("recordVoiceBtn").addEventListener("click",async()=>{
+ if(!chatOrderNo){alert(tr("noOrder"));return;}
+ if(isRecording){
+  await stopVoiceRecording();
+ }else{
+  await startVoiceRecording();
+ }
+});
+
+async function uploadVoice(blob){
+ try{
+  const db=getSupabaseClient();
+  const prepared=await callChatFunction({
+   action:"prepare",
+   order_no:Number(chatOrderNo)
+  });
+  const {error:uploadError}=await db.storage
+   .from("chat-voice")
+   .uploadToSignedUrl(prepared.path,prepared.token,blob,{
+    contentType:"audio/webm",
+    upsert:false
+   });
+  if(uploadError)throw uploadError;
+  await callChatFunction({
+   action:"confirm",
+   order_no:Number(chatOrderNo),
+   path:prepared.path
+  });
+  document.getElementById("recordStatus").textContent="";
+  await loadChatMessages();
+ }catch(error){
+  console.error(error);
+  document.getElementById("recordStatus").textContent=tr("chatError")+error.message;
+ }
+}
+
+document.getElementById("orderForm").addEventListener("submit",async function(event){
+ event.preventDefault();
+ const form=this;
+ const btn=document.getElementById("submitBtn");
+ const resultBox=document.getElementById("resultBox");
+ resultBox.style.display="none";
+
+ const customerName=form.elements.customer_name.value.trim();
+ const phone=form.elements.phone.value.trim();
+ const file=form.elements.printFile.files[0];
+ const receipt=form.elements.receiptFile.files[0]||null;
+ const pages=parseInt(form.elements.pages.value);
+ const copies=parseInt(form.elements.copies.value);
+ const amount=updatePrice();
+
+ if(!customerName||!phone||!file||
+    !form.elements.transaction_id.value.trim()||
+    !Number.isInteger(pages)||pages<1||pages>500||
+    !Number.isInteger(copies)||copies<1||copies>100){
+  alert(tr("invalid"));
+  return;
+ }
+ if(!validPrintFile(file)){alert(tr("fileError"));return;}
+ if(!validReceipt(receipt)){alert(tr("receiptError"));return;}
+
+ btn.disabled=true;
+ btn.textContent=tr("uploading");
+
+ try{
+  const db=getSupabaseClient();
+  const token=getChatToken();
+  const id=crypto.randomUUID();
+  const printPath="orders/"+id+"/print."+extension(file);
+
+  const uploadPrint=await db.storage.from("print-files")
+   .upload(printPath,file,{upsert:false});
+  if(uploadPrint.error)throw uploadPrint.error;
+
+  let receiptPath=null;
+  if(receipt){
+   receiptPath="orders/"+id+"/receipt."+extension(receipt);
+   const uploadReceipt=await db.storage.from("print-files")
+    .upload(receiptPath,receipt,{upsert:false});
+   if(uploadReceipt.error)throw uploadReceipt.error;
+  }
+
+  const row={
+   p_customer_name:customerName,
+   p_phone:phone,
+   p_file_path:printPath,
+   p_paper_size:form.elements.paper_size.value,
+   p_print_type:form.elements.print_type.value,
+   p_pages:pages,
+   p_copies:copies,
+   p_payment_method:form.elements.payment_method.value,
+   p_transaction_id:form.elements.transaction_id.value.trim(),
+   p_receipt_path:receiptPath,
+   p_amount:amount,
+   p_session_token:token
+  };
+
+  const result=await db.rpc("create_print_order_with_chat",row);
+  if(result.error)throw result.error;
+  const orderNo=Array.isArray(result.data)?result.data[0]:result.data;
+  if(orderNo===null||orderNo===undefined){
+   throw new Error("Order number was not returned.");
+  }
+
+  saveOrderForChat(orderNo);
+  resultBox.replaceChildren();
+
+  const success=document.createElement("strong");
+  success.textContent=tr("success");
+  resultBox.appendChild(success);
+
+  const orderLine=document.createElement("div");
+  orderLine.textContent=tr("orderNo")+": "+orderNo;
+  resultBox.appendChild(orderLine);
+
+  const amountLine=document.createElement("div");
+  amountLine.textContent=tr("amount")+": "+amount+" "+tr("rupee");
+  resultBox.appendChild(amountLine);
+
+  const saveLine=document.createElement("div");
+  saveLine.textContent=tr("save");
+  resultBox.appendChild(saveLine);
+
+  resultBox.style.display="block";
+  form.reset();
+  showPreview(null);
+  updatePrice();
+  updatePaymentInfo();
+  refreshOrderChoices();
+  openChat(orderNo);
+
+ }catch(error){
+  console.error(error);
+  alert(tr("error")+": "+(error.message||String(error)));
+ }finally{
+  btn.disabled=false;
+  btn.textContent=tr("submitBtn");
+ }
+});
+
+try{
+ const oldOrders=getSavedOrders();
+ if(oldOrders.length){
+  chatOrderNo=oldOrders[0];
+  refreshOrderChoices();
+  openChat(chatOrderNo);
+ }
+}catch(error){
+ console.error("Could not restore previous chats:",error);
+}
+
+setLanguage("ur");
+updatePaymentInfo();
+updatePrice();
+</script>
+
+<!-- PWA REGISTRATION AND INSTALL BUTTON -->
+<script>
+(function(){
+
+ const installButton=document.getElementById("installAppBtn");
+ let deferredInstallPrompt=null;
+
+ function showPwaError(message){
+  console.error("USMANI PRINT PWA:",message);
+  alert("USMANI PRINT PWA ERROR:\n"+message);
+ }
+
+ function watchWorker(worker){
+  if(!worker)return;
+
+  worker.addEventListener("statechange",function(){
+   console.log("Service Worker State:",worker.state);
+
+   if(worker.state==="redundant"){
+    showPwaError(
+     "Service Worker انسٹال نہیں ہو سکا۔ sw.js کی APP_SHELL فائلوں میں 404 یا دوسری خرابی چیک کریں۔"
+    );
+   }
+  });
+ }
+
+ if("serviceWorker" in navigator){
+
+  window.addEventListener("load",async function(){
+
+   try{
+    const registration=await navigator.serviceWorker.register("./sw.js");
+
+    console.log("Service Worker Registration:",registration.scope);
+
+    if(registration.installing){
+     watchWorker(registration.installing);
+    }
+
+    registration.addEventListener("updatefound",function(){
+     watchWorker(registration.installing);
+    });
+
+    if(registration.active){
+     console.log("Service Worker Active");
+    }
+
+   }catch(error){
+    showPwaError(error.name+": "+error.message);
+   }
+
+  });
+
+ }else{
+  console.log("This browser does not support Service Workers.");
+ }
+
+ window.addEventListener("beforeinstallprompt",function(event){
+  event.preventDefault();
+  deferredInstallPrompt=event;
+  installButton.classList.add("show");
+ });
+
+ installButton.addEventListener("click",async function(){
+
+  if(!deferredInstallPrompt){
+   alert(
+    "انسٹالیشن کا آپشن ابھی دستیاب نہیں۔ Chrome کے تین نقطوں والے مینو سے Install app آزمائیں۔"
+   );
+   return;
+  }
+
+  const promptEvent=deferredInstallPrompt;
+  deferredInstallPrompt=null;
+
+  try{
+   await promptEvent.prompt();
+   const choice=await promptEvent.userChoice;
+
+   console.log("Install choice:",choice.outcome);
+
+   if(choice.outcome==="accepted"){
+    installButton.classList.remove("show");
+   }
+
+  }catch(error){
+   showPwaError("Install Error: "+error.message);
+  }
+
+ });
+
+ window.addEventListener("appinstalled",function(){
+  installButton.classList.remove("show");
+  console.log("USMANI PRINT installed successfully.");
+ });
+
+})();
+</script>
+
+</body>
 </html>
